@@ -1,0 +1,76 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : http://sourceforge.net/projects/archfi
+# language   : Français
+# translator : matmoul (pseudo, name or e-mail.)
+# notes      : misc text...
+
+
+txtmainmenu="Menu Principal"
+txtlanguage="Language"
+txtsetkeymap="Disposition clavier"
+txtdiskpartmenu="Partionner le disque"
+txtselectpartsmenu="Sélectionner les partitions d'installation"
+txthelp="Aide"
+txtchangelog="Changelog"
+txtreboot="Redémarrer"
+
+txtautoparts="Partitionnement Auto"
+txteditparts="Editer partitions"
+
+txtautopartsconfirm="Périphérique séléctionné : %1\n\nToutes les données vont être effacées ! \n\nContinuer ?"
+
+txtautopartclear="Suppression des partitions"
+txtautopartcreate="Créeation de la partition %1"
+txthybridpartcreate="Définition du MBR hybride"
+txtautopartsettype="Définition du type de la partition %1"
+
+txtselectdevice="Sélectionnez le périphérique %1 :"
+txtselecteddevices="Périphériques sélectionnés :"
+
+txtformatmountmenu="Formatter et Monter"
+txtformatdevices="Formatter les partitions"
+txtformatdevice="Formatter une partition"
+txtmount="Monter"
+txtmountdesc="Installation ou Configuration"
+
+txtformatdeviceconfirm="Attention, toutes les données sur les partitions sélectionnées vont être effacées ! \nFormatter les partitions ?"
+
+txtselectpartformat="Sélectionnez le format de la parition %1 :"
+txtformatingpart="Formatting partition %1 as"
+
+txtinstallmenu="Menu Installation"
+
+txtarchinstallmenu="Menu Installation Arch Linux"
+txtrungrubmakeconfig="Exécuter grub-mkconfig ?"
+
+txteditmirrorlist="Editer mirrorlist"
+txtinstallarchlinux="Installer Arch Linux"
+txtconfigarchlinux="Configurer Arch Linux"
+
+txtsethostname="Définir le nom de l'ordinateur"
+txtsetlocale="Définir Locale"
+txtsettime="Définir l'horloge"
+txtsetrootpassword="Définir le mot de passe root"
+
+txtuseutcclock="Utiliser une horloge matériel UTC ?"
+
+txtoptional="Optionnel"
+txtrecommandeasyinst="Recommandé pour installation rapide"
+txtset="Définir %1"
+txtgenerate="Générer %1"
+txtedit="Editer %1"
+txtinstall="Installer %1"
+txtenable="Activer %1"
+
+
+txtpressanykey="Appuyez sur une touche pour continuer."
+
+txtinstallosprober="Pour démarrer sur plusieurs systèmes.\nInstaller os-prober ?"
+txtefibootmgr="efibootmgr est requis pour un système EFI."
+
+txtarchdidesc="Installation d'un poste de travail"
+txtinstallarchdi="Arch Linux Desktop Install (archdi) est un second script peut vous aidez à installer un poste de travail complet.\n\nVous pouvez exécuter ou installer le script en choisissant dans le menu suivant.\n\nArch Linux Desktop Install possède 2 dépendences : wget et libnewt.\n\npacstrap wget libnewt ?"
+txtarchdiinstallandlaunch="Installer et exécuter archdi"
+txtarchdiinstall="Installer archdi"
+txtarchdilaunch="Exécuter archdi"

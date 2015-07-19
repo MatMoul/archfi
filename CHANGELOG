@@ -1,0 +1,23 @@
+Current Version :
+-----------------
+
+Global :
+- Add EFI computer detection.
+
+MainMenu :
+- Add Changelog item
+
+Languages :
+- Add name of translatator in menu.
+- Add header to language files.
+
+Disk Partitions :
+- Add new Auto Partitions (gpt,bios+efi,noswap). Can be used for USB Key.
+- Display gpt in first position if the computer is not EFI.
+- Display gpt,efi in first position if the computer is EFI.
+
+Mount/Unmount :
+- More verbose.
+
+Install bootloader :
+- Add new option for BIOS+EFI. Can be used for USB Key.

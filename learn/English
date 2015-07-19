@@ -1,0 +1,284 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : http://sourceforge.net/projects/archfi
+# language   : English
+# translator : matmoul (pseudo, name or e-mail.)
+# notes      : misc text...
+
+
+learnsetkeymap="Set keyboard layout for installation.
+\n-------------------------------------
+\n
+\nBefore start, is best to configure your keyboard.
+\nUse the next command to list available keymap :
+\nlocalectl list-keymaps
+\n
+\nAnd to apply your keymap :
+\nloadkeys en"
+
+learnreboot="Reboot.
+\n-------
+\n
+\nTo reboot, use the next command :
+\nreboot"
+
+learndiskpart="Disk Partitions.
+\n----------------
+\n
+\nTo install Arch Linux, you need to partion your disk.
+\nIt has many schemas to format a drive (See the doc for more).
+\n
+\nIf you don't know how to partion your disk, you can auto partition with dos, gpt or gpt+efi table :
+\n - dos     : recommanded for old computer
+\n - gpt     : for disk larger than 2Tb
+\n - gpt+efi : for EFI computer
+"
+
+learndiskpartautodos="Auto partition dos.
+\n-------------------
+\n
+\nAuto partition make this next partitions :
+\n - boot 512Mb (linux type) (bootable flag)
+\n - swap RAM Size (swap type)
+\n - root Free Space (linux type)
+"
+
+learndiskpartautogpt="Auto partition gpt.
+\n-------------------
+\n
+\nAuto partition make this next partitions :
+\n - bios 31Mb (BIOS boot type)
+\n - boot 512Mb (linux type)
+\n - swap RAM Size (swap type)
+\n - root Free Space (linux type)
+"
+
+learndiskpartautoefi="Auto partition gpt,efi.
+\n-----------------------
+\n
+\nAuto partition make this next partitions :
+\n - boot 1024Mb (EFI boot type)
+\n - swap RAM Size (swap type)
+\n - root Free Space (linux type)
+"
+
+learndiskpartautoefiusb="Auto partition gpt,bios+efi.
+\n----------------------------
+\n
+\nUse this option for USB Key.
+\n
+\nAuto partition make this next partitions :
+\n - boot 1024Mb (EFI boot type)
+\n - bios 31Mb (BIOS boot type / Hybrid MBR)
+\n - root Free Space (linux type)
+"
+
+learndiskpartcfdisk="Partition Tools : cfdisk
+\n------------------------
+\n
+\ncfdisk is primary maked to edit dos disk.
+\n
+\nTo enum available drives, use the next command :
+\nlsblk -d -p -n -l -o NAME -e 7,11
+\n
+\nTo edit partition on the desired drive :
+\ncfdisk /dev/sdX"
+
+learndiskpartcgdisk="Partition Tools : cgdisk
+\n------------------------
+\n
+\ncgdisk is primary maked to edit gpt disk.
+\n
+\nTo enum available drives, use the next command :
+\nlsblk -d -p -n -l -o NAME -e 7,11
+\n
+\nTo edit partition on the desired drive :
+\ncgdisk /dev/sdX"
+
+learnselectparts="Select install partitions.
+\n--------------------------
+\n
+\nTo enum available partitions, use the next command :
+\nlsblk -d -p -n -l -o NAME -e 7,11
+\n
+\nTo install Arch Linux, select a least one root partition :
+\nOptionaly you can select :
+\n - A boot partition
+\n - A swap partition
+\n - A home partition"
+
+learnformatbootdevice="Format boot partition.
+\n----------------------
+\n
+\nFor this partitions, you can choose many format.
+\n
+\nWith this wizard, you can choose the next format :
+\n - ext2     : mkfs.ext2 /dev/sdX
+\n - ext3     : mkfs.ext3 /dev/sdX
+\n - ext4     : mkfs.ext4 /dev/sdX
+\n
+\nYou need to learn which format is best for you.
+\next2 is a good choice."
+
+learnformatswapdevice="Format swap partition.
+\n----------------------
+\n
+\nTo format swap partition, use the next command :
+\nmkswap /dev/sdX"
+
+learnformatdevice="Format root or home partition.
+\n------------------------------
+\n
+\nFor this partitions, you can choose many format.
+\n - btrfs    : mkfs.btrfs -f /dev/sdX
+\n - reiserfs : mkfs.reiserfs -f /dev/sdX
+\n - ext4     : mkfs.ext4 /dev/sdX
+\n - ext3     : mkfs.ext3 /dev/sdX
+\n - ext2     : mkfs.ext2 /dev/sdX
+\n - jfs      : mkfs.jfs -f /dev/sdX
+\n - xfs      : mkfs.xfs -f /dev/sdX
+\n
+\nYou need to learn which format is best for you.
+\nbtrfs is a good choice because it work fine with snapper for snapshot (It's a good recovery method)."
+
+learnmountparts="Mount partitions.
+\n-----------------
+\n
+\nTo install Arch Linux, you need to mount selected partitions.
+\n
+\nFirst mount root device in /mnt :
+\nmount /dev/sdX /mnt
+\n
+\nMake child directories :
+\nmkdir /mnt/{boot,home}
+\n
+\nIf you have a boot partition, mount it in /mnt/boot :
+\nmount /dev/sdX /mtn/boot
+\n
+\nIf you have a swap partition, enable it :
+\nswapon /dev/sdX
+\n
+\nIf you have a home partition, mount it in /mnt/home :
+\nmount /dev/sdX /mnt/home"
+
+learninstallbase="Install base packages.
+\n----------------------
+\n
+\nTo install Arch Linux just use the next command :
+\npacstrap /mnt base"
+
+learnunmountdevices="Unmount partitions.
+\n-------------------
+\n
+\nWhen operation on new install is terminated, you need to unmount partitions in /mnt.
+\nUse the next command :
+\numount -R /mnt
+\n
+\nif you have selected a swap partition, disable it with the next command :
+\nswapoff /dev/sdX"
+
+learnarchsetkeymap="Set keyboard layout for the new installation.
+\n---------------------------------------------
+\n
+\nUse the next command for list available keymap :
+\nlocalectl list-keymaps
+\n
+\nAnd to apply the desired keymap :
+\necho ""KEYMAP=en"" > /mnt/etc/vconsole.conf"
+
+learnarchsethostname="Set computer name for the new installation.
+\n-------------------------------------------
+\n
+\nTo set your computer name just write it to /etc/hostname with :
+\necho ""computer_name"" > /etc/hostname"
+
+learnarchsetlocale="Set locale for the new installation.""
+\n------------------------------------
+\n
+\nFor this, use the next command to enum available locales :
+\nls /usr/share/i18n/locales
+\n
+\nAnd for apply selection (add .UTF-8 to the selection) :
+\necho ""LANG=en_US.UTF-8"" > /mnt/etc/locale.conf
+\necho ""LC_COLLATE=C"" >> /mnt/etc/locale.conf
+\n
+\nDon't miss to uncomment your locale in /mnt/etc/locale.gen
+\nsed -i '/en_US.UTF-8/s/^#//g' /mnt/etc/locale.gen
+\nor
+\nnano /mnt/etc/locale.gen
+\n
+\nNow chroot the new installation and call locale-gen
+\narch-chroot /mnt
+\nlocale-gen
+\nexit"
+
+learnarchsettime="Set time for new installation.
+\n------------------------------
+\n
+\nFor this, use the next command to enum available locale :
+\nls -l /mnt/usr/share/zoneinfo
+\nls -l /mnt/usr/share/zoneinfo/[zone]
+\n
+\nMake a symlink from the selection to /mnt/etc/localtime :
+\nln -sf /usr/share/zoneinfo/America/New_York /mnt/etc/localtime
+\n
+\nNow chroot the new installation and set the hardware clock
+\narch-chroot /mnt
+\n
+\nFor utc harware clock, use the next command :
+\nhwclock --systohc --utc
+\n
+\nFor localtime harware clock, use the next command (if you use a dual boot with Windows) :
+\nhwclock --systohc --localtime"
+
+learnarchsetrootpassword="Set root password.
+\n------------------
+\n
+\nNow you need to set root password, for this enter chroot and call passwd root :
+\narch-chroot /mnt
+\npasswd root
+\nexit"
+
+learnarchgenfstab="Generate fstab.
+\n---------------
+\n
+\nTo write mounted partition in the installation fstab, use the next command :
+\ngenfstab -U -p /mnt >> /mnt/etc/fstab"
+
+learnarchinstallgrub="Install Grub.
+\n-------------
+\n
+\nNow you need a bootloader.
+\nFor this, Grub is a great bootloader.
+\n
+\nFirstly install grub package
+\nFor this, use the next command :
+\npacstrap /mnt grub
+\n
+\nTo make configuration, you need to chroot the new installation and call the next commands :
+\narch-chroot /mnt
+\ngrub-mkconfig -o /boot/grub/grub.cfg
+\nexit"
+
+learnarchinstallbootloader="Install Bootloader.
+\n-------------------
+\n
+\nBefore reboot, you need to make bootable your drive.
+\n
+\nTo install Grub in your MBR, chroot the new installation and call the next commands for bios install:
+\narch-chroot /mnt
+\ngrub-install --recheck /dev/sdX
+\n\nand for EFI install :
+\ngrub-install --target=x86_64-efi --efi-directory=/boot --recheck /dev/sdX
+\n\nand if you make a USB key, you can choose BIOS+EFI but you need the correct partitions.
+\nexit"
+
+learnarchenabledhcpcd="Enable dhcpd.
+\n-------------
+\n
+\nWhen boot the new install, dhcpcd is not enabled by default.
+\nTo enable it and get your network connected at boot, enable it with the next command in chroot :
+\n
+\narch-chroot /mnt
+\nsystemctl enable dhcpcd
+\nexit"
