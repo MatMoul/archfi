@@ -988,7 +988,7 @@ installarchdi(){
 archdiinstallandlaunchchroot(){
   cd
   #curl -L archdi.sourceforge.net/archdi >archdi
-  curl matmoul.github.io/archdi >archdi
+  curl matmoul.github.io/archdi/ >archdi
   sh archdi -i
   archdi --chroot
   exit
@@ -996,7 +996,7 @@ archdiinstallandlaunchchroot(){
 archdilaunchchroot(){
   cd
   #curl -L archdi.sourceforge.net/archdi >archdi
-  curl matmoul.github.io/archdi >archdi
+  curl matmoul.github.io/archdi/ >archdi
   sh archdi --chroot
   rm archdi
   exit
@@ -1004,7 +1004,7 @@ archdilaunchchroot(){
 archdiinstallchroot(){
   cd
   #curl -L archdi.sourceforge.net/archdi >archdi
-  curl matmoul.github.io/archdi >archdi
+  curl matmoul.github.io/archdi/ >archdi
   sh archdi -i
   exit
 }
