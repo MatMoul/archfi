@@ -9,7 +9,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2015.06.28.20.37.40 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2015.07.19.04.55.32 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -987,21 +987,24 @@ installarchdi(){
 }
 archdiinstallandlaunchchroot(){
   cd
-  curl -L archdi.sourceforge.net/archdi >archdi
+  #curl -L archdi.sourceforge.net/archdi >archdi
+  curl matmoul.github.io/archdi >archdi
   sh archdi -i
   archdi --chroot
   exit
 }
 archdilaunchchroot(){
   cd
-  curl -L archdi.sourceforge.net/archdi >archdi
+  #curl -L archdi.sourceforge.net/archdi >archdi
+  curl matmoul.github.io/archdi >archdi
   sh archdi --chroot
   rm archdi
   exit
 }
 archdiinstallchroot(){
   cd
-  curl -L archdi.sourceforge.net/archdi >archdi
+  #curl -L archdi.sourceforge.net/archdi >archdi
+  curl matmoul.github.io/archdi >archdi
   sh archdi -i
   exit
 }
