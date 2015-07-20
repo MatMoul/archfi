@@ -8,7 +8,7 @@ This script is maked to install minimum packages (base, grub and optionally os-p
 But now, you can install or launch archdi (Arch Linux Destop Install) to install and configure desktop packages.<br />
 archdi project : https://github.com/MatMoul/archdi
 
-You can watch the my videos to show how to use it :<br />
+You can watch my videos to show how to use it :<br />
 https://www.youtube.com/watch?v=-Ne4pYDqslc&list=PLytHgIKLV1caHlCrcTSkm5OF2WSVI1_Sq
 
 How to use :<br />
