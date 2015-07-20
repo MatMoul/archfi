@@ -18,5 +18,5 @@ And type the next two lines :<br />
 wget matmoul.github.io/archfi<br />
 sh archfi
 
-as an alternative you can call (with this argument you have a learning message for each operation):
+as an alternative you can call (with this argument you have a learning message for each operation):<br />
 sh archfi -l
