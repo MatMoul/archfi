@@ -2,9 +2,9 @@
 
 # Arch Linux Fast Install (archfi)
 # --------------------------------
-# author    : matmoul[@sourceforge.net]
-# project   : http://sourceforge.net/projects/archfi
-# license   : GPLv3 (http://opensource.org/licenses/GPL-3.0)
+# author    : https://github.com/MatMoul
+# project   : https://github.com/MatMoul/archfi
+# license   : LGPL-3.0 (http://opensource.org/licenses/lgpl-3.0.html)
 #
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
@@ -988,7 +988,7 @@ installarchdi(){
 archdiinstallandlaunchchroot(){
   cd
   #curl -L archdi.sourceforge.net/archdi >archdi
-  curl matmoul.github.io/archdi/ >archdi
+  curl -L matmoul.github.io/archdi >archdi
   sh archdi -i
   archdi --chroot
   exit
@@ -996,7 +996,7 @@ archdiinstallandlaunchchroot(){
 archdilaunchchroot(){
   cd
   #curl -L archdi.sourceforge.net/archdi >archdi
-  curl matmoul.github.io/archdi/ >archdi
+  curl -L matmoul.github.io/archdi >archdi
   sh archdi --chroot
   rm archdi
   exit
@@ -1004,7 +1004,7 @@ archdilaunchchroot(){
 archdiinstallchroot(){
   cd
   #curl -L archdi.sourceforge.net/archdi >archdi
-  curl matmoul.github.io/archdi/ >archdi
+  curl -L matmoul.github.io/archdi >archdi
   sh archdi -i
   exit
 }
