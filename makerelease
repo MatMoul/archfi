@@ -38,7 +38,7 @@ git commit -m "New Release : $version" *
 echo "Merge branch $branch to master..."
 git checkout master
 git merge $branch
-
+#git push
 
 
 
