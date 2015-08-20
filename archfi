@@ -2,16 +2,18 @@
 
 # Arch Linux Fast Install (archfi)
 # --------------------------------
-# author    : https://github.com/MatMoul
+# author    : MatMoul
+#             https://github.com/MatMoul
+#             http://sourceforge.net/u/matmoul
 # project   : https://github.com/MatMoul/archfi
+#             http://sourceforge.net/projects/archfi/
 # license   : LGPL-3.0 (http://opensource.org/licenses/lgpl-3.0.html)
 #
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2015.07.19.04.55.32 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2015.08.20.19.55.41 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
-
 
 
 # --------------------------------------------------------
@@ -985,10 +987,30 @@ installarchdi(){
     fi
   fi
 }
+archdidownload(){
+  options=()
+  options+=("sourceforge.net" "recommended")
+  options+=("github.com" "")
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtselectserver" --menu "" --cancel-button "Back" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ "$?" = "0" ]; then
+    case $sel in
+      "sourceforge.net")
+        archdiurl=archdi.sourceforge.net/archdi
+      ;;
+      "github.com")
+        archdiurl=matmoul.github.io/archdi >archdi
+      ;;
+    esac
+  fi
+  curl -L $archdiurl >archdi
+}
 archdiinstallandlaunchchroot(){
   cd
   #curl -L archdi.sourceforge.net/archdi >archdi
-  curl -L matmoul.github.io/archdi >archdi
+  #curl -L matmoul.github.io/archdi >archdi >archdi
+  archdidownload
   sh archdi -i
   archdi --chroot
   exit
@@ -996,7 +1018,8 @@ archdiinstallandlaunchchroot(){
 archdilaunchchroot(){
   cd
   #curl -L archdi.sourceforge.net/archdi >archdi
-  curl -L matmoul.github.io/archdi >archdi
+  #curl -L matmoul.github.io/archdi >archdi >archdi
+  archdidownload
   sh archdi --chroot
   rm archdi
   exit
@@ -1004,7 +1027,8 @@ archdilaunchchroot(){
 archdiinstallchroot(){
   cd
   #curl -L archdi.sourceforge.net/archdi >archdi
-  curl -L matmoul.github.io/archdi >archdi
+  #curl -L matmoul.github.io/archdi >archdi >archdi
+  archdidownload
   sh archdi -i
   exit
 }
@@ -1018,6 +1042,8 @@ pressanykey(){
 }
 
 loadstrings(){
+  txtselectserver="Select source server :"
+  
   txtmainmenu="Main Menu"
   txtlanguage="Language"
   txtsetkeymap="Set Keyboard Layout"

@@ -1,0 +1,61 @@
+#!/bin/bash
+
+prjname=archfi
+version=$(date +"%Y.%m.%d.%H.%M.%S")
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+clear
+read -p "Current branch is $branch. Continue ? (y/N)" choice
+case "$choice" in 
+  n|N|'' )
+    echo "cancel build !"
+    exit 1
+  ;;
+  y|Y ) echo "Begin Build Release...";;
+  * )
+    echo "cancel build !"
+    exit 1
+  ;;
+esac
+echo "Building version $version..."
+echo ""
+
+echo "Finalise archfi script..."
+sed -i /apptitle=/c\apptitle=\""Arch Linux Fast Install (archfi) - Version: $version (GPLv3)"\" archfi
+sed -i /baseurl=/c\baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master archfi
+
+echo "Finalise CHANGELOG..."
+sed -i '/Current\ Version\ :/{n;d}' CHANGELOG
+sed -i '/Current\ Version\ :/a-------------------------------' CHANGELOG
+sed -i "/Current\ Version\ :/c\Version\ :\ $version\ :" CHANGELOG
+sed -i '1s/^/\n/' CHANGELOG
+sed -i '1s/^/-----------------\n/' CHANGELOG
+sed -i '1s/^/Current Version :\n/' CHANGELOG
+
+echo "Make last commit..."
+git commit -m "New Release : $version" *
+
+echo "Merge branch $branch to master..."
+git checkout master
+git merge $branch
+#git push
+
+
+
+#Sourceforge :
+
+#archfi
+#baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
+
+# Make redirect Page
+#pubfile=resources/sourceforge.net/pub/$prjname/index.php
+#echo "<?php" > $pubfile
+#echo "header(\"Location: http://downloads.sourceforge.net/project/$prjname/release/$version/$prjname\");" >> $pubfile
+#echo "exit;" >> $pubfile
+#echo "?>" >> $pubfile
+# End Make redirect Page
+
+# Publish files
+#scp -r $targetpath matmoul@web.sourceforge.net:/home/frs/project/$prjname/release/
+#scp -r $pubfile matmoul@web.sourceforge.net:/home/project-web/$prjname/htdocs/$prjname/
+# End Publish files

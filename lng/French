@@ -6,6 +6,8 @@
 # notes      : misc text...
 
 
+txtselectserver="Sélectionnez le serveur source :"
+
 txtmainmenu="Menu Principal"
 txtlanguage="Language"
 txtsetkeymap="Disposition clavier"
