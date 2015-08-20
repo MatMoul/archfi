@@ -2,25 +2,42 @@
 
 prjname=archfi
 version=$(date +"%Y.%m.%d.%H.%M.%S")
-srcpath=.
+branch=$(git rev-parse --abbrev-ref HEAD)
 
-#archfi
-#sed /apptitle=/c\apptitle=\""Arch Linux Fast Install (archfi) - Version: $version (GPLv3)"\" archfi |more
-#sed /baseurl=/c\baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master archfi |more
+clear
+read -p "Current branch is $branch. Continue ? (y/N)" choice
+case "$choice" in 
+  n|N|'' )
+    echo "cancel build !"
+    exit 1
+  ;;
+  y|Y ) echo "Begin Build Release...";;
+  * )
+    echo "cancel build !"
+    exit 1
+  ;;
+esac
+echo "Building version $version..."
+echo ""
+
+echo "Finalise archfi script..."
 #sed -i /apptitle=/c\apptitle=\""Arch Linux Fast Install (archfi) - Version: $version (GPLv3)"\" archfi
 #sed -i /baseurl=/c\baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master archfi
 
+echo "Finalise CHANGELOG..."
+#sed -i '/Current\ Version\ :/{n;d}' CHANGELOG
+#sed -i '/Current\ Version\ :/a-------------------------------' CHANGELOG
+#sed -i "/Current\ Version\ :/c\Version\ :\ $version\ :" CHANGELOG
+#sed -i '1s/^/\n/' CHANGELOG
+#sed -i '1s/^/-----------------\n/' CHANGELOG
+#sed -i '1s/^/Current Version :\n/' CHANGELOG
 
-#CHANGELOG
-#sed '/Current\ Version\ :/{n;d}' CHANGELOG |more
-#sed '/Current\ Version\ :/a-------------------------------' CHANGELOG |more
-#sed "/Current\ Version\ :/c\Version\ :\ $version\ :" CHANGELOG |more
-sed '1s/^/\n/' CHANGELOG |more
-sed '1s/^/-----------------\n/' CHANGELOG |more
-sed '1s/^/Current Version :\n/' CHANGELOG |more
+echo "Make last commit..."
+git commit -m "New Release : $version" *
 
-#commit
-#fuse branch
+echo "Merge branch $branch to master..."
+git checkout master
+git merge $branch
 
 
 
