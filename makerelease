@@ -2,7 +2,13 @@
 
 ssh -T git@github.com
 if [ ! "$?" = "1" ]; then
-  echo "No ssh key loaded exiting..."
+  echo "No Github ssh key loaded exiting..."
+  exit 1
+fi
+
+scp matmoul@web.sourceforge.net:/home/frs/project/$prjname/README.txt /dev/null
+if [ ! "$?" = "1" ]; then
+  echo "No Sourceforge ssh key loaded exiting..."
   exit 1
 fi
 
@@ -88,14 +94,12 @@ sed -i "/baseurl=/c\baseurl=http://downloads.sourceforge.net/project/archfi/rele
 echo "Publish release..."
 scp -r $targetpath matmoul@web.sourceforge.net:/home/frs/project/$prjname/release/
 
-# Make redirect Page
-#echo "Update redirect page..."
-#pubfile=.build/index.php
-#echo "<?php" > $pubfile
-#echo "header(\"Location: http://downloads.sourceforge.net/project/$prjname/release/$version/$prjname\");" >> $pubfile
-#echo "exit;" >> $pubfile
-#echo "?>" >> $pubfile
-#scp -r $pubfile matmoul@web.sourceforge.net:/home/project-web/$prjname/htdocs/$prjname/
-# End Make redirect Page
+echo "Update redirect page..."
+pubfile=.build/index.php
+echo "<?php" > $pubfile
+echo "header(\"Location: http://downloads.sourceforge.net/project/$prjname/release/$version/$prjname\");" >> $pubfile
+echo "exit;" >> $pubfile
+echo "?>" >> $pubfile
+scp -r $pubfile matmoul@web.sourceforge.net:/home/project-web/$prjname/htdocs/$prjname/
 
 rm -R .build
