@@ -1,5 +1,10 @@
 #!/bin/bash
 
+prjname=archfi
+version=$(date +"%Y.%m.%d.%H.%M.%S")
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+
 ssh -T git@github.com
 if [ ! "$?" = "1" ]; then
   echo "No Github ssh key loaded exiting..."
@@ -12,10 +17,6 @@ if [ ! "$?" = "1" ]; then
   exit 1
 fi
 
-
-prjname=archfi
-version=$(date +"%Y.%m.%d.%H.%M.%S")
-branch=$(git rev-parse --abbrev-ref HEAD)
 
 clear
 read -p "Current branch is $branch. Continue ? (y/N)" choice
