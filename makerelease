@@ -78,18 +78,24 @@ git push
 
 #Sourceforge :
 
-#archfi
-#baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
+targetpath=.build/$version
+mkdir -p $targetpath
+cp -R * $targetpath
+
+echo "Finalise archfi script..."
+sed -i "/baseurl=/c\baseurl=http://downloads.sourceforge.net/project/archfi/release/$version" $targetpath/archfi
+
+echo "Publish release..."
+scp -r $targetpath matmoul@web.sourceforge.net:/home/frs/project/$prjname/release/
 
 # Make redirect Page
-#pubfile=resources/sourceforge.net/pub/$prjname/index.php
+#echo "Update redirect page..."
+#pubfile=.build/index.php
 #echo "<?php" > $pubfile
 #echo "header(\"Location: http://downloads.sourceforge.net/project/$prjname/release/$version/$prjname\");" >> $pubfile
 #echo "exit;" >> $pubfile
 #echo "?>" >> $pubfile
+#scp -r $pubfile matmoul@web.sourceforge.net:/home/project-web/$prjname/htdocs/$prjname/
 # End Make redirect Page
 
-# Publish files
-#scp -r $targetpath matmoul@web.sourceforge.net:/home/frs/project/$prjname/release/
-#scp -r $pubfile matmoul@web.sourceforge.net:/home/project-web/$prjname/htdocs/$prjname/
-# End Publish files
+rm -R .build
