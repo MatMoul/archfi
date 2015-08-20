@@ -1,0 +1,44 @@
+#!/bin/bash
+
+prjname=archfi
+version=$(date +"%Y.%m.%d.%H.%M.%S")
+srcpath=.
+
+#archfi
+#sed /apptitle=/c\apptitle=\""Arch Linux Fast Install (archfi) - Version: $version (GPLv3)"\" archfi |more
+#sed /baseurl=/c\baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master archfi |more
+#sed -i /apptitle=/c\apptitle=\""Arch Linux Fast Install (archfi) - Version: $version (GPLv3)"\" archfi
+#sed -i /baseurl=/c\baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master archfi
+
+
+#CHANGELOG
+#sed '/Current\ Version\ :/{n;d}' CHANGELOG |more
+#sed '/Current\ Version\ :/a-------------------------------' CHANGELOG |more
+#sed "/Current\ Version\ :/c\Version\ :\ $version\ :" CHANGELOG |more
+sed '1s/^/\n/' CHANGELOG |more
+sed '1s/^/-----------------\n/' CHANGELOG |more
+sed '1s/^/Current Version :\n/' CHANGELOG |more
+
+#commit
+#fuse branch
+
+
+
+
+#Sourceforge :
+
+#archfi
+#baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
+
+# Make redirect Page
+#pubfile=resources/sourceforge.net/pub/$prjname/index.php
+#echo "<?php" > $pubfile
+#echo "header(\"Location: http://downloads.sourceforge.net/project/$prjname/release/$version/$prjname\");" >> $pubfile
+#echo "exit;" >> $pubfile
+#echo "?>" >> $pubfile
+# End Make redirect Page
+
+# Publish files
+#scp -r $targetpath matmoul@web.sourceforge.net:/home/frs/project/$prjname/release/
+#scp -r $pubfile matmoul@web.sourceforge.net:/home/project-web/$prjname/htdocs/$prjname/
+# End Publish files
