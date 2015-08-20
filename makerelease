@@ -21,16 +21,16 @@ echo "Building version $version..."
 echo ""
 
 echo "Finalise archfi script..."
-#sed -i /apptitle=/c\apptitle=\""Arch Linux Fast Install (archfi) - Version: $version (GPLv3)"\" archfi
-#sed -i /baseurl=/c\baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master archfi
+sed -i /apptitle=/c\apptitle=\""Arch Linux Fast Install (archfi) - Version: $version (GPLv3)"\" archfi
+sed -i /baseurl=/c\baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master archfi
 
 echo "Finalise CHANGELOG..."
-#sed -i '/Current\ Version\ :/{n;d}' CHANGELOG
-#sed -i '/Current\ Version\ :/a-------------------------------' CHANGELOG
-#sed -i "/Current\ Version\ :/c\Version\ :\ $version\ :" CHANGELOG
-#sed -i '1s/^/\n/' CHANGELOG
-#sed -i '1s/^/-----------------\n/' CHANGELOG
-#sed -i '1s/^/Current Version :\n/' CHANGELOG
+sed -i '/Current\ Version\ :/{n;d}' CHANGELOG
+sed -i '/Current\ Version\ :/a-------------------------------' CHANGELOG
+sed -i "/Current\ Version\ :/c\Version\ :\ $version\ :" CHANGELOG
+sed -i '1s/^/\n/' CHANGELOG
+sed -i '1s/^/-----------------\n/' CHANGELOG
+sed -i '1s/^/Current Version :\n/' CHANGELOG
 
 echo "Make last commit..."
 git commit -m "New Release : $version" *
