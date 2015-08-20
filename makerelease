@@ -42,7 +42,7 @@ sed -i '1s/^/Current Version :\n/' CHANGELOG
 echo "Make last commit..."
 git commit -a -m "New Release : $version"
 
-if [ ! "$branch" = "master"]; then
+if [ ! "$branch" = "master" ]; then
   echo "Merge branch $branch to master..."
   git checkout master
   git merge $branch
