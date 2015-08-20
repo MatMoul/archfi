@@ -40,7 +40,7 @@ sed -i '1s/^/-----------------\n/' CHANGELOG
 sed -i '1s/^/Current Version :\n/' CHANGELOG
 
 echo "Make last commit..."
-git commit -m "New Release : $version" *
+git commit -a -m "New Release : $version"
 
 if [ ! "$branch" = "master"]; then
   echo "Merge branch $branch to master..."
@@ -55,23 +55,25 @@ if [ ! "$branch" = "master"]; then
   esac
 fi
 
-echo "Create index.html"
+read -p "Publish to server ? (Y/n)" choice
+case "$choice" in 
+  n|N )
+    exit 1
+  ;;
+esac
+
+echo "Create index.html..."
 fle=$(cat archfi)
 git checkout gh-pages
 echo "$fle" > index.html
 chmod 640 index.html
-git commit -m "New Release : $version" index.html
+git commit -a -m "New Release : $version"
+echo "Push index.html..."
+git push
+
 git checkout master
-
-
-read -p "Publish to server ? (Y/n)" choice
-case "$choice" in 
-  y|Y|'' )
-    #git push -u origin master
-    git push
-  ;;
-esac
-
+echo "Push release..."
+git push
 
 
 #Sourceforge :
