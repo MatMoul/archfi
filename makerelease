@@ -1,5 +1,12 @@
 #!/bin/bash
 
+ssh -T git@github.com
+if [ ! "$?" = "1" ]; then
+  echo "No ssh key loaded exiting..."
+  exit 1
+fi
+
+
 prjname=archfi
 version=$(date +"%Y.%m.%d.%H.%M.%S")
 branch=$(git rev-parse --abbrev-ref HEAD)
@@ -35,10 +42,35 @@ sed -i '1s/^/Current Version :\n/' CHANGELOG
 echo "Make last commit..."
 git commit -m "New Release : $version" *
 
-echo "Merge branch $branch to master..."
+if [ ! "$branch" = ""]; then
+  echo "Merge branch $branch to master..."
+  git checkout master
+  git merge $branch
+
+  read -p "Delete branch $branch ? (Y/n)" choice
+  case "$choice" in 
+    y|Y|'' )
+      git branch -D $branch
+    ;;
+  esac
+fi
+
+echo "Create index.html"
+fle=$(cat archfi)
+git checkout gh-pages
+echo "$fle" > index.html
+chmod 640 index.html
+git commit -m "New Release : $version" index.html
 git checkout master
-git merge $branch
-#git push
+
+
+read -p "Publish to server ? (Y/n)" choice
+case "$choice" in 
+  y|Y|'' )
+    #git push -u origin master
+    git push
+  ;;
+esac
 
 
 
