@@ -12,7 +12,7 @@ if [ ! "$?" = "1" ]; then
 fi
 
 scp matmoul@web.sourceforge.net:/home/frs/project/$prjname/README.txt /dev/null
-if [ ! "$?" = "1" ]; then
+if [ ! "$?" = "0" ]; then
   echo "No Sourceforge ssh key loaded exiting..."
   exit 1
 fi
@@ -101,6 +101,6 @@ echo "<?php" > $pubfile
 echo "header(\"Location: http://downloads.sourceforge.net/project/$prjname/release/$version/$prjname\");" >> $pubfile
 echo "exit;" >> $pubfile
 echo "?>" >> $pubfile
-scp -r $pubfile matmoul@web.sourceforge.net:/home/project-web/$prjname/htdocs/$prjname/
+scp $pubfile matmoul@web.sourceforge.net:/home/project-web/$prjname/htdocs/$prjname/index.php
 
 rm -R .build
