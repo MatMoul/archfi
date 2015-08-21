@@ -54,9 +54,9 @@ if [ ! "$branch" = "master" ]; then
   git checkout master
   git merge $branch
 
-  read -p "Delete branch $branch ? (Y/n)" choice
+  read -p "Delete branch $branch ? (y/N)" choice
   case "$choice" in 
-    y|Y|'' )
+    y|Y )
       git branch -D $branch
     ;;
   esac
