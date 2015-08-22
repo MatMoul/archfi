@@ -553,13 +553,16 @@ formatdevice(){
       cryptsetup luksOpen $2 $1
       pressanykey
       formatdevice $1 /dev/mapper/$1 noluks
-      rootdev=/dev/mapper/$1
       if [ "$1" = "root" ]; then
+        rootdev=/dev/mapper/$1
         luksroot=1
         luksrootuuid=$(cryptsetup luksUUID $2)
       else
+        case $1 in
+          home) homedev=/dev/mapper/$1 ;;
+        esac
         luksdrive=1
-        crypttab="$1    UUID=$(cryptsetup luksUUID $2)    none"
+        crypttab="\n$1    UUID=$(cryptsetup luksUUID $2)    none"
       fi
       echo ""
       echo "luks device created !"   # string
@@ -900,7 +903,7 @@ archgenfstab(){
 
 archgencryptotab(){
   clear
-  echo "$crypttab" > /mnt/etc/crypttab
+  echo -e "$crypttab" >> /mnt/etc/crypttab
 }
 
 archgenmkinitcpio(){
@@ -946,7 +949,7 @@ archinstallgrub(){
   fi
   
   if [ "$luksroot" = "1" ]; then
-    if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "luks root detected ! Add to grub.cfg" 0 0) then
+    if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "luks root detected ! Add to grub.cfg" 0 0) then    # string
       clear
       sed -i /GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\"cryptdevice=/dev/disk/by-uuid/$luksrootuuid:root\" /mnt/etc/default/grub
     fi
