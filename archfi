@@ -546,11 +546,17 @@ formatdevice(){
     xfs) mkfs.xfs -f $2;;
     jfs) mkfs.jfs -f $2;;
     luks)
+      echo "Create luks device :"   # string
       cryptsetup luksFormat $2
+      echo ""
+      echo "Open luks device :"   # string
       cryptsetup luksOpen $2 $1
+      pressanykey
       formatdevice $1 /dev/mapper/$1 noluks
       rootdev=/dev/mapper/$1
       #luksdrive=1
+      echo ""
+      echo "luks device created !"   # string
     ;;
   esac
   echo ""
