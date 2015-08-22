@@ -557,8 +557,9 @@ formatdevice(){
       if [ "$1" = "root" ]; then
         luksroot=1
         luksrootuuid=$(cryptsetup luksUUID $2)
-      #else
-      #  luksdrive=1
+      else
+        luksdrive=1
+        crypttab="$1    UUID=$(cryptsetup luksUUID $2)    none"
       fi
       echo ""
       echo "luks device created !"   # string
@@ -898,7 +899,8 @@ archgenfstab(){
 }
 
 archgencryptotab(){
-  echo ""
+  clear
+  echo "$crypttab" > /mnt/etc/crypttab
 }
 
 archgenmkinitcpio(){
