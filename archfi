@@ -525,6 +525,9 @@ formatdevice(){
   options+=("ext2" "")
   options+=("xfs" "")
   options+=("jfs" "")
+  if [ ! "$3" = "noluks" ]; then
+    options+=("luks" "encrypted")
+  fi
   sel=$(whiptail --backtitle "$apptitle" --title "$txtformatdevice" --menu "${txtselectpartformat//%1/$1 ($2)}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
@@ -542,6 +545,13 @@ formatdevice(){
     ext2) mkfs.ext2 $2;;
     xfs) mkfs.xfs -f $2;;
     jfs) mkfs.jfs -f $2;;
+    luks)
+      cryptsetup luksFormat $2
+      cryptsetup luksOpen $2 $1
+      formatdevice $1 /dev/mapper/$1 noluks
+      rootdev=/dev/mapper/$1
+      #luksdrive=1
+    ;;
   esac
   echo ""
   pressanykey
