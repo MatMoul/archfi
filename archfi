@@ -553,7 +553,9 @@ formatdevice(){
       cryptsetup luksOpen $2 $1
       if (whiptail --backtitle "$apptitle" --title "luks" --yesno "Wipe device (recommended) ?" 0 0) then
         clear
-        dd if=/dev/zero of=/dev/mapper/$1
+        dd if=/dev/zero of=/dev/mapper/$1 2>&1 | whiptail --backtitle "$apptitle" --title "luks" --gauge "Please wait..." 0 0 0
+        #echo "if=/dev/zero of=/dev/mapper/$1"
+        #dd if=/dev/zero of=/dev/mapper/$1
       fi
       pressanykey
       formatdevice $1 /dev/mapper/$1 noluks
