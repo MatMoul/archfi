@@ -669,7 +669,7 @@ archmenu(){
     options+=("${txtgenerate//%1/cryptotab}" "")
   fi
   if [ "$luksroot" = "1" ]; then
-    options+=("${txtgenrate//%1/mkinitcpio.conf}" "(encrypt hooks)")
+    options+=("${txtgenerate//%1/mkinitcpio.conf}" "(encrypt hooks)")
   fi
   options+=("${txtedit//%1/fstab}" "($txtoptional)")
   options+=("${txtedit//%1/mkinitcpio.conf}" "($txtoptional)")
@@ -710,7 +710,7 @@ archmenu(){
           nextitem="${txtgenerate//%1/cryptotab}"
         else
           if [ "$luksroot" = "1" ]; then
-            nextitem="${txtgenrate//%1/mkinitcpio.conf}"
+            nextitem="${txtgenerate//%1/mkinitcpio.conf}"
           else
             nextitem="${txtinstall//%1/grub}"
           fi
@@ -719,12 +719,12 @@ archmenu(){
       "${txtgenerate//%1/cryptotab}")
         archgencryptotab
         if [ "$luksroot" = "1" ]; then
-          nextitem="${txtgenrate//%1/mkinitcpio.conf}"
+          nextitem="${txtgenerate//%1/mkinitcpio.conf}"
         else
           nextitem="${txtinstall//%1/grub}"
         fi
       ;;
-      "${txtgenrate//%1/mkinitcpio.conf}")
+      "${txtgenerate//%1/mkinitcpio.conf}")
         archgenmkinitcpio
         nextitem="${txtinstall//%1/grub}"
       ;;
@@ -946,7 +946,7 @@ archinstallgrub(){
   if [ "$luksroot" = "1" ]; then
     if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "luks root detected ! Add to grub.cfg" 0 0) then
       clear
-      sed -i s/GRUB_CMDLINE_LINUX=\"\"/GRUB_CMDLINE_LINUX=\"root=/dev/mapper/root cryptdevice=/dev/disk/by-uuid/$luksrootuuid:root\"/g /mnt/etc/default/grub
+      sed -i /GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\"cryptdevice=/dev/disk/by-uuid/$luksrootuuid:root\" /mnt/etc/default/grub
     fi
   fi
   
