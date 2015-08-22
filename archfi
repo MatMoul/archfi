@@ -907,13 +907,13 @@ archgenfstab(){
 }
 
 archgencryptotab(){
-  #learn archgenfstab
+  #learn archgencryptotab
   clear
   echo -e "$crypttab" >> /mnt/etc/crypttab
 }
 
 archgenmkinitcpio(){
-  #learn archgenfstab
+  #learn archgenmkinitcpio
   clear
   sed -i "s/block filesystems/block encrypt filesystems/g" /mnt/etc/mkinitcpio.conf
   archchroot genmkinitcpio
