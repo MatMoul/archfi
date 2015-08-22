@@ -551,6 +551,10 @@ formatdevice(){
       echo ""
       echo "$txtopenluksdevice"
       cryptsetup luksOpen $2 $1
+      if (whiptail --backtitle "$apptitle" --title "luks" --yesno "Wipe device (recommended) ?" 0 0) then
+        clear
+        dd if=/dev/zero of=/dev/mapper/$1
+      fi
       pressanykey
       formatdevice $1 /dev/mapper/$1 noluks
       if [ "$1" = "root" ]; then
