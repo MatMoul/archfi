@@ -903,7 +903,7 @@ archgencryptotab(){
 
 archgenmkinitcpio(){
   clear
-  sed -i "s/block filesystems/block encrypt filesystems/g" /etc/mkinitcpio.conf
+  sed -i "s/block filesystems/block encrypt filesystems/g" /mnt/etc/mkinitcpio.conf
   archchroot genmkinitcpio
   pressanykey
 }
@@ -944,9 +944,9 @@ archinstallgrub(){
   fi
   
   if [ "$luksroot" = "1" ]; then
-    if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "luks root detected ! Add to grub.cfg" --defaultno 0 0) then
+    if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "luks root detected ! Add to grub.cfg" 0 0) then
       clear
-      sed -i s/GRUB_CMDLINE_LINUX=\"\"/GRUB_CMDLINE_LINUX=\"root=/dev/mapper/root cryptdevice=/dev/disk/by-uuid/$luksrootuuid:root\"/g /etc/default/grub
+      sed -i s/GRUB_CMDLINE_LINUX=\"\"/GRUB_CMDLINE_LINUX=\"root=/dev/mapper/root cryptdevice=/dev/disk/by-uuid/$luksrootuuid:root\"/g /mnt/etc/default/grub
     fi
   fi
   
