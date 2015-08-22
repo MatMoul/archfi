@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2015.08.22.00.34.13 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2015.08.22.22.38.51 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -525,6 +525,9 @@ formatdevice(){
   options+=("ext2" "")
   options+=("xfs" "")
   options+=("jfs" "")
+  if [ ! "$3" = "noluks" ]; then
+    options+=("luks" "encrypted")
+  fi
   sel=$(whiptail --backtitle "$apptitle" --title "$txtformatdevice" --menu "${txtselectpartformat//%1/$1 ($2)}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
@@ -542,6 +545,28 @@ formatdevice(){
     ext2) mkfs.ext2 $2;;
     xfs) mkfs.xfs -f $2;;
     jfs) mkfs.jfs -f $2;;
+    luks)
+      echo "$txtcreateluksdevice"
+      cryptsetup luksFormat $2
+      echo ""
+      echo "$txtopenluksdevice"
+      cryptsetup luksOpen $2 $1
+      pressanykey
+      formatdevice $1 /dev/mapper/$1 noluks
+      if [ "$1" = "root" ]; then
+        rootdev=/dev/mapper/$1
+        luksroot=1
+        luksrootuuid=$(cryptsetup luksUUID $2)
+      else
+        case $1 in
+          home) homedev=/dev/mapper/$1 ;;
+        esac
+        luksdrive=1
+        crypttab="\n$1    UUID=$(cryptsetup luksUUID $2)    none"
+      fi
+      echo ""
+      echo "$txtluksdevicecreated"
+    ;;
   esac
   echo ""
   pressanykey
@@ -644,7 +669,14 @@ archmenu(){
   options+=("$txtsettime" "/etc/localtime")
   options+=("$txtsetrootpassword" "")
   options+=("${txtgenerate//%1/fstab}" "")
+  if [ "$luksdrive" = "1" ]; then
+    options+=("${txtgenerate//%1/cryptotab}" "")
+  fi
+  if [ "$luksroot" = "1" ]; then
+    options+=("${txtgenerate//%1/mkinitcpio.conf}" "(encrypt hooks)")
+  fi
   options+=("${txtedit//%1/fstab}" "($txtoptional)")
+  options+=("${txtedit//%1/cryptotab}" "($txtoptional)")
   options+=("${txtedit//%1/mkinitcpio.conf}" "($txtoptional)")
   options+=("${txtedit//%1/mirrorlist}" "($txtoptional)")
   options+=("${txtinstall//%1/grub}" "pacstrap grub (os-prober), grub-mkconfig")
@@ -679,11 +711,35 @@ archmenu(){
       ;;
       "${txtgenerate//%1/fstab}")
         archgenfstab
+        if [ "$luksdrive" = "1" ]; then
+          nextitem="${txtgenerate//%1/cryptotab}"
+        else
+          if [ "$luksroot" = "1" ]; then
+            nextitem="${txtgenerate//%1/mkinitcpio.conf}"
+          else
+            nextitem="${txtinstall//%1/grub}"
+          fi
+        fi
+      ;;
+      "${txtgenerate//%1/cryptotab}")
+        archgencryptotab
+        if [ "$luksroot" = "1" ]; then
+          nextitem="${txtgenerate//%1/mkinitcpio.conf}"
+        else
+          nextitem="${txtinstall//%1/grub}"
+        fi
+      ;;
+      "${txtgenerate//%1/mkinitcpio.conf}")
+        archgenmkinitcpio
         nextitem="${txtinstall//%1/grub}"
       ;;
       "${txtedit//%1/fstab}")
         nano /mnt/etc/fstab
         nextitem="${txtedit//%1/fstab}"
+      ;;
+      "${txtedit//%1/cryptotab}")
+        nano /mnt/etc/cryptotab
+        nextitem="${txtedit//%1/cryptotab}"
       ;;
       "${txtedit//%1/mkinitcpio.conf}")
         archeditmkinitcpio
@@ -850,6 +906,20 @@ archgenfstab(){
   genfstab -U -p /mnt >> /mnt/etc/fstab
 }
 
+archgencryptotab(){
+  #learn archgencryptotab
+  clear
+  echo -e "$crypttab" >> /mnt/etc/crypttab
+}
+
+archgenmkinitcpio(){
+  #learn archgenmkinitcpio
+  clear
+  sed -i "s/block filesystems/block encrypt filesystems/g" /mnt/etc/mkinitcpio.conf
+  archchroot genmkinitcpio
+  pressanykey
+}
+
 archeditmkinitcpio(){
   nano /mnt/etc/mkinitcpio.conf
   if (whiptail --backtitle "$apptitle" --title "${txtedit//%1/mkinitcpio.conf}" --yesno "${txtgenerate//%1/mkinitcpio} ?" 0 0) then
@@ -882,6 +952,13 @@ archinstallgrub(){
     if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" --defaultno 0 0) then
       clear
       pacstrap /mnt efibootmgr
+    fi
+  fi
+  
+  if [ "$luksroot" = "1" ]; then
+    if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "$txtgrubluksdetected" 0 0) then
+      clear
+      sed -i /GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\"cryptdevice=/dev/disk/by-uuid/$luksrootuuid:root\" /mnt/etc/default/grub
     fi
   fi
   
@@ -1076,6 +1153,9 @@ loadstrings(){
 
   txtselectpartformat="Select partition format for %1 :"
   txtformatingpart="Formatting partition %1 as"
+  txtcreateluksdevice="Create luks device :"
+  txtopenluksdevice="Open luks device :"
+  txtluksdevicecreated="luks device created !"
 
   txtinstallmenu="Install Menu"
   
@@ -1100,6 +1180,8 @@ loadstrings(){
   txtedit="Edit %1"
   txtinstall="Install %1"
   txtenable="Enable %1"
+  
+  txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
 
 
   txtpressanykey="Press any key to continue."
