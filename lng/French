@@ -40,6 +40,9 @@ txtformatdeviceconfirm="Attention, toutes les données sur les partitions sélec
 
 txtselectpartformat="Sélectionnez le format de la parition %1 :"
 txtformatingpart="Formatting partition %1 as"
+txtcreateluksdevice="Creatation de la partition luks :"
+txtopenluksdevice="Ouverture de la partition luks :"
+txtluksdevicecreated="La partition luks à été crée !"
 
 txtinstallmenu="Menu Installation"
 
@@ -64,6 +67,8 @@ txtgenerate="Générer %1"
 txtedit="Editer %1"
 txtinstall="Installer %1"
 txtenable="Activer %1"
+
+txtgrubluksdetected="Partition root cryptée !\n\nAjouter cryptdevice= to GRUB_CMDLINE_LINUX dans /etc/default/grub ?"
 
 
 txtpressanykey="Appuyez sur une touche pour continuer."
