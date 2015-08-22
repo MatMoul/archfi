@@ -900,6 +900,7 @@ archgenfstab(){
 archgencryptotab(){
   echo ""
 }
+
 archgenmkinitcpio(){
   clear
   sed -i "s/block filesystems/block encrypt filesystems/g" /etc/mkinitcpio.conf
