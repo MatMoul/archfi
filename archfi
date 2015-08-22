@@ -554,7 +554,12 @@ formatdevice(){
       pressanykey
       formatdevice $1 /dev/mapper/$1 noluks
       rootdev=/dev/mapper/$1
-      #luksdrive=1
+      if [ "$1" = "root" ]; then
+        luksroot=1
+        luksrootuuid=$(cryptsetup luksUUID $2)
+      #else
+      #  luksdrive=1
+      fi
       echo ""
       echo "luks device created !"   # string
     ;;
@@ -660,6 +665,12 @@ archmenu(){
   options+=("$txtsettime" "/etc/localtime")
   options+=("$txtsetrootpassword" "")
   options+=("${txtgenerate//%1/fstab}" "")
+  if [ "$luksdrive" = "1" ]; then
+    options+=("${txtgenerate//%1/cryptotab}" "")
+  fi
+  if [ "$luksroot" = "1" ]; then
+    options+=("${txtgenrate//%1/mkinitcpio.conf}" "(encrypt hooks)")
+  fi
   options+=("${txtedit//%1/fstab}" "($txtoptional)")
   options+=("${txtedit//%1/mkinitcpio.conf}" "($txtoptional)")
   options+=("${txtedit//%1/mirrorlist}" "($txtoptional)")
@@ -695,6 +706,26 @@ archmenu(){
       ;;
       "${txtgenerate//%1/fstab}")
         archgenfstab
+        if [ "$luksdrive" = "1" ]; then
+          nextitem="${txtgenerate//%1/cryptotab}"
+        else
+          if [ "$luksroot" = "1" ]; then
+            nextitem="${txtgenrate//%1/mkinitcpio.conf}"
+          else
+            nextitem="${txtinstall//%1/grub}"
+          fi
+        fi
+      ;;
+      "${txtgenerate//%1/cryptotab}")
+        archgencryptotab
+        if [ "$luksroot" = "1" ]; then
+          nextitem="${txtgenrate//%1/mkinitcpio.conf}"
+        else
+          nextitem="${txtinstall//%1/grub}"
+        fi
+      ;;
+      "${txtgenrate//%1/mkinitcpio.conf}")
+        archgenmkinitcpio
         nextitem="${txtinstall//%1/grub}"
       ;;
       "${txtedit//%1/fstab}")
@@ -866,6 +897,16 @@ archgenfstab(){
   genfstab -U -p /mnt >> /mnt/etc/fstab
 }
 
+archgencryptotab(){
+
+}
+archgenmkinitcpio(){
+  clear
+  sed -i "s/block filesystems/block encrypt filesystems/g" /etc/mkinitcpio.conf
+  archchroot genmkinitcpio
+  pressanykey
+}
+
 archeditmkinitcpio(){
   nano /mnt/etc/mkinitcpio.conf
   if (whiptail --backtitle "$apptitle" --title "${txtedit//%1/mkinitcpio.conf}" --yesno "${txtgenerate//%1/mkinitcpio} ?" 0 0) then
@@ -900,6 +941,15 @@ archinstallgrub(){
       pacstrap /mnt efibootmgr
     fi
   fi
+  
+  if [ "$luksroot" = "1" ]; then
+    if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "luks root detected ! Add to grub.cfg" --defaultno 0 0) then
+      clear
+      sed -i s/GRUB_CMDLINE_LINUX=\"\"/GRUB_CMDLINE_LINUX=\"root=/dev/mapper/root cryptdevice=/dev/disk/by-uuid/$luksrootuuid:root\"/g /etc/default/grub
+    fi
+  fi
+  
+  
   
   clear
   archchroot installgrub
