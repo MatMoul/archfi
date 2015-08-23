@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2015.08.22.22.38.51 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2015.08.23.14.30.54 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -551,6 +551,31 @@ formatdevice(){
       echo ""
       echo "$txtopenluksdevice"
       cryptsetup luksOpen $2 $1
+      options=()
+      options+=("normal" "")
+      options+=("fast" "")
+      sel=$(whiptail --backtitle "$apptitle" --title "$txtformatdevice" --menu "Wipe device ?" --cancel-button="Ignore" 0 0 0 \
+        "${options[@]}" \
+        3>&1 1>&2 2>&3)
+      if [ "$?" = "0" ]; then
+        case $sel in
+          normal)
+            echo "dd if=/dev/zero of=/dev/mapper/$1"
+            dd if=/dev/zero of=/dev/mapper/$1 & PID=$! &>/dev/null
+          ;;
+          fast)
+            echo "dd if=/dev/zero of=/dev/mapper/$1 bs=60M"
+            dd if=/dev/zero of=/dev/mapper/$1 bs=60M & PID=$! &>/dev/null
+          ;;
+        esac
+        clear
+        sleep 1
+        while kill -USR1 $PID &>/dev/null
+        do
+          sleep 1
+        done
+      fi
+      echo ""
       pressanykey
       formatdevice $1 /dev/mapper/$1 noluks
       if [ "$1" = "root" ]; then
