@@ -554,13 +554,19 @@ formatdevice(){
       options=()
       options+=("normal" "")
       options+=("fast" "")
-      sel=$(whiptail --backtitle "$apptitle" --title "Wipe device" --menu "Wipe device (recommended) ?" --no-button="Ignore" 0 0 0 \
+      sel=$(whiptail --backtitle "$apptitle" --title "$txtformatdevice" --menu "Wipe device ?" --cancel-button="Ignore" 0 0 0 \
         "${options[@]}" \
         3>&1 1>&2 2>&3)
       if [ "$?" = "0" ]; then
         case $sel in
-          normal) dd if=/dev/zero of=/dev/mapper/$1 & PID=$! &>/dev/null;;
-          fast) dd if=/dev/zero of=/dev/mapper/$1 bs=30M & PID=$! &>/dev/null;;
+          normal)
+            echo "dd if=/dev/zero of=/dev/mapper/$1"
+            dd if=/dev/zero of=/dev/mapper/$1 & PID=$! &>/dev/null
+          ;;
+          fast)
+            echo "dd if=/dev/zero of=/dev/mapper/$1 bs=60M"
+            dd if=/dev/zero of=/dev/mapper/$1 bs=60M & PID=$! &>/dev/null
+          ;;
         esac
         clear
         sleep 1
