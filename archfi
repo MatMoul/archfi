@@ -551,12 +551,24 @@ formatdevice(){
       echo ""
       echo "$txtopenluksdevice"
       cryptsetup luksOpen $2 $1
-      if (whiptail --backtitle "$apptitle" --title "luks" --yesno "Wipe device (recommended) ?" 0 0) then
+      options=()
+      options+=("normal" "")
+      options+=("fast" "")
+      sel=$(whiptail --backtitle "$apptitle" --title "Wipe device" --menu "Wipe device (recommended) ?" --no-button="Ignore" 0 0 0 \
+        "${options[@]}" \
+        3>&1 1>&2 2>&3)
         clear
-        dd if=/dev/zero of=/dev/mapper/$1 2>&1 | whiptail --backtitle "$apptitle" --title "luks" --gauge "Please wait..." 0 0 0
-        #echo "if=/dev/zero of=/dev/mapper/$1"
-        #dd if=/dev/zero of=/dev/mapper/$1
+        case $sel in
+          normal) dd if=/dev/zero of=/dev/mapper/$1 & PID=$! &>/dev/null;;
+          fast) dd if=/dev/zero of=/dev/mapper/$1 bs=30M & PID=$! &>/dev/null;;
+        esac
+        sleep 1
+        while kill -USR1 $PID &>/dev/null
+        do
+          sleep 1
+        done
       fi
+      echo ""
       pressanykey
       formatdevice $1 /dev/mapper/$1 noluks
       if [ "$1" = "root" ]; then
