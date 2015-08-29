@@ -1,0 +1,83 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : https://github.com/MatMoul/archfi
+# language   : Hungarian
+# translator : KardiWeb (kardiweb@fedoraproject.org)
+# notes      : Fejlesztés alatt!
+
+
+txtselectserver="Forrás szerver kiválasztása :"
+  
+txtmainmenu="Főmenü"
+txtlanguage="Nyelv"
+txtsetkeymap="Billentyűzet kiosztás"
+txtdiskpartmenu="Lemezek/Partíciók"
+txtselectpartsmenu="Partíciók kiválasztása és telepítés"
+txthelp="Súgó"
+txtchangelog="Változásnapló"
+txtreboot="Újraindítás"
+
+txtautoparts="Automatikus partícionálás"
+txteditparts="Partíciók szerkesztése"
+
+txtautopartsconfirm="Kiválasztott lemezek : %1\n\nMinden adat el fog veszni ! \n\nFolytatjuk ?"
+
+txtautopartclear="Minden partíció adat törlése"
+txtautopartcreate="%1 partíció létrehozása"
+txthybridpartcreate="Hybrid MBR használata"
+txtautopartsettype="%1 partíció típus használata"
+
+txtselectdevice="%1 lemez kiválasztása :"
+txtselecteddevices="Kiválasztott lemezek :"
+
+txtformatmountmenu="Formázás és Csatolás"
+txtformatdevices="Lemezek formázása"
+txtformatdevice="Lemez formázása"
+txtmount="Csatolás"
+txtmountdesc="Telepítés vagy Beállítás"
+
+txtformatdeviceconfirm="Figyelem! Minden partíció és adat el fog veszni a lemezről ! \nFormázzuk a lemezeket ?"
+
+txtselectpartformat="%1 partíció formátum kiválasztása :"
+txtformatingpart="%1 partíció formázása:"
+txtcreateluksdevice="Luks eszköz létrehozása :"
+txtopenluksdevice="Luks eszköz megnyitása :"
+txtluksdevicecreated="Luks eszköz létrehozásra került !"
+
+txtinstallmenu="Telepítő menü"
+  
+txtarchinstallmenu="Arch Telepítő menü"
+txtrungrubmakeconfig="grub-mkconfig futtatása ?"
+  
+txteditmirrorlist="Edit mirrorlist"
+txtinstallarchlinux="Arch Linux telepítés"
+txtconfigarchlinux="Arch Linux beállítások"
+
+txtsethostname="Számítógépnév"
+txtsetlocale="Nyelv"
+txtsettime="Dátum/Idő"
+txtsetrootpassword="Root jelszó"
+  
+txtuseutcclock=" UTC hardware óra használata ?"
+  
+txtoptional="Tetszőleges"
+txtrecommandeasyinst="Ajánlott alkalmazások egyszerű telepítése"
+txtset="%1 kiválasztása"
+txtgenerate="%1 generálás"
+txtedit="%1 szerkesztés"
+txtinstall="%1 telepítés"
+txtenable="%1 engedélyezés"
+  
+txtgrubluksdetected="Titkosított root partíció !\n\ncryptdevice= GRUB_CMDLINE_LINUX a következőhöz: /etc/default/grub ?"
+
+
+  txtpressanykey="Nyomjunk meg egy gombot a folytatáshoz."
+  
+  txtinstallosprober="Az os-prober egy jó megoldás ha szeretnénk használni más operációs rendszert is a számítógépen.\n os-prober telepítés ?"
+  txtefibootmgr="efibootmgr használata kötelező az efi-t használó számítógépekhez."
+  
+  txtarchdidesc="Teljes asztal telepítő szkript"
+  txtinstallarchdi="Arch Linux Asztal Telepítés (archdi) egy teljes asztal telepítő szkript ami pár perc alatt segít felépíteni egy teljes asztali környezetet/munkaállomást.\n\nA szkriptet el lehet indítani és telepít is. Válasszuk ki a következő menüt.\n\nArch Linux Asztal Telepítéshez szükség van két fontos függőségre : wget és libnewt.\n\npacstrap wget libnewt ?"
+  txtarchdiinstallandlaunch="archdi telepítés és indítás"
+  txtarchdiinstall="archdi telepítés"
+  txtarchdilaunch="archdi indítás"
