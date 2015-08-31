@@ -39,6 +39,7 @@ sed -i /apptitle=/c\apptitle=\""Arch Linux Fast Install (archfi) - Version: $ver
 sed -i /baseurl=/c\baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master archfi
 
 echo "Finalise CHANGELOG..."
+nano CHANGELOG
 sed -i '/Current\ Version\ :/{n;d}' CHANGELOG
 sed -i '/Current\ Version\ :/a-------------------------------' CHANGELOG
 sed -i "/Current\ Version\ :/c\Version\ :\ $version\ :" CHANGELOG
