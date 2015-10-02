@@ -1,6 +1,16 @@
 Current Version :
 -----------------
 
+SetKeymaps
+- Change enum keymaps method
+
+vconsole.conf
+- Change enum keymaps method
+
+
+Version : 2015.10.02.18.16.16 :
+-------------------------------
+
 Project :
 - Update README
 
