@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2015.08.30.21.10.22 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2015.10.02.18.16.16 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -97,10 +97,18 @@ chooselanguage(){
 
 setkeymap(){
   learn setkeymap
-  items=$(localectl list-keymaps)
+  #items=$(localectl list-keymaps)
+  #options=()
+  #for item in $items; do
+  #  options+=("$item" "")
+  #done
+  #items=$(find /usr/share/kbd/keymaps/ -type f)
+  items=$(find /usr/share/kbd/keymaps/ -type f -printf "%f\n" | sort -V)
   options=()
   for item in $items; do
-    options+=("$item" "")
+    #item=$(basename "$item")
+    #item=${item%%.*}
+    options+=("${item%%.*}" "")
   done
   keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" 0 0 0 \
     "${options[@]}" \
@@ -827,10 +835,18 @@ archsethostname(){
 
 archsetkeymap(){
   learn archsetkeymap
-  items=$(localectl list-keymaps)
+  #items=$(localectl list-keymaps)
+  #options=()
+  #for item in $items; do
+  #  options+=("$item" "")
+  #done
+  #items=$(find /usr/share/kbd/keymaps/ -type f)
+  items=$(find /usr/share/kbd/keymaps/ -type f -printf "%f\n" | sort -V)
   options=()
   for item in $items; do
-    options+=("$item" "")
+    #item=$(basename "$item")
+    #item=${item%%.*}
+    options+=("${item%%.*}" "")
   done
   keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" 0 0 0 \
     "${options[@]}" \
