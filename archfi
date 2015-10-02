@@ -97,9 +97,16 @@ chooselanguage(){
 
 setkeymap(){
   learn setkeymap
-  items=$(localectl list-keymaps)
+  #items=$(localectl list-keymaps)
+  #options=()
+  #for item in $items; do
+  #  options+=("$item" "")
+  #done
+  items=$(find /usr/share/kbd/keymaps/ -type f)
   options=()
   for item in $items; do
+    item=$(basename "$item")
+    item=${item%%.*}
     options+=("$item" "")
   done
   keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" 0 0 0 \
@@ -827,9 +834,16 @@ archsethostname(){
 
 archsetkeymap(){
   learn archsetkeymap
-  items=$(localectl list-keymaps)
+  #items=$(localectl list-keymaps)
+  #options=()
+  #for item in $items; do
+  #  options+=("$item" "")
+  #done
+  items=$(find /usr/share/kbd/keymaps/ -type f)
   options=()
   for item in $items; do
+    item=$(basename "$item")
+    item=${item%%.*}
     options+=("$item" "")
   done
   keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" 0 0 0 \
