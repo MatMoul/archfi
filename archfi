@@ -102,12 +102,13 @@ setkeymap(){
   #for item in $items; do
   #  options+=("$item" "")
   #done
-  items=$(find /usr/share/kbd/keymaps/ -type f)
+  #items=$(find /usr/share/kbd/keymaps/ -type f)
+  items=$(find /usr/share/kbd/keymaps/ -type f -printf "%f\n" | sort -V)
   options=()
   for item in $items; do
-    item=$(basename "$item")
-    item=${item%%.*}
-    options+=("$item" "")
+    #item=$(basename "$item")
+    #item=${item%%.*}
+    options+=("${item%%.*}" "")
   done
   keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" 0 0 0 \
     "${options[@]}" \
@@ -839,12 +840,13 @@ archsetkeymap(){
   #for item in $items; do
   #  options+=("$item" "")
   #done
-  items=$(find /usr/share/kbd/keymaps/ -type f)
+  #items=$(find /usr/share/kbd/keymaps/ -type f)
+  items=$(find /usr/share/kbd/keymaps/ -type f -printf "%f\n" | sort -V)
   options=()
   for item in $items; do
-    item=$(basename "$item")
-    item=${item%%.*}
-    options+=("$item" "")
+    #item=$(basename "$item")
+    #item=${item%%.*}
+    options+=("${item%%.*}" "")
   done
   keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" 0 0 0 \
     "${options[@]}" \
