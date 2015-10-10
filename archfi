@@ -70,7 +70,6 @@ mainmenu(){
   fi
 }
 
-
 chooselanguage(){
   options=()
   options+=("English" "(By MatMoul)")
