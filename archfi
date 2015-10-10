@@ -1186,7 +1186,7 @@ while (( "$#" )); do
   case $1 in
     -h|--help) help
                exit 0;;
-    -l|--learning) whiptail --backtitle "$apptitle" --title "" --msgbox "Sorry, learning mode will not be avaible" 0 0;;
+    -l|--learning) whiptail --backtitle "$apptitle" --title "" --msgbox "Sorry, learning mode will not be avaible\n\nToo hard to maintain." 0 0;;
     --chroot) chroot=1
               command=$2
               args=$3;;
