@@ -4,7 +4,7 @@ Just a simple bash script wizard to install Arch Linux after you have booted on 
 
 With this script, you can install Arch Linux with 2 lines of code.
 
-This wizard is maked to install minimum packages (base, grub and optionally os-prober and efibootmgr).<br />
+This wizard is maked to install minimum packages (base, grub and optionally efibootmgr).<br />
 At the end of this wizard, you can install or launch archdi (Arch Linux Destop Install) to install and configure desktop packages.<br />
 archdi project : https://github.com/MatMoul/archdi
 
