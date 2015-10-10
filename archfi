@@ -29,8 +29,6 @@ mainmenu(){
   options+=("$txtdiskpartmenu" "")
   options+=("$txtselectpartsmenu" "")
   options+=("" "")
-  options+=("$txthelp" "")
-  options+=("" "")
   options+=("$txtreboot" "")
   sel=$(whiptail --backtitle "$apptitle" --title "$txtmainmenu" --menu "" --cancel-button "Exit" --default-item "$nextitem" 0 0 0 \
     "${options[@]}" \
@@ -111,14 +109,6 @@ setkeymap(){
     loadkeys $keymap
     pressanykey
   fi
-}
-
-help(){
-  msg=""
-  msg=$msg"Command arguments :\n"
-  msg=$msg" -h --help     : Show this help message\n"
-  msg=$msg"\n"
-  whiptail --backtitle "$apptitle" --title "$txthelp" --msgbox "$msg" 0 0
 }
 
 rebootpc(){
