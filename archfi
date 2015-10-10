@@ -921,8 +921,8 @@ archinstallgrub(){
   clear
   pacstrap /mnt grub
   
-  if [ "eficomputer" == "1" ]; then
-    if [ "$efimode" = "1" ]||[ "$efimode" = "2" ]; then
+  if [ "$eficomputer" == "1" ]; then
+    if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
       if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" 0 0) then
         clear
         pacstrap /mnt efibootmgr
