@@ -960,30 +960,35 @@ archinstallbootloader(){
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    options=()
-    if [ "$efimode" = "1" ]; then
-      options+=("EFI" "")
-      options+=("BIOS" "")
-      options+=("BIOS+EFI" "")
-    elif [ "$efimode" = "2" ]; then
-      options+=("BIOS+EFI" "")
-      options+=("BIOS" "")
-      options+=("EFI" "")
+    if [ "$eficomputer" == "1" ]; then
+      options=()
+      if [ "$efimode" = "1" ]; then
+        options+=("EFI" "")
+        options+=("BIOS" "")
+        options+=("BIOS+EFI" "")
+      elif [ "$efimode" = "2" ]; then
+        options+=("BIOS+EFI" "")
+        options+=("BIOS" "")
+        options+=("EFI" "")
+      else
+        options+=("BIOS" "")
+        options+=("EFI" "")
+        options+=("BIOS+EFI" "")
+      fi
+      sel=$(whiptail --backtitle "$apptitle" --title "${txtinstall//%1/bootloader}" --menu "" --cancel-button "Back" 0 0 0 \
+        "${options[@]}" \
+        3>&1 1>&2 2>&3)
+      if [ "$?" = "0" ]; then
+        clear
+        case $sel in
+          "BIOS") archchroot installbootloader $device;;
+          "EFI") archchroot installbootloaderefi $device;;
+          "BIOS+EFI") archchroot installbootloaderefiusb $device;;
+        esac
+        pressanykey
+      fi
     else
-      options+=("BIOS" "")
-      options+=("EFI" "")
-      options+=("BIOS+EFI" "")
-    fi
-    sel=$(whiptail --backtitle "$apptitle" --title "${txtinstall//%1/bootloader}" --menu "" --cancel-button "Back" 0 0 0 \
-      "${options[@]}" \
-      3>&1 1>&2 2>&3)
-    if [ "$?" = "0" ]; then
-      clear
-      case $sel in
-        "BIOS") archchroot installbootloader $device;;
-        "EFI") archchroot installbootloaderefi $device;;
-        "BIOS+EFI") archchroot installbootloaderefiusb $device;;
-      esac
+      archchroot installbootloader $device;;
       pressanykey
     fi
   fi
