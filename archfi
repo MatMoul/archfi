@@ -670,7 +670,7 @@ archmenu(){
   options+=("${txtedit//%1/cryptotab}" "($txtoptional)")
   options+=("${txtedit//%1/mkinitcpio.conf}" "($txtoptional)")
   options+=("${txtedit//%1/mirrorlist}" "($txtoptional)")
-  options+=("${txtinstall//%1/grub}" "pacstrap grub (os-prober), grub-mkconfig")
+  options+=("${txtinstall//%1/grub}" "pacstrap grub (efibootmgr), grub-mkconfig")
   options+=("${txtedit//%1/grub}" "($txtoptional)")
   options+=("${txtinstall//%1/bootloader}" "grub-install")
   options+=("${txtenable//%1/dhcpcd}" "systemctl enable dhcpd")
@@ -921,7 +921,7 @@ archinstallgrub(){
   clear
   pacstrap /mnt grub
   
-  if [ "eficomputer" = "1" ]; then
+  if [ "eficomputer" == "1" ]; then
     if [ "$efimode" = "1" ]||[ "$efimode" = "2" ]; then
       if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" 0 0) then
         clear
