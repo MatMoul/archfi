@@ -131,8 +131,6 @@ diskpartmenu(){
   if [ "$eficomputer" == "0" ]; then
     options+=("$txtautoparts (gpt)" "")
     options+=("$txtautoparts (dos)" "")
-    options+=("$txtautoparts (gpt,efi)" "")
-    options+=("$txtautoparts (gpt,bios+efi,noswap)" "")
   else
     options+=("$txtautoparts (gpt,efi)" "")
     options+=("$txtautoparts (gpt)" "")
@@ -923,15 +921,17 @@ archinstallgrub(){
   clear
   pacstrap /mnt grub
   
-  if [ "$efimode" = "1" ]||[ "$efimode" = "2" ]; then
-    if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" 0 0) then
-      clear
-      pacstrap /mnt efibootmgr
-    fi
-  else
-    if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" --defaultno 0 0) then
-      clear
-      pacstrap /mnt efibootmgr
+  if [ "eficomputer" = "1" ]; then
+    if [ "$efimode" = "1" ]||[ "$efimode" = "2" ]; then
+      if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" 0 0) then
+        clear
+        pacstrap /mnt efibootmgr
+      fi
+    else
+      if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" --defaultno 0 0) then
+        clear
+        pacstrap /mnt efibootmgr
+      fi
     fi
   fi
   
