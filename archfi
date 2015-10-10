@@ -988,7 +988,7 @@ archinstallbootloader(){
         pressanykey
       fi
     else
-      archchroot installbootloader $device;;
+      archchroot installbootloader $device
       pressanykey
     fi
   fi
