@@ -98,12 +98,9 @@ setkeymap(){
   #for item in $items; do
   #  options+=("$item" "")
   #done
-  #items=$(find /usr/share/kbd/keymaps/ -type f)
   items=$(find /usr/share/kbd/keymaps/ -type f -printf "%f\n" | sort -V)
   options=()
   for item in $items; do
-    #item=$(basename "$item")
-    #item=${item%%.*}
     options+=("${item%%.*}" "")
   done
   keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" 0 0 0 \
@@ -826,12 +823,9 @@ archsetkeymap(){
   #for item in $items; do
   #  options+=("$item" "")
   #done
-  #items=$(find /usr/share/kbd/keymaps/ -type f)
   items=$(find /usr/share/kbd/keymaps/ -type f -printf "%f\n" | sort -V)
   options=()
   for item in $items; do
-    #item=$(basename "$item")
-    #item=${item%%.*}
     options+=("${item%%.*}" "")
   done
   keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" 0 0 0 \
@@ -958,11 +952,6 @@ archgenmkinitcpiochroot(){
 archinstallgrub(){
   clear
   pacstrap /mnt grub
-  
-  #if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "$txtinstallosprober" --defaultno 0 0) then
-  #  clear
-  #  pacstrap /mnt os-prober
-  #fi
   
   if [ "$efimode" = "1" ]||[ "$efimode" = "2" ]; then
     if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" 0 0) then
@@ -1103,8 +1092,6 @@ archdidownload(){
 }
 archdiinstallandlaunchchroot(){
   cd
-  #curl -L archdi.sourceforge.net/archdi >archdi
-  #curl -L matmoul.github.io/archdi >archdi >archdi
   archdidownload
   sh archdi -i
   archdi --chroot
@@ -1112,8 +1099,6 @@ archdiinstallandlaunchchroot(){
 }
 archdilaunchchroot(){
   cd
-  #curl -L archdi.sourceforge.net/archdi >archdi
-  #curl -L matmoul.github.io/archdi >archdi >archdi
   archdidownload
   sh archdi --chroot
   rm archdi
@@ -1121,8 +1106,6 @@ archdilaunchchroot(){
 }
 archdiinstallchroot(){
   cd
-  #curl -L archdi.sourceforge.net/archdi >archdi
-  #curl -L matmoul.github.io/archdi >archdi >archdi
   archdidownload
   sh archdi -i
   exit
