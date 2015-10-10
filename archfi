@@ -30,7 +30,6 @@ mainmenu(){
   options+=("$txtselectpartsmenu" "")
   options+=("" "")
   options+=("$txthelp" "")
-  options+=("$txtchangelog" "")
   options+=("" "")
   options+=("$txtreboot" "")
   sel=$(whiptail --backtitle "$apptitle" --title "$txtmainmenu" --menu "" --cancel-button "Exit" --default-item "$nextitem" 0 0 0 \
@@ -120,13 +119,6 @@ help(){
   msg=$msg" -h --help     : Show this help message\n"
   msg=$msg"\n"
   whiptail --backtitle "$apptitle" --title "$txthelp" --msgbox "$msg" 0 0
-}
-
-showchangelog(){
-  clear
-  curl -L $baseurl/CHANGELOG > ~/archfi-CHANGELOG
-  less ~/archfi-CHANGELOG
-  rm ~/archfi-CHANGELOG
 }
 
 rebootpc(){
