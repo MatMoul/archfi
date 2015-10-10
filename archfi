@@ -88,15 +88,11 @@ chooselanguage(){
       loadstrings
     else
       eval $(curl -L $baseurl/lng/$sel | sed '/^#/ d')
-      #if [ "$learning" = "1" ]; then
-      #  eval $(curl -L $baseurl/learn/$sel | sed '/^#/ d')
-      #fi
     fi
   fi
 }
 
 setkeymap(){
-  learn setkeymap
   #items=$(localectl list-keymaps)
   #options=()
   #for item in $items; do
@@ -115,7 +111,9 @@ setkeymap(){
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
+    echo "loadkeys $keymap"
     loadkeys $keymap
+    pressanykey
   fi
 }
 
@@ -123,7 +121,6 @@ help(){
   msg=""
   msg=$msg"Command arguments :\n"
   msg=$msg" -h --help     : Show this help message\n"
-  msg=$msg" -l --learning : Show learning messages for each operations.\n"
   msg=$msg"\n"
   whiptail --backtitle "$apptitle" --title "$txthelp" --msgbox "$msg" 0 0
 }
@@ -137,8 +134,8 @@ showchangelog(){
 
 rebootpc(){
   if (whiptail --backtitle "$apptitle" --title "$txtreboot" --yesno "$txtreboot ?" --defaultno 0 0) then
-    learn reboot
     clear
+    echo "reboot"
     reboot
   fi
 }
@@ -149,7 +146,6 @@ rebootpc(){
 # --------------------------------------------------------
 diskpartmenu(){
   if [ "$1" = "" ]; then
-    learn diskpart
     nextitem="."
   else
     nextitem=$1
@@ -204,7 +200,6 @@ diskpartmenu(){
 
 
 diskpartautodos(){
-  learn diskpartautodos
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -217,18 +212,28 @@ diskpartautodos(){
     if (whiptail --backtitle "$apptitle" --title "$txtautoparts (dos)" --yesno "${txtautopartsconfirm//%1/$device}" --defaultno 0 0) then
       clear
       echo "$txtautopartclear"
+      echo "parted $device mklabel msdos"
       parted $device mklabel msdos
+      echo "sleep 1"
       sleep 1
       echo "${txtautopartcreate//%1/boot}"
+      echo "echo -e \"n\np\n\n\n+512M\na\nw\" | fdisk $device"
       echo -e "n\np\n\n\n+512M\na\nw" | fdisk $device
+      echo "sleep 1"
       sleep 1
       echo "${txtautopartcreate//%1/swap}"
+      echo "swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')"
       swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
+      echo "swapsize=$(($swapsize/1000))\"M\""
       swapsize=$(($swapsize/1000))"M"
+      echo "echo -e \"n\np\n\n\n+$swapsize\nt\n\n82\nw\" | fdisk $device"
       echo -e "n\np\n\n\n+$swapsize\nt\n\n82\nw" | fdisk $device
+      echo "sleep 1"
       sleep 1
       echo "${txtautopartcreate//%1/root}"
+      echo "echo -e \"n\np\n\n\n\nw\" | fdisk $device"
       echo -e "n\np\n\n\n\nw" | fdisk $device
+      echo "sleep 1"
       sleep 1
       echo ""
       pressanykey
@@ -241,7 +246,6 @@ diskpartautodos(){
 }
 
 diskpartautogpt(){
-  learn diskpartautogpt
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -276,7 +280,6 @@ diskpartautogpt(){
 }
 
 diskpartautoefi(){
-  learn diskpartautoefi
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -309,7 +312,6 @@ diskpartautoefi(){
 }
 
 diskpartautoefiusb(){
-  learn diskpartautoefiusb
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -342,7 +344,6 @@ diskpartautoefiusb(){
 }
 
 diskpartcfdisk(){
-  learn diskpartcfdisk
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -358,7 +359,6 @@ diskpartcfdisk(){
 }
 
 diskpartcgdisk(){
-  learn diskpartcgdisk
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -378,8 +378,6 @@ diskpartcgdisk(){
 
 # --------------------------------------------------------
 selectparts(){
-  learn selectparts
-  
   items=$(lsblk -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -486,7 +484,6 @@ formatdevices(){
   fi
 }
 formatbootdevice(){
-  learn formatbootdevice
   options=()
   if [ "$efimode" == "1" ]||[ "$efimode" = "2" ]; then
     options+=("fat32" "(EFI)")
@@ -516,7 +513,6 @@ formatbootdevice(){
   pressanykey
 }
 formatswapdevice(){
-  learn formatswapdevice
   clear
   echo "${txtformatingpart//%1/$swapdev} swap"
   echo "----------------------------------------------"
@@ -525,7 +521,6 @@ formatswapdevice(){
   pressanykey
 }
 formatdevice(){
-  learn formatdevice
   options=()
   options+=("btrfs" "")
   options+=("reiserfs" "")
@@ -607,7 +602,6 @@ formatdevice(){
 }
 
 mountparts(){
-  learn mountparts
   clear
   echo "Mounting to /mnt ..."
   echo "-----------------"
@@ -669,13 +663,11 @@ installmenu(){
 }
 
 installbase(){
-  learn installbase
   clear
   pacstrap /mnt base
 }
 
 unmountdevices(){
-  learn unmountdevices
   clear
   echo "umount -R /mnt"
   umount -R /mnt
@@ -816,17 +808,12 @@ archmenu(){
 archchroot(){
   cp $0 /mnt/root
   chmod 755 /mnt/root/$(basename "$0")
-  if [ "$learning" = "1" ]; then
-    arch-chroot /mnt /root/$(basename "$0") --chroot $1 $2 --learning
-  else
-    arch-chroot /mnt /root/$(basename "$0") --chroot $1 $2
-  fi
+  arch-chroot /mnt /root/$(basename "$0") --chroot $1 $2
   rm /mnt/root/$(basename "$0")
 }
 
 
 archsethostname(){
-  learn archsethostname
   hostname=$(whiptail --backtitle "$apptitle" --title "$txtsethostname" --inputbox "" 0 0 "localhost" 3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     echo "$hostname" > /mnt/etc/hostname
@@ -834,7 +821,6 @@ archsethostname(){
 }
 
 archsetkeymap(){
-  learn archsetkeymap
   #items=$(localectl list-keymaps)
   #options=()
   #for item in $items; do
@@ -858,7 +844,6 @@ archsetkeymap(){
 }
 
 archsetlocale(){
-  learn archsetlocale
   items=$(ls /usr/share/i18n/locales)
   options=()
   for item in $items; do
@@ -881,7 +866,6 @@ archsetlocalechroot(){
 }
 
 archsettime(){
-  learn archsettime
   items=$(ls -l /mnt/usr/share/zoneinfo/ | grep '^d' | awk '{ print $9 }')
   options=()
   for item in $items; do
@@ -930,7 +914,6 @@ archsettimelocalchroot(){
 }
 
 archsetrootpassword(){
-  learn archsetrootpassword
   clear
   echo "$txtsetrootpassword :"
   echo ""
@@ -943,19 +926,16 @@ archsetrootpasswordchroot(){
 }
 
 archgenfstab(){
-  learn archgenfstab
   clear
   genfstab -U -p /mnt >> /mnt/etc/fstab
 }
 
 archgencryptotab(){
-  #learn archgencryptotab
   clear
   echo -e "$crypttab" >> /mnt/etc/crypttab
 }
 
 archgenmkinitcpio(){
-  #learn archgenmkinitcpio
   clear
   sed -i "s/block filesystems/block encrypt filesystems/g" /mnt/etc/mkinitcpio.conf
   archchroot genmkinitcpio
@@ -976,14 +956,13 @@ archgenmkinitcpiochroot(){
 }
 
 archinstallgrub(){
-  learn archinstallgrub
   clear
   pacstrap /mnt grub
   
-  if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "$txtinstallosprober" --defaultno 0 0) then
-    clear
-    pacstrap /mnt os-prober
-  fi
+  #if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "$txtinstallosprober" --defaultno 0 0) then
+  #  clear
+  #  pacstrap /mnt os-prober
+  #fi
   
   if [ "$efimode" = "1" ]||[ "$efimode" = "2" ]; then
     if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" 0 0) then
@@ -1013,8 +992,6 @@ archinstallgrubchroot(){
 }
 
 archinstallbootloader(){
-  learn archinstallbootloader
-  
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -1073,7 +1050,6 @@ archinstallbootloaderefiusbchroot(){
 }
 
 archenabledhcpcd(){
-  learn archenabledhcpcd
   if (whiptail --backtitle "$apptitle" --title "${txtenable//%1/dhcpcd}" --yesno "${txtenable//%1/dhcpcd} ?" 0 0) then
     clear
     archchroot enabledhcpcd
@@ -1236,20 +1212,8 @@ loadstrings(){
   txtarchdiinstallandlaunch="Install and run archdi"
   txtarchdiinstall="Install archdi"
   txtarchdilaunch="Launch archdi"
-  
-  if [ "$learning" = "1" ]; then
-    eval $(curl -L $baseurl/learn/English | sed '/^#/ d')
-  fi
 }
 
-learn(){
-  if [ "$learning" = "1" ]; then
-    clear
-    eval 'echo -e ""${learn'"$1}"""
-    echo ""
-    pressanykey
-  fi
-}
 # --------------------------------------------------------
 
 
@@ -1259,7 +1223,7 @@ while (( "$#" )); do
   case $1 in
     -h|--help) help
                exit 0;;
-    -l|--learning) learning=1;;
+    -l|--learning) whiptail --backtitle "$apptitle" --title "" --msgbox "Sorry, learning mode will not be avaible" 0 0;;
     --chroot) chroot=1
               command=$2
               args=$3;;
