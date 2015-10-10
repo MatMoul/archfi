@@ -980,10 +980,10 @@ archinstallgrub(){
   clear
   pacstrap /mnt grub
   
-  if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "$txtinstallosprober" --defaultno 0 0) then
-    clear
-    pacstrap /mnt os-prober
-  fi
+  #if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "$txtinstallosprober" --defaultno 0 0) then
+  #  clear
+  #  pacstrap /mnt os-prober
+  #fi
   
   if [ "$efimode" = "1" ]||[ "$efimode" = "2" ]; then
     if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" 0 0) then
