@@ -113,7 +113,6 @@ setkeymap(){
 rebootpc(){
   if (whiptail --backtitle "$apptitle" --title "$txtreboot" --yesno "$txtreboot ?" --defaultno 0 0) then
     clear
-    #echo "reboot"
     reboot
   fi
 }
