@@ -189,28 +189,18 @@ diskpartautodos(){
     if (whiptail --backtitle "$apptitle" --title "$txtautoparts (dos)" --yesno "${txtautopartsconfirm//%1/$device}" --defaultno 0 0) then
       clear
       echo "$txtautopartclear"
-      #echo "parted $device mklabel msdos"
       parted $device mklabel msdos
-      #echo "sleep 1"
       sleep 1
       echo "${txtautopartcreate//%1/boot}"
-      #echo "echo -e \"n\np\n\n\n+512M\na\nw\" | fdisk $device"
       echo -e "n\np\n\n\n+512M\na\nw" | fdisk $device
-      #echo "sleep 1"
       sleep 1
       echo "${txtautopartcreate//%1/swap}"
-      #echo "swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')"
       swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
-      #echo "swapsize=$(($swapsize/1000))\"M\""
       swapsize=$(($swapsize/1000))"M"
-      #echo "echo -e \"n\np\n\n\n+$swapsize\nt\n\n82\nw\" | fdisk $device"
       echo -e "n\np\n\n\n+$swapsize\nt\n\n82\nw" | fdisk $device
-      #echo "sleep 1"
       sleep 1
       echo "${txtautopartcreate//%1/root}"
-      #echo "echo -e \"n\np\n\n\n\nw\" | fdisk $device"
       echo -e "n\np\n\n\n\nw" | fdisk $device
-      #echo "sleep 1"
       sleep 1
       echo ""
       pressanykey
