@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2015.10.02.18.16.16 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2015.10.10.23.12.07 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -28,9 +28,6 @@ mainmenu(){
   options+=("$txtsetkeymap" "(loadkeys ...)")
   options+=("$txtdiskpartmenu" "")
   options+=("$txtselectpartsmenu" "")
-  options+=("" "")
-  options+=("$txthelp" "")
-  options+=("$txtchangelog" "")
   options+=("" "")
   options+=("$txtreboot" "")
   sel=$(whiptail --backtitle "$apptitle" --title "$txtmainmenu" --menu "" --cancel-button "Exit" --default-item "$nextitem" 0 0 0 \
@@ -73,7 +70,6 @@ mainmenu(){
   fi
 }
 
-
 chooselanguage(){
   options=()
   options+=("English" "(By MatMoul)")
@@ -88,26 +84,19 @@ chooselanguage(){
       loadstrings
     else
       eval $(curl -L $baseurl/lng/$sel | sed '/^#/ d')
-      #if [ "$learning" = "1" ]; then
-      #  eval $(curl -L $baseurl/learn/$sel | sed '/^#/ d')
-      #fi
     fi
   fi
 }
 
 setkeymap(){
-  learn setkeymap
   #items=$(localectl list-keymaps)
   #options=()
   #for item in $items; do
   #  options+=("$item" "")
   #done
-  #items=$(find /usr/share/kbd/keymaps/ -type f)
   items=$(find /usr/share/kbd/keymaps/ -type f -printf "%f\n" | sort -V)
   options=()
   for item in $items; do
-    #item=$(basename "$item")
-    #item=${item%%.*}
     options+=("${item%%.*}" "")
   done
   keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" 0 0 0 \
@@ -115,29 +104,14 @@ setkeymap(){
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
+    #echo "loadkeys $keymap"
     loadkeys $keymap
+    #pressanykey
   fi
-}
-
-help(){
-  msg=""
-  msg=$msg"Command arguments :\n"
-  msg=$msg" -h --help     : Show this help message\n"
-  msg=$msg" -l --learning : Show learning messages for each operations.\n"
-  msg=$msg"\n"
-  whiptail --backtitle "$apptitle" --title "$txthelp" --msgbox "$msg" 0 0
-}
-
-showchangelog(){
-  clear
-  curl -L $baseurl/CHANGELOG > ~/archfi-CHANGELOG
-  less ~/archfi-CHANGELOG
-  rm ~/archfi-CHANGELOG
 }
 
 rebootpc(){
   if (whiptail --backtitle "$apptitle" --title "$txtreboot" --yesno "$txtreboot ?" --defaultno 0 0) then
-    learn reboot
     clear
     reboot
   fi
@@ -149,7 +123,6 @@ rebootpc(){
 # --------------------------------------------------------
 diskpartmenu(){
   if [ "$1" = "" ]; then
-    learn diskpart
     nextitem="."
   else
     nextitem=$1
@@ -158,8 +131,6 @@ diskpartmenu(){
   if [ "$eficomputer" == "0" ]; then
     options+=("$txtautoparts (gpt)" "")
     options+=("$txtautoparts (dos)" "")
-    options+=("$txtautoparts (gpt,efi)" "")
-    options+=("$txtautoparts (gpt,bios+efi,noswap)" "")
   else
     options+=("$txtautoparts (gpt,efi)" "")
     options+=("$txtautoparts (gpt)" "")
@@ -204,7 +175,6 @@ diskpartmenu(){
 
 
 diskpartautodos(){
-  learn diskpartautodos
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -241,7 +211,6 @@ diskpartautodos(){
 }
 
 diskpartautogpt(){
-  learn diskpartautogpt
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -276,7 +245,6 @@ diskpartautogpt(){
 }
 
 diskpartautoefi(){
-  learn diskpartautoefi
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -309,7 +277,6 @@ diskpartautoefi(){
 }
 
 diskpartautoefiusb(){
-  learn diskpartautoefiusb
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -342,7 +309,6 @@ diskpartautoefiusb(){
 }
 
 diskpartcfdisk(){
-  learn diskpartcfdisk
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -358,7 +324,6 @@ diskpartcfdisk(){
 }
 
 diskpartcgdisk(){
-  learn diskpartcgdisk
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -378,8 +343,6 @@ diskpartcgdisk(){
 
 # --------------------------------------------------------
 selectparts(){
-  learn selectparts
-  
   items=$(lsblk -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -486,7 +449,6 @@ formatdevices(){
   fi
 }
 formatbootdevice(){
-  learn formatbootdevice
   options=()
   if [ "$efimode" == "1" ]||[ "$efimode" = "2" ]; then
     options+=("fat32" "(EFI)")
@@ -516,7 +478,6 @@ formatbootdevice(){
   pressanykey
 }
 formatswapdevice(){
-  learn formatswapdevice
   clear
   echo "${txtformatingpart//%1/$swapdev} swap"
   echo "----------------------------------------------"
@@ -525,7 +486,6 @@ formatswapdevice(){
   pressanykey
 }
 formatdevice(){
-  learn formatdevice
   options=()
   options+=("btrfs" "")
   options+=("reiserfs" "")
@@ -607,7 +567,6 @@ formatdevice(){
 }
 
 mountparts(){
-  learn mountparts
   clear
   echo "Mounting to /mnt ..."
   echo "-----------------"
@@ -669,13 +628,11 @@ installmenu(){
 }
 
 installbase(){
-  learn installbase
   clear
   pacstrap /mnt base
 }
 
 unmountdevices(){
-  learn unmountdevices
   clear
   echo "umount -R /mnt"
   umount -R /mnt
@@ -713,7 +670,7 @@ archmenu(){
   options+=("${txtedit//%1/cryptotab}" "($txtoptional)")
   options+=("${txtedit//%1/mkinitcpio.conf}" "($txtoptional)")
   options+=("${txtedit//%1/mirrorlist}" "($txtoptional)")
-  options+=("${txtinstall//%1/grub}" "pacstrap grub (os-prober), grub-mkconfig")
+  options+=("${txtinstall//%1/grub}" "pacstrap grub (efibootmgr), grub-mkconfig")
   options+=("${txtedit//%1/grub}" "($txtoptional)")
   options+=("${txtinstall//%1/bootloader}" "grub-install")
   options+=("${txtenable//%1/dhcpcd}" "systemctl enable dhcpd")
@@ -816,17 +773,12 @@ archmenu(){
 archchroot(){
   cp $0 /mnt/root
   chmod 755 /mnt/root/$(basename "$0")
-  if [ "$learning" = "1" ]; then
-    arch-chroot /mnt /root/$(basename "$0") --chroot $1 $2 --learning
-  else
-    arch-chroot /mnt /root/$(basename "$0") --chroot $1 $2
-  fi
+  arch-chroot /mnt /root/$(basename "$0") --chroot $1 $2
   rm /mnt/root/$(basename "$0")
 }
 
 
 archsethostname(){
-  learn archsethostname
   hostname=$(whiptail --backtitle "$apptitle" --title "$txtsethostname" --inputbox "" 0 0 "localhost" 3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     echo "$hostname" > /mnt/etc/hostname
@@ -834,18 +786,14 @@ archsethostname(){
 }
 
 archsetkeymap(){
-  learn archsetkeymap
   #items=$(localectl list-keymaps)
   #options=()
   #for item in $items; do
   #  options+=("$item" "")
   #done
-  #items=$(find /usr/share/kbd/keymaps/ -type f)
   items=$(find /usr/share/kbd/keymaps/ -type f -printf "%f\n" | sort -V)
   options=()
   for item in $items; do
-    #item=$(basename "$item")
-    #item=${item%%.*}
     options+=("${item%%.*}" "")
   done
   keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" 0 0 0 \
@@ -858,7 +806,6 @@ archsetkeymap(){
 }
 
 archsetlocale(){
-  learn archsetlocale
   items=$(ls /usr/share/i18n/locales)
   options=()
   for item in $items; do
@@ -881,7 +828,6 @@ archsetlocalechroot(){
 }
 
 archsettime(){
-  learn archsettime
   items=$(ls -l /mnt/usr/share/zoneinfo/ | grep '^d' | awk '{ print $9 }')
   options=()
   for item in $items; do
@@ -930,7 +876,6 @@ archsettimelocalchroot(){
 }
 
 archsetrootpassword(){
-  learn archsetrootpassword
   clear
   echo "$txtsetrootpassword :"
   echo ""
@@ -943,19 +888,16 @@ archsetrootpasswordchroot(){
 }
 
 archgenfstab(){
-  learn archgenfstab
   clear
   genfstab -U -p /mnt >> /mnt/etc/fstab
 }
 
 archgencryptotab(){
-  #learn archgencryptotab
   clear
   echo -e "$crypttab" >> /mnt/etc/crypttab
 }
 
 archgenmkinitcpio(){
-  #learn archgenmkinitcpio
   clear
   sed -i "s/block filesystems/block encrypt filesystems/g" /mnt/etc/mkinitcpio.conf
   archchroot genmkinitcpio
@@ -976,24 +918,20 @@ archgenmkinitcpiochroot(){
 }
 
 archinstallgrub(){
-  learn archinstallgrub
   clear
   pacstrap /mnt grub
   
-  if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "$txtinstallosprober" --defaultno 0 0) then
-    clear
-    pacstrap /mnt os-prober
-  fi
-  
-  if [ "$efimode" = "1" ]||[ "$efimode" = "2" ]; then
-    if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" 0 0) then
-      clear
-      pacstrap /mnt efibootmgr
-    fi
-  else
-    if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" --defaultno 0 0) then
-      clear
-      pacstrap /mnt efibootmgr
+  if [ "$eficomputer" == "1" ]; then
+    if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
+      if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" 0 0) then
+        clear
+        pacstrap /mnt efibootmgr
+      fi
+    else
+      if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" --defaultno 0 0) then
+        clear
+        pacstrap /mnt efibootmgr
+      fi
     fi
   fi
   
@@ -1013,8 +951,6 @@ archinstallgrubchroot(){
 }
 
 archinstallbootloader(){
-  learn archinstallbootloader
-  
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -1024,30 +960,36 @@ archinstallbootloader(){
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    options=()
-    if [ "$efimode" = "1" ]; then
-      options+=("EFI" "")
-      options+=("BIOS" "")
-      options+=("BIOS+EFI" "")
-    elif [ "$efimode" = "2" ]; then
-      options+=("BIOS+EFI" "")
-      options+=("BIOS" "")
-      options+=("EFI" "")
+    if [ "$eficomputer" == "1" ]; then
+      options=()
+      if [ "$efimode" = "1" ]; then
+        options+=("EFI" "")
+        options+=("BIOS" "")
+        options+=("BIOS+EFI" "")
+      elif [ "$efimode" = "2" ]; then
+        options+=("BIOS+EFI" "")
+        options+=("BIOS" "")
+        options+=("EFI" "")
+      else
+        options+=("BIOS" "")
+        options+=("EFI" "")
+        options+=("BIOS+EFI" "")
+      fi
+      sel=$(whiptail --backtitle "$apptitle" --title "${txtinstall//%1/bootloader}" --menu "" --cancel-button "Back" 0 0 0 \
+        "${options[@]}" \
+        3>&1 1>&2 2>&3)
+      if [ "$?" = "0" ]; then
+        clear
+        case $sel in
+          "BIOS") archchroot installbootloader $device;;
+          "EFI") archchroot installbootloaderefi $device;;
+          "BIOS+EFI") archchroot installbootloaderefiusb $device;;
+        esac
+        pressanykey
+      fi
     else
-      options+=("BIOS" "")
-      options+=("EFI" "")
-      options+=("BIOS+EFI" "")
-    fi
-    sel=$(whiptail --backtitle "$apptitle" --title "${txtinstall//%1/bootloader}" --menu "" --cancel-button "Back" 0 0 0 \
-      "${options[@]}" \
-      3>&1 1>&2 2>&3)
-    if [ "$?" = "0" ]; then
       clear
-      case $sel in
-        "BIOS") archchroot installbootloader $device;;
-        "EFI") archchroot installbootloaderefi $device;;
-        "BIOS+EFI") archchroot installbootloaderefiusb $device;;
-      esac
+      archchroot installbootloader $device
       pressanykey
     fi
   fi
@@ -1073,7 +1015,6 @@ archinstallbootloaderefiusbchroot(){
 }
 
 archenabledhcpcd(){
-  learn archenabledhcpcd
   if (whiptail --backtitle "$apptitle" --title "${txtenable//%1/dhcpcd}" --yesno "${txtenable//%1/dhcpcd} ?" 0 0) then
     clear
     archchroot enabledhcpcd
@@ -1127,8 +1068,6 @@ archdidownload(){
 }
 archdiinstallandlaunchchroot(){
   cd
-  #curl -L archdi.sourceforge.net/archdi >archdi
-  #curl -L matmoul.github.io/archdi >archdi >archdi
   archdidownload
   sh archdi -i
   archdi --chroot
@@ -1136,8 +1075,6 @@ archdiinstallandlaunchchroot(){
 }
 archdilaunchchroot(){
   cd
-  #curl -L archdi.sourceforge.net/archdi >archdi
-  #curl -L matmoul.github.io/archdi >archdi >archdi
   archdidownload
   sh archdi --chroot
   rm archdi
@@ -1145,8 +1082,6 @@ archdilaunchchroot(){
 }
 archdiinstallchroot(){
   cd
-  #curl -L archdi.sourceforge.net/archdi >archdi
-  #curl -L matmoul.github.io/archdi >archdi >archdi
   archdidownload
   sh archdi -i
   exit
@@ -1236,20 +1171,8 @@ loadstrings(){
   txtarchdiinstallandlaunch="Install and run archdi"
   txtarchdiinstall="Install archdi"
   txtarchdilaunch="Launch archdi"
-  
-  if [ "$learning" = "1" ]; then
-    eval $(curl -L $baseurl/learn/English | sed '/^#/ d')
-  fi
 }
 
-learn(){
-  if [ "$learning" = "1" ]; then
-    clear
-    eval 'echo -e ""${learn'"$1}"""
-    echo ""
-    pressanykey
-  fi
-}
 # --------------------------------------------------------
 
 
@@ -1259,7 +1182,7 @@ while (( "$#" )); do
   case $1 in
     -h|--help) help
                exit 0;;
-    -l|--learning) learning=1;;
+    -l|--learning) whiptail --backtitle "$apptitle" --title "" --msgbox "Sorry, learning mode will not be avaible\n\nToo hard to maintain." 0 0;;
     --chroot) chroot=1
               command=$2
               args=$3;;
