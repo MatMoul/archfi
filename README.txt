@@ -21,7 +21,3 @@ wget matmoul.github.io/archfi
 
 And launch the script :
 sh archfi
-
-as an alternative you can call :
-sh archfi -l
-with this argument you have a learning message for each operation.
