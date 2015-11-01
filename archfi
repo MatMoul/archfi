@@ -1320,6 +1320,7 @@ else
     efimode=1
   fi
   loadstrings
+  EDITOR=nano
   mainmenu
 fi
 
