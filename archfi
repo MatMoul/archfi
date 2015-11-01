@@ -604,8 +604,6 @@ formatdevice(){
 
 mountparts(){
   clear
-  echo "Mounting to /mnt ..."
-  echo "-----------------"
   echo "mount $rootdev /mnt"
   mount $rootdev /mnt
   echo "mkdir /mnt/{boot,home}"
@@ -910,10 +908,13 @@ archsettime(){
   clear
   echo "ln -sf /usr/share/zoneinfo/$timezone /mnt/etc/localtime"
   ln -sf /usr/share/zoneinfo/$timezone /mnt/etc/localtime
+  pressanykey
   
   if (whiptail --backtitle "$apptitle" --title "$txtsettime" --yesno "$txtuseutcclock" 0 0) then
+    clear
     archchroot settimeutc
   else
+    clear
     archchroot settimelocal
   fi
   
@@ -933,8 +934,6 @@ archsettimelocalchroot(){
 
 archsetrootpassword(){
   clear
-  echo "$txtsetrootpassword :"
-  echo ""
   archchroot setrootpassword
   pressanykey
 }
@@ -1122,7 +1121,11 @@ installarchdi(){
       case $sel in
         "$txtarchdiinstallandlaunch") archchroot archdiinstallandlaunch;;
         "$txtarchdilaunch") archchroot archdilaunch;;
-        "$txtarchdiinstall") archchroot archdiinstall;;
+        "$txtarchdiinstall")
+          clear
+          archchroot archdiinstall
+          pressanykey
+        ;;
       esac
     fi
   fi
@@ -1144,6 +1147,7 @@ archdidownload(){
       ;;
     esac
   fi
+  echo "curl -L $archdiurl >archdi"
   curl -L $archdiurl >archdi
 }
 archdiinstallandlaunchchroot(){
