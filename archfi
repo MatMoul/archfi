@@ -26,6 +26,7 @@ mainmenu(){
   options=()
   options+=("$txtlanguage" "")
   options+=("$txtsetkeymap" "(loadkeys ...)")
+  options+=("$txteditor" "")
   options+=("$txtdiskpartmenu" "")
   options+=("$txtselectpartsmenu" "")
   options+=("" "")
@@ -106,6 +107,23 @@ setkeymap(){
     clear
     echo "loadkeys $keymap"
     loadkeys $keymap
+    pressanykey
+  fi
+}
+
+chooseeditor(){
+  options=()
+  options+=("nano" "")
+  options+=("vim" "")
+  options+=("vi" "")
+  options+=("edit" "")
+  sel=$(whiptail --backtitle "$apptitle" --title "$txteditor" --menu "" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ "$?" = "0" ]; then
+    clear
+    echo "export EDITOR=$sel"
+    export EDITOR=$sel
     pressanykey
   fi
 }
@@ -644,7 +662,7 @@ installmenu(){
   if [ "$?" = "0" ]; then
     case $sel in
       "$txteditmirrorlist")
-        nano /etc/pacman.d/mirrorlist
+        $EDITOR /etc/pacman.d/mirrorlist
         nextitem="$txtinstallarchlinux"
       ;;
       "$txtinstallarchlinux")
@@ -762,11 +780,11 @@ archmenu(){
         nextitem="${txtinstall//%1/grub}"
       ;;
       "${txtedit//%1/fstab}")
-        nano /mnt/etc/fstab
+        $EDITOR /mnt/etc/fstab
         nextitem="${txtedit//%1/fstab}"
       ;;
       "${txtedit//%1/cryptotab}")
-        nano /mnt/etc/cryptotab
+        $EDITOR /mnt/etc/cryptotab
         nextitem="${txtedit//%1/cryptotab}"
       ;;
       "${txtedit//%1/mkinitcpio.conf}")
@@ -774,7 +792,7 @@ archmenu(){
         nextitem="${txtedit//%1/mkinitcpio.conf}"
       ;;
       "${txtedit//%1/mirrorlist}")
-        nano /mnt/etc/pacman.d/mirrorlist
+        $EDITOR /mnt/etc/pacman.d/mirrorlist
         nextitem="${txtedit//%1/mirrorlist}"
       ;;
       "${txtinstall//%1/grub}")
@@ -782,7 +800,7 @@ archmenu(){
         nextitem="${txtinstall//%1/bootloader}"
       ;;
       "${txtedit//%1/grub}")
-        nano /mnt/etc/default/grub
+        $EDITOR /mnt/etc/default/grub
         if (whiptail --backtitle "$apptitle" --title "${txtedit//%1/grub}" --yesno "$txtrungrubmakeconfig" 0 0) then
           clear
           archchroot installgrub
@@ -966,7 +984,7 @@ archgenmkinitcpio(){
 }
 
 archeditmkinitcpio(){
-  nano /mnt/etc/mkinitcpio.conf
+  $EDITOR /mnt/etc/mkinitcpio.conf
   if (whiptail --backtitle "$apptitle" --title "${txtedit//%1/mkinitcpio.conf}" --yesno "${txtgenerate//%1/mkinitcpio} ?" 0 0) then
     clear
     archchroot genmkinitcpio
@@ -1185,6 +1203,7 @@ loadstrings(){
   txtmainmenu="Main Menu"
   txtlanguage="Language"
   txtsetkeymap="Set Keyboard Layout"
+  txteditor="Editor"
   txtdiskpartmenu="Disk Partitions"
   txtselectpartsmenu="Select Partitions and Install"
   txthelp="Help"
