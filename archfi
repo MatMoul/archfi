@@ -571,16 +571,16 @@ formatdevice(){
       echo "$txtcreateluksdevice"
       echo "cryptsetup luksFormat $2"
       cryptsetup luksFormat $2
-      if [ ! "$?" = "0"];then
-        pressanykey
+      pressanykey
+      if [ ! "$?" = "0" ]; then
         return 0
       fi
       echo ""
       echo "$txtopenluksdevice"
       echo "cryptsetup luksOpen $2 $1"
       cryptsetup luksOpen $2 $1
-      if [ ! "$?" = "0"];then
-        pressanykey
+      pressanykey
+      if [ ! "$?" = "0" ]; then
         return 0
       fi
       options=()
