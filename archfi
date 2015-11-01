@@ -42,6 +42,10 @@ mainmenu(){
       ;;
       "$txtsetkeymap")
         setkeymap
+        nextitem="$txteditor"
+      ;;
+      "$txteditor")
+        chooseeditor
         nextitem="$txtdiskpartmenu"
       ;;
       "$txtdiskpartmenu")
