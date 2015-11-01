@@ -11,6 +11,7 @@ txtselectserver="Forrás szerver kiválasztása :"
 txtmainmenu="Főmenü"
 txtlanguage="Nyelv"
 txtsetkeymap="Billentyűzet kiosztás"
+txteditor="Szerkesztő" # From Google translate
 txtdiskpartmenu="Lemezek/Partíciók"
 txtselectpartsmenu="Partíciók kiválasztása és telepítés"
 txthelp="Súgó"
