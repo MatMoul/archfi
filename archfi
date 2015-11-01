@@ -573,7 +573,7 @@ formatdevice(){
       cryptsetup luksFormat $2
       if [ ! "$?" = "0" ]; then
         pressanykey
-        return 0
+        return 1
       fi
       pressanykey
       echo ""
@@ -582,7 +582,7 @@ formatdevice(){
       cryptsetup luksOpen $2 $1
       if [ ! "$?" = "0" ]; then
         pressanykey
-        return 0
+        return 1
       fi
       pressanykey
       options=()
