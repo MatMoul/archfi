@@ -104,9 +104,9 @@ setkeymap(){
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
-    #echo "loadkeys $keymap"
+    echo "loadkeys $keymap"
     loadkeys $keymap
-    #pressanykey
+    pressanykey
   fi
 }
 
@@ -469,10 +469,22 @@ formatbootdevice(){
   echo "${txtformatingpart//%1/$2} $sel"
   echo "----------------------------------------------"
   case $sel in
-    ext2) mkfs.ext2 $2;;
-    ext3) mkfs.ext3 $2;;
-    ext4) mkfs.ext4 $2;;
-    fat32) mkfs.fat $2;;
+    ext2)
+      echo "mkfs.ext2 $2"
+      mkfs.ext2 $2
+    ;;
+    ext3)
+      echo "mkfs.ext3 $2"
+      mkfs.ext3 $2
+    ;;
+    ext4)
+      echo "mkfs.ext4 $2"
+      mkfs.ext4 $2
+    ;;
+    fat32)
+      echo "mkfs.fat $2"
+      mkfs.fat $2
+    ;;
   esac
   echo ""
   pressanykey
@@ -481,6 +493,7 @@ formatswapdevice(){
   clear
   echo "${txtformatingpart//%1/$swapdev} swap"
   echo "----------------------------------------------"
+  echo "mkswap $swapdev"
   mkswap $swapdev
   echo ""
   pressanykey
@@ -507,18 +520,41 @@ formatdevice(){
   echo "${txtformatingpart//%1/$2} $sel"
   echo "----------------------------------------------"
   case $sel in
-    btrfs) mkfs.btrfs -f $2;;
-    reiserfs) mkfs.reiserfs -f $2;;
-    ext4) mkfs.ext4 $2;;
-    ext3) mkfs.ext3 $2;;
-    ext2) mkfs.ext2 $2;;
-    xfs) mkfs.xfs -f $2;;
-    jfs) mkfs.jfs -f $2;;
+    btrfs)
+      echo "mkfs.btrfs -f $2"
+      mkfs.btrfs -f $2
+    ;;
+    reiserfs)
+      echo "mkfs.reiserfs -f $2"
+      mkfs.reiserfs -f $2
+    ;;
+    ext4)
+      echo "mkfs.ext4 $2"
+      mkfs.ext4 $2
+    ;;
+    ext3)
+      echo "mkfs.ext3 $2"
+      mkfs.ext3 $2
+    ;;
+    ext2)
+      echo "mkfs.ext2 $2"
+      mkfs.ext2 $2
+    ;;
+    xfs)
+      echo "mkfs.xfs -f $2"
+      mkfs.xfs -f $2
+    ;;
+    jfs)
+      echo "mkfs.xfs -f $2"
+      mkfs.jfs -f $2
+    ;;
     luks)
       echo "$txtcreateluksdevice"
+      echo "cryptsetup luksFormat $2"
       cryptsetup luksFormat $2
       echo ""
       echo "$txtopenluksdevice"
+      echo "cryptsetup luksOpen $2 $1"
       cryptsetup luksOpen $2 $1
       options=()
       options+=("normal" "")
@@ -572,6 +608,7 @@ mountparts(){
   echo "-----------------"
   echo "mount $rootdev /mnt"
   mount $rootdev /mnt
+  echo "mkdir /mnt/{boot,home}"
   mkdir /mnt/{boot,home}
   if [ ! "$bootdev" = "" ]; then
     echo "mount $bootdev /mnt/boot"
@@ -629,7 +666,9 @@ installmenu(){
 
 installbase(){
   clear
+  echo "pacstrap /mnt base"
   pacstrap /mnt base
+  pressanykey
 }
 
 unmountdevices(){
@@ -771,17 +810,22 @@ archmenu(){
 }
 
 archchroot(){
+  echo "arch-chroot /mnt /root"
   cp $0 /mnt/root
   chmod 755 /mnt/root/$(basename "$0")
   arch-chroot /mnt /root/$(basename "$0") --chroot $1 $2
   rm /mnt/root/$(basename "$0")
+  echo "exit"
 }
 
 
 archsethostname(){
   hostname=$(whiptail --backtitle "$apptitle" --title "$txtsethostname" --inputbox "" 0 0 "localhost" 3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
+    clear
+    echo "echo \"$hostname\" > /mnt/etc/hostname"
     echo "$hostname" > /mnt/etc/hostname
+    pressanykey
   fi
 }
 
@@ -800,8 +844,11 @@ archsetkeymap(){
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
+    clear
+    echo "echo \"KEYMAP=$keymap\" > /mnt/etc/vconsole.conf"
     echo "KEYMAP=$keymap" > /mnt/etc/vconsole.conf
     #echo "FONT=lat9w-16" >> /mnt/etc/vconsole.conf
+    pressanykey
   fi
 }
 
@@ -816,13 +863,18 @@ archsetlocale(){
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
+    echo "echo \"LANG=$locale.UTF-8\" > /mnt/etc/locale.conf"
     echo "LANG=$locale.UTF-8" > /mnt/etc/locale.conf
+    echo "echo \"LC_COLLATE=C\" >> /mnt/etc/locale.conf"
     echo "LC_COLLATE=C" >> /mnt/etc/locale.conf
+    echo "sed -i '/'$locale'.UTF-8/s/^#//g' /mnt/etc/locale.gen"
     sed -i '/'$locale'.UTF-8/s/^#//g' /mnt/etc/locale.gen
     archchroot setlocale
+    pressanykey
   fi
 }
 archsetlocalechroot(){
+  echo "locale-gen"
   locale-gen
   exit
 }
@@ -855,22 +907,26 @@ archsettime(){
     return 1
   fi
   
+  clear
+  echo "ln -sf /usr/share/zoneinfo/$timezone /mnt/etc/localtime"
   ln -sf /usr/share/zoneinfo/$timezone /mnt/etc/localtime
   
   if (whiptail --backtitle "$apptitle" --title "$txtsettime" --yesno "$txtuseutcclock" 0 0) then
-    clear
     archchroot settimeutc
   else
-    clear
     archchroot settimelocal
   fi
   
+  pressanykey
+  
 }
 archsettimeutcchroot(){
+  echo "hwclock --systohc --utc"
   hwclock --systohc --utc
   exit
 }
 archsettimelocalchroot(){
+  echo "hwclock --systohc --localtime"
   hwclock --systohc --localtime
   exit
 }
@@ -883,22 +939,28 @@ archsetrootpassword(){
   pressanykey
 }
 archsetrootpasswordchroot(){
+  echo "passwd root"
   passwd root
   exit
 }
 
 archgenfstab(){
   clear
+  echo "genfstab -U -p /mnt >> /mnt/etc/fstab"
   genfstab -U -p /mnt >> /mnt/etc/fstab
+  pressanykey
 }
 
 archgencryptotab(){
   clear
+  echo "echo -e \"$crypttab\" >> /mnt/etc/crypttab"
   echo -e "$crypttab" >> /mnt/etc/crypttab
+  pressanykey
 }
 
 archgenmkinitcpio(){
   clear
+  echo "sed -i \"s/block filesystems/block encrypt filesystems/g\" /mnt/etc/mkinitcpio.conf"
   sed -i "s/block filesystems/block encrypt filesystems/g" /mnt/etc/mkinitcpio.conf
   archchroot genmkinitcpio
   pressanykey
@@ -913,24 +975,31 @@ archeditmkinitcpio(){
   fi
 }
 archgenmkinitcpiochroot(){
+  echo "mkinitcpio -p linux"
   mkinitcpio -p linux
   exit
 }
 
 archinstallgrub(){
   clear
+  echo "pacstrap /mnt grub"
   pacstrap /mnt grub
+  pressanykey
   
   if [ "$eficomputer" == "1" ]; then
     if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
       if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" 0 0) then
         clear
+        echo "pacstrap /mnt efibootmgr"
         pacstrap /mnt efibootmgr
+        pressanykey
       fi
     else
       if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" --defaultno 0 0) then
         clear
+        echo "pacstrap /mnt efibootmgr"
         pacstrap /mnt efibootmgr
+        pressanykey
       fi
     fi
   fi
@@ -938,14 +1007,18 @@ archinstallgrub(){
   if [ "$luksroot" = "1" ]; then
     if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "$txtgrubluksdetected" 0 0) then
       clear
+      echo "sed -i /GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\\\"cryptdevice=/dev/disk/by-uuid/$luksrootuuid:root\\\" /mnt/etc/default/grub"
       sed -i /GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\"cryptdevice=/dev/disk/by-uuid/$luksrootuuid:root\" /mnt/etc/default/grub
+      pressanykey
     fi
   fi
   
   clear
   archchroot installgrub
+  pressanykey
 }
 archinstallgrubchroot(){
+  echo "grub-mkconfig -o /boot/grub/grub.cfg"
   grub-mkconfig -o /boot/grub/grub.cfg
   exit
 }
@@ -996,19 +1069,23 @@ archinstallbootloader(){
 }
 archinstallbootloaderchroot(){
   if [ ! "$1" = "none" ]; then
+    echo "grub-install --target=i386-pc --recheck $1"
     grub-install --target=i386-pc --recheck $1
   fi
   exit
 }
 archinstallbootloaderefichroot(){
   if [ ! "$1" = "none" ]; then
+    echo "grub-install --target=x86_64-efi --efi-directory=/boot --recheck $1"
     grub-install --target=x86_64-efi --efi-directory=/boot --recheck $1
   fi
   exit
 }
 archinstallbootloaderefiusbchroot(){
   if [ ! "$1" = "none" ]; then
+    echo "grub-install --target=i386-pc --recheck $1"
     grub-install --target=i386-pc --recheck $1
+    echo "grub-install --target=x86_64-efi --efi-directory=/boot --removable --recheck $1"
     grub-install --target=x86_64-efi --efi-directory=/boot --removable --recheck $1
   fi
   exit
@@ -1018,9 +1095,11 @@ archenabledhcpcd(){
   if (whiptail --backtitle "$apptitle" --title "${txtenable//%1/dhcpcd}" --yesno "${txtenable//%1/dhcpcd} ?" 0 0) then
     clear
     archchroot enabledhcpcd
+    pressanykey
   fi
 }
 archenabledhcpcdchroot(){
+  echo "systemctl enable dhcpcd"
   systemctl enable dhcpcd
   exit
 }
@@ -1028,6 +1107,7 @@ archenabledhcpcdchroot(){
 installarchdi(){
   if(whiptail --backtitle "$apptitle" --title "archdi" --yesno "$txtinstallarchdi" 0 0) then
     clear
+    echo "pacstrap /mnt wget libnewt"
     pacstrap /mnt wget libnewt
   fi
   if [ "$?" = "0" ]; then
