@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2015.10.10.23.12.07 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2015.11.01.19.16.16 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -26,6 +26,7 @@ mainmenu(){
   options=()
   options+=("$txtlanguage" "")
   options+=("$txtsetkeymap" "(loadkeys ...)")
+  options+=("$txteditor" "")
   options+=("$txtdiskpartmenu" "")
   options+=("$txtselectpartsmenu" "")
   options+=("" "")
@@ -41,6 +42,10 @@ mainmenu(){
       ;;
       "$txtsetkeymap")
         setkeymap
+        nextitem="$txteditor"
+      ;;
+      "$txteditor")
+        chooseeditor
         nextitem="$txtdiskpartmenu"
       ;;
       "$txtdiskpartmenu")
@@ -104,9 +109,23 @@ setkeymap(){
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
-    #echo "loadkeys $keymap"
+    echo "loadkeys $keymap"
     loadkeys $keymap
-    #pressanykey
+    pressanykey
+  fi
+}
+
+chooseeditor(){
+  options=()
+  options+=("nano" "")
+  options+=("vim" "")
+  options+=("vi" "")
+  options+=("edit" "")
+  sel=$(whiptail --backtitle "$apptitle" --title "$txteditor" --menu "" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ "$?" = "0" ]; then
+    EDITOR=$sel
   fi
 }
 
@@ -469,10 +488,22 @@ formatbootdevice(){
   echo "${txtformatingpart//%1/$2} $sel"
   echo "----------------------------------------------"
   case $sel in
-    ext2) mkfs.ext2 $2;;
-    ext3) mkfs.ext3 $2;;
-    ext4) mkfs.ext4 $2;;
-    fat32) mkfs.fat $2;;
+    ext2)
+      echo "mkfs.ext2 $2"
+      mkfs.ext2 $2
+    ;;
+    ext3)
+      echo "mkfs.ext3 $2"
+      mkfs.ext3 $2
+    ;;
+    ext4)
+      echo "mkfs.ext4 $2"
+      mkfs.ext4 $2
+    ;;
+    fat32)
+      echo "mkfs.fat $2"
+      mkfs.fat $2
+    ;;
   esac
   echo ""
   pressanykey
@@ -481,6 +512,7 @@ formatswapdevice(){
   clear
   echo "${txtformatingpart//%1/$swapdev} swap"
   echo "----------------------------------------------"
+  echo "mkswap $swapdev"
   mkswap $swapdev
   echo ""
   pressanykey
@@ -507,19 +539,52 @@ formatdevice(){
   echo "${txtformatingpart//%1/$2} $sel"
   echo "----------------------------------------------"
   case $sel in
-    btrfs) mkfs.btrfs -f $2;;
-    reiserfs) mkfs.reiserfs -f $2;;
-    ext4) mkfs.ext4 $2;;
-    ext3) mkfs.ext3 $2;;
-    ext2) mkfs.ext2 $2;;
-    xfs) mkfs.xfs -f $2;;
-    jfs) mkfs.jfs -f $2;;
+    btrfs)
+      echo "mkfs.btrfs -f $2"
+      mkfs.btrfs -f $2
+    ;;
+    reiserfs)
+      echo "mkfs.reiserfs -f $2"
+      mkfs.reiserfs -f $2
+    ;;
+    ext4)
+      echo "mkfs.ext4 $2"
+      mkfs.ext4 $2
+    ;;
+    ext3)
+      echo "mkfs.ext3 $2"
+      mkfs.ext3 $2
+    ;;
+    ext2)
+      echo "mkfs.ext2 $2"
+      mkfs.ext2 $2
+    ;;
+    xfs)
+      echo "mkfs.xfs -f $2"
+      mkfs.xfs -f $2
+    ;;
+    jfs)
+      echo "mkfs.xfs -f $2"
+      mkfs.jfs -f $2
+    ;;
     luks)
       echo "$txtcreateluksdevice"
+      echo "cryptsetup luksFormat $2"
       cryptsetup luksFormat $2
+      if [ ! "$?" = "0" ]; then
+        pressanykey
+        return 1
+      fi
+      pressanykey
       echo ""
       echo "$txtopenluksdevice"
+      echo "cryptsetup luksOpen $2 $1"
       cryptsetup luksOpen $2 $1
+      if [ ! "$?" = "0" ]; then
+        pressanykey
+        return 1
+      fi
+      pressanykey
       options=()
       options+=("normal" "")
       options+=("fast" "")
@@ -568,11 +633,10 @@ formatdevice(){
 
 mountparts(){
   clear
-  echo "Mounting to /mnt ..."
-  echo "-----------------"
   echo "mount $rootdev /mnt"
   mount $rootdev /mnt
-  mkdir /mnt/{boot,home}
+  echo "mkdir /mnt/{boot,home}"
+  mkdir /mnt/{boot,home} 2>/dev/null
   if [ ! "$bootdev" = "" ]; then
     echo "mount $bootdev /mnt/boot"
     mount $bootdev /mnt/boot
@@ -609,7 +673,7 @@ installmenu(){
   if [ "$?" = "0" ]; then
     case $sel in
       "$txteditmirrorlist")
-        nano /etc/pacman.d/mirrorlist
+        $EDITOR /etc/pacman.d/mirrorlist
         nextitem="$txtinstallarchlinux"
       ;;
       "$txtinstallarchlinux")
@@ -629,7 +693,9 @@ installmenu(){
 
 installbase(){
   clear
+  echo "pacstrap /mnt base"
   pacstrap /mnt base
+  pressanykey
 }
 
 unmountdevices(){
@@ -725,11 +791,11 @@ archmenu(){
         nextitem="${txtinstall//%1/grub}"
       ;;
       "${txtedit//%1/fstab}")
-        nano /mnt/etc/fstab
+        $EDITOR /mnt/etc/fstab
         nextitem="${txtedit//%1/fstab}"
       ;;
       "${txtedit//%1/cryptotab}")
-        nano /mnt/etc/cryptotab
+        $EDITOR /mnt/etc/cryptotab
         nextitem="${txtedit//%1/cryptotab}"
       ;;
       "${txtedit//%1/mkinitcpio.conf}")
@@ -737,7 +803,7 @@ archmenu(){
         nextitem="${txtedit//%1/mkinitcpio.conf}"
       ;;
       "${txtedit//%1/mirrorlist}")
-        nano /mnt/etc/pacman.d/mirrorlist
+        $EDITOR /mnt/etc/pacman.d/mirrorlist
         nextitem="${txtedit//%1/mirrorlist}"
       ;;
       "${txtinstall//%1/grub}")
@@ -745,7 +811,7 @@ archmenu(){
         nextitem="${txtinstall//%1/bootloader}"
       ;;
       "${txtedit//%1/grub}")
-        nano /mnt/etc/default/grub
+        $EDITOR /mnt/etc/default/grub
         if (whiptail --backtitle "$apptitle" --title "${txtedit//%1/grub}" --yesno "$txtrungrubmakeconfig" 0 0) then
           clear
           archchroot installgrub
@@ -771,17 +837,22 @@ archmenu(){
 }
 
 archchroot(){
+  echo "arch-chroot /mnt /root"
   cp $0 /mnt/root
   chmod 755 /mnt/root/$(basename "$0")
   arch-chroot /mnt /root/$(basename "$0") --chroot $1 $2
   rm /mnt/root/$(basename "$0")
+  echo "exit"
 }
 
 
 archsethostname(){
   hostname=$(whiptail --backtitle "$apptitle" --title "$txtsethostname" --inputbox "" 0 0 "localhost" 3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
+    clear
+    echo "echo \"$hostname\" > /mnt/etc/hostname"
     echo "$hostname" > /mnt/etc/hostname
+    pressanykey
   fi
 }
 
@@ -800,8 +871,11 @@ archsetkeymap(){
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
+    clear
+    echo "echo \"KEYMAP=$keymap\" > /mnt/etc/vconsole.conf"
     echo "KEYMAP=$keymap" > /mnt/etc/vconsole.conf
     #echo "FONT=lat9w-16" >> /mnt/etc/vconsole.conf
+    pressanykey
   fi
 }
 
@@ -816,13 +890,18 @@ archsetlocale(){
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
+    echo "echo \"LANG=$locale.UTF-8\" > /mnt/etc/locale.conf"
     echo "LANG=$locale.UTF-8" > /mnt/etc/locale.conf
+    echo "echo \"LC_COLLATE=C\" >> /mnt/etc/locale.conf"
     echo "LC_COLLATE=C" >> /mnt/etc/locale.conf
+    echo "sed -i '/'$locale'.UTF-8/s/^#//g' /mnt/etc/locale.gen"
     sed -i '/'$locale'.UTF-8/s/^#//g' /mnt/etc/locale.gen
     archchroot setlocale
+    pressanykey
   fi
 }
 archsetlocalechroot(){
+  echo "locale-gen"
   locale-gen
   exit
 }
@@ -855,7 +934,10 @@ archsettime(){
     return 1
   fi
   
+  clear
+  echo "ln -sf /usr/share/zoneinfo/$timezone /mnt/etc/localtime"
   ln -sf /usr/share/zoneinfo/$timezone /mnt/etc/localtime
+  pressanykey
   
   if (whiptail --backtitle "$apptitle" --title "$txtsettime" --yesno "$txtuseutcclock" 0 0) then
     clear
@@ -865,47 +947,55 @@ archsettime(){
     archchroot settimelocal
   fi
   
+  pressanykey
+  
 }
 archsettimeutcchroot(){
+  echo "hwclock --systohc --utc"
   hwclock --systohc --utc
   exit
 }
 archsettimelocalchroot(){
+  echo "hwclock --systohc --localtime"
   hwclock --systohc --localtime
   exit
 }
 
 archsetrootpassword(){
   clear
-  echo "$txtsetrootpassword :"
-  echo ""
   archchroot setrootpassword
   pressanykey
 }
 archsetrootpasswordchroot(){
+  echo "passwd root"
   passwd root
   exit
 }
 
 archgenfstab(){
   clear
-  genfstab -U -p /mnt >> /mnt/etc/fstab
+  echo "genfstab -U -p /mnt > /mnt/etc/fstab"
+  genfstab -U -p /mnt > /mnt/etc/fstab
+  pressanykey
 }
 
 archgencryptotab(){
   clear
+  echo "echo -e \"$crypttab\" >> /mnt/etc/crypttab"
   echo -e "$crypttab" >> /mnt/etc/crypttab
+  pressanykey
 }
 
 archgenmkinitcpio(){
   clear
+  echo "sed -i \"s/block filesystems/block encrypt filesystems/g\" /mnt/etc/mkinitcpio.conf"
   sed -i "s/block filesystems/block encrypt filesystems/g" /mnt/etc/mkinitcpio.conf
   archchroot genmkinitcpio
   pressanykey
 }
 
 archeditmkinitcpio(){
-  nano /mnt/etc/mkinitcpio.conf
+  $EDITOR /mnt/etc/mkinitcpio.conf
   if (whiptail --backtitle "$apptitle" --title "${txtedit//%1/mkinitcpio.conf}" --yesno "${txtgenerate//%1/mkinitcpio} ?" 0 0) then
     clear
     archchroot genmkinitcpio
@@ -913,24 +1003,31 @@ archeditmkinitcpio(){
   fi
 }
 archgenmkinitcpiochroot(){
+  echo "mkinitcpio -p linux"
   mkinitcpio -p linux
   exit
 }
 
 archinstallgrub(){
   clear
+  echo "pacstrap /mnt grub"
   pacstrap /mnt grub
+  pressanykey
   
   if [ "$eficomputer" == "1" ]; then
     if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
       if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" 0 0) then
         clear
+        echo "pacstrap /mnt efibootmgr"
         pacstrap /mnt efibootmgr
+        pressanykey
       fi
     else
       if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" --defaultno 0 0) then
         clear
+        echo "pacstrap /mnt efibootmgr"
         pacstrap /mnt efibootmgr
+        pressanykey
       fi
     fi
   fi
@@ -938,14 +1035,18 @@ archinstallgrub(){
   if [ "$luksroot" = "1" ]; then
     if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "$txtgrubluksdetected" 0 0) then
       clear
+      echo "sed -i /GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\\\"cryptdevice=/dev/disk/by-uuid/$luksrootuuid:root\\\" /mnt/etc/default/grub"
       sed -i /GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\"cryptdevice=/dev/disk/by-uuid/$luksrootuuid:root\" /mnt/etc/default/grub
+      pressanykey
     fi
   fi
   
   clear
   archchroot installgrub
+  pressanykey
 }
 archinstallgrubchroot(){
+  echo "grub-mkconfig -o /boot/grub/grub.cfg"
   grub-mkconfig -o /boot/grub/grub.cfg
   exit
 }
@@ -996,19 +1097,23 @@ archinstallbootloader(){
 }
 archinstallbootloaderchroot(){
   if [ ! "$1" = "none" ]; then
+    echo "grub-install --target=i386-pc --recheck $1"
     grub-install --target=i386-pc --recheck $1
   fi
   exit
 }
 archinstallbootloaderefichroot(){
   if [ ! "$1" = "none" ]; then
+    echo "grub-install --target=x86_64-efi --efi-directory=/boot --recheck $1"
     grub-install --target=x86_64-efi --efi-directory=/boot --recheck $1
   fi
   exit
 }
 archinstallbootloaderefiusbchroot(){
   if [ ! "$1" = "none" ]; then
+    echo "grub-install --target=i386-pc --recheck $1"
     grub-install --target=i386-pc --recheck $1
+    echo "grub-install --target=x86_64-efi --efi-directory=/boot --removable --recheck $1"
     grub-install --target=x86_64-efi --efi-directory=/boot --removable --recheck $1
   fi
   exit
@@ -1018,9 +1123,11 @@ archenabledhcpcd(){
   if (whiptail --backtitle "$apptitle" --title "${txtenable//%1/dhcpcd}" --yesno "${txtenable//%1/dhcpcd} ?" 0 0) then
     clear
     archchroot enabledhcpcd
+    pressanykey
   fi
 }
 archenabledhcpcdchroot(){
+  echo "systemctl enable dhcpcd"
   systemctl enable dhcpcd
   exit
 }
@@ -1028,6 +1135,7 @@ archenabledhcpcdchroot(){
 installarchdi(){
   if(whiptail --backtitle "$apptitle" --title "archdi" --yesno "$txtinstallarchdi" 0 0) then
     clear
+    echo "pacstrap /mnt wget libnewt"
     pacstrap /mnt wget libnewt
   fi
   if [ "$?" = "0" ]; then
@@ -1042,7 +1150,11 @@ installarchdi(){
       case $sel in
         "$txtarchdiinstallandlaunch") archchroot archdiinstallandlaunch;;
         "$txtarchdilaunch") archchroot archdilaunch;;
-        "$txtarchdiinstall") archchroot archdiinstall;;
+        "$txtarchdiinstall")
+          clear
+          archchroot archdiinstall
+          pressanykey
+        ;;
       esac
     fi
   fi
@@ -1064,6 +1176,7 @@ archdidownload(){
       ;;
     esac
   fi
+  echo "curl -L $archdiurl >archdi"
   curl -L $archdiurl >archdi
 }
 archdiinstallandlaunchchroot(){
@@ -1101,6 +1214,7 @@ loadstrings(){
   txtmainmenu="Main Menu"
   txtlanguage="Language"
   txtsetkeymap="Set Keyboard Layout"
+  txteditor="Editor"
   txtdiskpartmenu="Disk Partitions"
   txtselectpartsmenu="Select Partitions and Install"
   txthelp="Help"
@@ -1216,6 +1330,7 @@ else
     efimode=1
   fi
   loadstrings
+  EDITOR=nano
   mainmenu
 fi
 
