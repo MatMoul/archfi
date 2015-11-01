@@ -607,7 +607,7 @@ mountparts(){
   echo "mount $rootdev /mnt"
   mount $rootdev /mnt
   echo "mkdir /mnt/{boot,home}"
-  mkdir /mnt/{boot,home}
+  mkdir /mnt/{boot,home} 2>/dev/null
   if [ ! "$bootdev" = "" ]; then
     echo "mount $bootdev /mnt/boot"
     mount $bootdev /mnt/boot
