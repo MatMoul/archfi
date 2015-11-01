@@ -945,8 +945,8 @@ archsetrootpasswordchroot(){
 
 archgenfstab(){
   clear
-  echo "genfstab -U -p /mnt >> /mnt/etc/fstab"
-  genfstab -U -p /mnt >> /mnt/etc/fstab
+  echo "genfstab -U -p /mnt > /mnt/etc/fstab"
+  genfstab -U -p /mnt > /mnt/etc/fstab
   pressanykey
 }
 
