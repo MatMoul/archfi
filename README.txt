@@ -15,7 +15,7 @@ How to use :
 Boot with the Arch Linux image : https://www.archlinux.org/download/
 
 Download the script :
-wget archfi.sourceforge.net/archfi
+wget archfi.sf.net/archfi
 or if sourceforge is down :
 wget matmoul.github.io/archfi
 
