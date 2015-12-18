@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2015.12.07.01.19.02 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2015.12.19.00.03.49 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -727,13 +727,13 @@ archmenu(){
   options+=("$txtsetrootpassword" "")
   options+=("${txtgenerate//%1/fstab}" "")
   if [ "$luksdrive" = "1" ]; then
-    options+=("${txtgenerate//%1/cryptotab}" "")
+    options+=("${txtgenerate//%1/crypttab}" "")
   fi
   if [ "$luksroot" = "1" ]; then
     options+=("${txtgenerate//%1/mkinitcpio.conf}" "(encrypt hooks)")
   fi
   options+=("${txtedit//%1/fstab}" "($txtoptional)")
-  options+=("${txtedit//%1/cryptotab}" "($txtoptional)")
+  options+=("${txtedit//%1/crypttab}" "($txtoptional)")
   options+=("${txtedit//%1/mkinitcpio.conf}" "($txtoptional)")
   options+=("${txtedit//%1/mirrorlist}" "($txtoptional)")
   options+=("${txtinstall//%1/grub}" "pacstrap grub (efibootmgr), grub-mkconfig")
@@ -769,7 +769,7 @@ archmenu(){
       "${txtgenerate//%1/fstab}")
         archgenfstab
         if [ "$luksdrive" = "1" ]; then
-          nextitem="${txtgenerate//%1/cryptotab}"
+          nextitem="${txtgenerate//%1/crypttab}"
         else
           if [ "$luksroot" = "1" ]; then
             nextitem="${txtgenerate//%1/mkinitcpio.conf}"
@@ -778,8 +778,8 @@ archmenu(){
           fi
         fi
       ;;
-      "${txtgenerate//%1/cryptotab}")
-        archgencryptotab
+      "${txtgenerate//%1/crypttab}")
+        archgencrypttab
         if [ "$luksroot" = "1" ]; then
           nextitem="${txtgenerate//%1/mkinitcpio.conf}"
         else
@@ -794,9 +794,9 @@ archmenu(){
         $EDITOR /mnt/etc/fstab
         nextitem="${txtedit//%1/fstab}"
       ;;
-      "${txtedit//%1/cryptotab}")
-        $EDITOR /mnt/etc/cryptotab
-        nextitem="${txtedit//%1/cryptotab}"
+      "${txtedit//%1/crypttab}")
+        $EDITOR /mnt/etc/crypttab
+        nextitem="${txtedit//%1/crypttab}"
       ;;
       "${txtedit//%1/mkinitcpio.conf}")
         archeditmkinitcpio
@@ -979,7 +979,7 @@ archgenfstab(){
   pressanykey
 }
 
-archgencryptotab(){
+archgencrypttab(){
   clear
   echo "echo -e \"$crypttab\" >> /mnt/etc/crypttab"
   echo -e "$crypttab" >> /mnt/etc/crypttab
