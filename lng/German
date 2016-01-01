@@ -1,0 +1,84 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : https://github.com/MatMoul/archfi
+# language   : German
+# translator : untergrundbiber (untergrundbiber@gmail.com)
+# notes      : Version 0.1
+
+
+txtselectserver="Wählen Sie einen Spiegelserver:"
+
+txtmainmenu="Hauptmenü"
+txtlanguage="Sprache"
+txtsetkeymap="Tastaturbelegung auswählen"
+txteditor="Editor"
+txtdiskpartmenu="Laufwerk partitionieren"
+txtselectpartsmenu="Partitionen zuweisen"
+txthelp="Hilfe"
+txtchangelog="Änderungsprotokoll"
+txtreboot="System neu starten"
+
+txtautoparts="Auto-Partitionierung"
+txteditparts="Partitionen bearbeiten"
+
+txtautopartsconfirm="Ausgewählte Laufwerk: %1\n\nAlle Daten werden gelöscht!\n\nFortfahren?"
+
+txtautopartclear="Alle Partitionsdaten löschen"
+txtautopartcreate="Erstelle %1 Partition"
+txthybridpartcreate="Erstelle hybriden MBR"
+txtautopartsettype="Setzte Partitionstyp auf %1 "
+
+txtselectdevice="%1 Partition auswählen:"
+txtselecteddevices="Ausgewählte Partitionen:"
+
+txtformatmountmenu="Formatieren und einbinden"
+txtformatdevices="Partitionen formatieren"
+txtformatdevice="Laufwerk formatieren"
+txtmount="Einbinden"
+txtmountdesc="Partitionen einbinden und Installation fortsetzen"
+
+txtformatdeviceconfirm="Warnung, werden alle Daten auf den ausgewählten Laufwerken werden gelöscht!\nLaufwerke wirklich formatieren?"
+
+txtselectpartformat="Partitionsformat für Laufwerk %1 wählen:"
+txtformatingpart="Formatiere Partition %1 als"
+txtcreateluksdevice="LUKS-Laufwerk erstellen:"
+txtopenluksdevice="LUKS-Laufwerk öffnen:"
+txtluksdevicecreated="LUKS-Laufwerk wurde erstellt!"
+
+txtinstallmenu="Installationsmenü"
+
+txtarchinstallmenu="Arch Installationsmenü"
+txtrungrubmakeconfig="grub-mkconfig ausführen?"
+
+txteditmirrorlist="Spiegelserver-Liste editieren"
+txtinstallarchlinux="Arch Linux installieren"
+txtconfigarchlinux="Arch Linux konfigurieren"
+
+txtsethostname="Computername ändern"
+txtsetlocale="Lokalisierung ändern"
+txtsettime="Uhrzeit ändern"
+txtsetrootpassword="Passwort von root ändern"
+
+txtuseutcclock="Hardwareuhr auf UTC stellen?"
+
+txtoptional="Optional"
+txtrecommandeasyinst="Empfohlen für eine einfache Installation"
+txtset="%1 einstellen"
+txtgenerate="Generiere %1"
+txtedit="%1 edieren"
+txtinstall="Installiere %1"
+txtenable="%1 aktivieren"
+
+txtgrubluksdetected="Verschlüsselte root-Partition!\n\nSoll cryptdevice= zur GRUB_CMDLINE_LINUX in /etc/default/grub hinzugefügt werden?"
+
+
+txtpressanykey="Drücken Sie eine beliebige Taste, um fortzufahren."
+
+txtinstallosprober="os-prober ist eine gute Lösung wenn Sie Mutli-Boot verwenden möchten.\nos-prober installieren?"
+txtefibootmgr="efibootmgr ist für EFI-Computer erforderlich."
+
+txtarchdidesc="Desktop-Installationsskript"
+txtinstallarchdi="Arch Linux Desktop Install (archdi) ist ein zweites Skript, das Ihnen helfen kann eine vollständige Desktopumgebung zu installieren.\n\nIm nächsten Menü können Sie wählen ob Sie das Skript nur starten oder ob Sie es installieren wollen.\n\nArch Linux Desktop Install hat zwei Abhängigkeiten: wget und libnewt.\n\nwget und libnewt jetzt installieren?"
+txtarchdiinstallandlaunch="Installieren und starten von archdi"
+txtarchdiinstall="archdi installieren"
+txtarchdilaunch="archdi starten"
