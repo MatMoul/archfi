@@ -80,6 +80,7 @@ chooselanguage(){
   options+=("English" "(By MatMoul)")
   options+=("French" "(By MatMoul)")
   options+=("Hungarian" "(By KardiWeb)")
+  options+=("German" "(By untergrundbiber)")
   sel=$(whiptail --backtitle "$apptitle" --title "$txtlanguage" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
