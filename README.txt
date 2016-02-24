@@ -9,7 +9,7 @@ At the end of this wizard, you can install or launch archdi (Arch Linux Destop I
 archdi project : https://github.com/MatMoul/archdi
 
 You can watch my videos to show how to use it :
-https://www.youtube.com/watch?v=-Ne4pYDqslc&list=PLytHgIKLV1caHlCrcTSkm5OF2WSVI1_Sq
+https://www.youtube.com/playlist?list=PLytHgIKLV1caHlCrcTSkm5OF2WSVI1_Sq
 
 How to use :
 Boot with the Arch Linux image : https://www.archlinux.org/download/
