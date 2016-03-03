@@ -5,6 +5,8 @@
 # translator : anonymous_prodject
 # notes      : alpha_test
 
+setfont cyr-sun16
+
 
 txtselectserver="Выберите сервер исходников :"
 
