@@ -78,6 +78,7 @@ mainmenu(){
 chooselanguage(){
   options=()
   options+=("English" "(By MatMoul)")
+  options+=("Russian" "(By Anonymous_Prodject)")
   options+=("French" "(By MatMoul)")
   options+=("German" "(By untergrundbiber)")
   options+=("Hungarian" "(By KardiWeb)")
