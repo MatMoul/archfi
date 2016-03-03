@@ -90,6 +90,9 @@ chooselanguage(){
     if [ "$sel" = "English" ]; then
       loadstrings
     else
+      case $sel in
+        "Russian") eval $(setfont cyr-sun16);;
+      esac
       eval $(curl -L $baseurl/lng/$sel | sed '/^#/ d')
     fi
   fi
