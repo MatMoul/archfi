@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2016.03.03.22.37.09 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2016.03.05.23.05.12 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -90,11 +90,13 @@ chooselanguage(){
     if [ "$sel" = "English" ]; then
       loadstrings
     else
-      case $sel in
-        "Russian") eval $(setfont cyr-sun16);;
-      esac
       eval $(curl -L $baseurl/lng/$sel | sed '/^#/ d')
     fi
+    eval $(setfont $font)
+    font=
+    sed -i "/$locale.UTF-8/s/^#//g" /etc/locale.gen
+    locale-gen
+    export LANG=$locale
   fi
 }
 
