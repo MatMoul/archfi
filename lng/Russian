@@ -6,6 +6,10 @@
 # notes      : v.1.1
 
 
+locale=ru_RU.UTF-8
+font=cyr-sun16
+
+
 txtselectserver="Выберите сервер исходников :"
 
 txtmainmenu="Главное меню"

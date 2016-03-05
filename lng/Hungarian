@@ -6,6 +6,10 @@
 # notes      : Fejlesztés alatt!
 
 
+locale=hu_HU.UTF-8
+#font=
+
+
 txtselectserver="Forrás szerver kiválasztása :"
   
 txtmainmenu="Főmenü"

@@ -6,6 +6,10 @@
 # notes      : Version 0.1
 
 
+locale=de_DE.UTF-8
+#font=
+
+
 txtselectserver="Wählen Sie einen Spiegelserver:"
 
 txtmainmenu="Hauptmenü"

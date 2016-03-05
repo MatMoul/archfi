@@ -6,6 +6,10 @@
 # notes      : misc text...
 
 
+locale=fr_FR.UTF-8
+#font=
+
+
 txtselectserver="Sélectionnez le serveur source :"
 
 txtmainmenu="Menu Principal"
