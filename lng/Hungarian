@@ -7,7 +7,7 @@
 
 
 locale=hu_HU.UTF-8
-#font=
+font=lat2-16
 
 
 txtselectserver="Forrás szerver kiválasztása :"
@@ -15,7 +15,7 @@ txtselectserver="Forrás szerver kiválasztása :"
 txtmainmenu="Főmenü"
 txtlanguage="Nyelv"
 txtsetkeymap="Billentyűzet kiosztás"
-txteditor="Szerkesztő" # From Google translate
+txteditor="Szerkesztő"
 txtdiskpartmenu="Lemezek/Partíciók"
 txtselectpartsmenu="Partíciók kiválasztása és telepítés"
 txthelp="Súgó"

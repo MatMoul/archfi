@@ -94,8 +94,10 @@ chooselanguage(){
     fi
     eval $(setfont $font)
     font=
-    sed -i "/$locale.UTF-8/s/^#//g" /etc/locale.gen
-    locale-gen
+    if [ "$(cat /etc/locale.gen | grep ""#$locale"")" != "" ]; then
+      sed -i "/$locale/s/^#//g" /etc/locale.gen
+      locale-gen
+    fi
     export LANG=$locale
   fi
 }
@@ -1216,6 +1218,10 @@ pressanykey(){
 }
 
 loadstrings(){
+  
+  locale=en_US.UTF-8
+  #font=
+  
   txtselectserver="Select source server :"
   
   txtmainmenu="Main Menu"
