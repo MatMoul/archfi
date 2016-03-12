@@ -762,7 +762,7 @@ archmenu(){
       ;;
       "$txtsetkeymap")
         archsetkeymap
-        nextitem="$txtsetfont"
+        nextitem="$txtsetlocale"
       ;;
       "$txtsetfont")
         archsetfont
