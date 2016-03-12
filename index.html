@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2016.03.05.23.07.45 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2016.03.12.18.04.17 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -94,8 +94,10 @@ chooselanguage(){
     fi
     eval $(setfont $font)
     font=
-    sed -i "/$locale.UTF-8/s/^#//g" /etc/locale.gen
-    locale-gen
+    if [ "$(cat /etc/locale.gen | grep ""#$locale"")" != "" ]; then
+      sed -i "/$locale/s/^#//g" /etc/locale.gen
+      locale-gen
+    fi
     export LANG=$locale
   fi
 }
@@ -1216,6 +1218,10 @@ pressanykey(){
 }
 
 loadstrings(){
+  
+  locale=en_US.UTF-8
+  #font=
+  
   txtselectserver="Select source server :"
   
   txtmainmenu="Main Menu"
