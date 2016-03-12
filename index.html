@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2016.03.12.18.04.17 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2016.03.12.18.58.56 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -731,6 +731,7 @@ archmenu(){
   options=()
   options+=("$txtsethostname" "/etc/hostname")
   options+=("$txtsetkeymap" "/etc/vconsole.conf")
+  options+=("$txtsetfont" "/etc/vconsole.conf ($txtoptional)")
   options+=("$txtsetlocale" "/etc/locale.conf, /etc/locale.gen")
   options+=("$txtsettime" "/etc/localtime")
   options+=("$txtsetrootpassword" "")
@@ -761,6 +762,10 @@ archmenu(){
       ;;
       "$txtsetkeymap")
         archsetkeymap
+        nextitem="$txtsetfont"
+      ;;
+      "$txtsetfont")
+        archsetfont
         nextitem="$txtsetlocale"
       ;;
       "$txtsetlocale")
@@ -883,7 +888,24 @@ archsetkeymap(){
     clear
     echo "echo \"KEYMAP=$keymap\" > /mnt/etc/vconsole.conf"
     echo "KEYMAP=$keymap" > /mnt/etc/vconsole.conf
-    #echo "FONT=lat9w-16" >> /mnt/etc/vconsole.conf
+    pressanykey
+  fi
+}
+
+archsetfont(){
+  items=$(find /usr/share/kbd/consolefonts/*.psfu.gz -printf "%f\n")
+  
+  options=()
+  for item in $items; do
+    options+=("${item%%.*}" "")
+  done
+  vcfont=$(whiptail --backtitle "$apptitle" --title "$txtsetfont ($txtoptional)" --menu "" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ "$?" = "0" ]; then
+    clear
+    echo "echo \"FONT=$vcfont\" >> /mnt/etc/vconsole.conf"
+    echo "FONT=$vcfont" >> /mnt/etc/vconsole.conf
     pressanykey
   fi
 }
@@ -1271,6 +1293,7 @@ loadstrings(){
   txtconfigarchlinux="Config Arch Linux"
 
   txtsethostname="Set Computer Name"
+  txtsetfont="Set Font"
   txtsetlocale="Set Locale"
   txtsettime="Set Time"
   txtsetrootpassword="Set root password"
