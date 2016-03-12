@@ -59,6 +59,7 @@ txtinstallarchlinux="Installer Arch Linux"
 txtconfigarchlinux="Configurer Arch Linux"
 
 txtsethostname="Définir le nom de l'ordinateur"
+txtsetfont="Définir Font"
 txtsetlocale="Définir Locale"
 txtsettime="Définir l'horloge"
 txtsetrootpassword="Définir le mot de passe root"
