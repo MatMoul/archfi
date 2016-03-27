@@ -6,6 +6,10 @@
 # notes      : Version 0.1 (pending correction)
 
 
+locale=es_ES.UTF-8
+#font=
+
+
 txtselectserver="Seleccione el servidor de fuentes"
 
 txtmainmenu="Menú Principal"
