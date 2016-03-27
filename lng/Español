@@ -1,0 +1,84 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : https://github.com/MatMoul/archfi
+# language   : Español
+# translator : Mystogab (gabriel.desimone@mail.com)
+# notes      : Version 0.1 (pending correction)
+
+
+txtselectserver="Seleccione el servidor de fuentes"
+
+txtmainmenu="Menú Principal"
+txtlanguage="Lenguaje"
+txtsetkeymap="Disposición del teclado"
+txteditor="Editor"
+txtdiskpartmenu="Particionado de disco"
+txtselectpartsmenu="Seleccionar particiones e instalar"
+txthelp="Ayuda"
+txtchangelog="Registro de cambios"
+txtreboot="Reiniciar"
+
+txtautoparts="Particionado automático"
+txteditparts="Editar particiones"
+
+txtautopartsconfirm="Elija unidad: %1\n\n¡Todos los datos serán eliminados! \n\n¿Continuar?"
+
+txtautopartclear="Borrar todas los datos en particiones"
+txtautopartcreate="Crear la partición %1"
+txthybridpartcreate="Definir el MBR como híbrido"
+txtautopartsettype="Definir tipo de particion para %1"
+
+txtselectdevice="Seleccionar el dispositivo %1 :"
+txtselecteddevices="Dispositivos seleccionados:"
+
+txtformatmountmenu="Formatear y montar"
+txtformatdevices="Formatear las particiones"
+txtformatdevice="Formatear una particion"
+txtmount="Montar"
+txtmountdesc="Installación o Configuración"
+
+txtformatdeviceconfirm="¡Atención!, todos los datos en las particiones seleccionadas serán eliminados \n¿Formatear las particiones?"
+
+txtselectpartformat="Seleccionar sistema de archivos para %1 :"
+txtformatingpart="Formateando partición %1 como"
+txtcreateluksdevice="Crear partición de bloqueo:"
+txtopenluksdevice="Abrir partición de bloqueo:"
+txtluksdevicecreated="¡La partición de bloqueo ha sido creada!"
+
+txtinstallmenu="Menú de Instalación"
+
+txtarchinstallmenu="Menú de instalación de Arch"
+txtrungrubmakeconfig="¿Ejecutar grub-mkconfig?"
+
+txteditmirrorlist="Editar lista de mirrors"
+txtinstallarchlinux="Instalar Arch Linux"
+txtconfigarchlinux="Configurar Arch Linux"
+
+txtsethostname="Definir el nombre de la computadora"
+txtsetlocale="Definir localisación"
+txtsettime="Definir la hora"
+txtsetrootpassword="Definir la contraseña de root"
+
+txtuseutcclock="¿Definir el reloj de hw en UTC?"
+
+txtoptional="Opcional"
+txtrecommandeasyinst="Recomendado para instalación fácil"
+txtset="Definir %1"
+txtgenerate="Generar %1"
+txtedit="Editar %1"
+txtinstall="Instalar %1"
+txtenable="Activar %1"
+
+txtgrubluksdetected="Partición root encriptada\n\n¿ Agregar cryptdevice= a GRUB_CMDLINE_LINUX en /etc/default/grub ?"
+
+
+txtpressanykey="Presione una tecla para contnuar."
+
+txtinstallosprober="Os-prober es una buena opción si querés usar multi booteo.\n¿Instalar os-prober?"
+txtefibootmgr="efibootmgr es requerido por sistemas EFI."
+
+txtarchdidesc="Instalación completa de Escritorio"
+txtinstallarchdi="Arch Linux Desktop Install (archdi) es un script secundario que puede ayudarte a instalar una estación de trabajo funcional.\n\nPodés ejecutar el script o instalarlo. Elije en el siguiente menú\n\nArch Linux Desktop Install posee 2 dependencias : wget y libnewt.\n\npacstrap wget libnewt ?"
+txtarchdiinstallandlaunch="Instalar y ejecutar archdi"
+txtarchdiinstall="Instalar archdi"
+txtarchdilaunch="Ejecutar archdi"
