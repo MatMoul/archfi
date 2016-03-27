@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2016.03.27.21.42.05 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2016.03.28.01.47.34 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -31,7 +31,7 @@ mainmenu(){
   options+=("$txtselectpartsmenu" "")
   options+=("" "")
   options+=("$txtreboot" "")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtmainmenu" --menu "" --cancel-button "Exit" --default-item "$nextitem" 0 0 0 \
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtmainmenu" --menu "" --cancel-button "$txtexit" --default-item "$nextitem" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
@@ -168,7 +168,7 @@ diskpartmenu(){
   fi
   options+=("$txteditparts (cfdisk)" "")
   options+=("$txteditparts (cgdisk)" "")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtdiskpartmenu" --menu "" --cancel-button "Back" --default-item "$nextitem" 0 0 0 \
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtdiskpartmenu" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
@@ -444,7 +444,7 @@ mountmenu(){
   options=()
   options+=("$txtformatdevices" "")
   options+=("$txtmount" "$txtmountdesc")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtformatmountmenu" --menu "" --cancel-button "Back" --default-item "$nextitem" 0 0 0 \
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtformatmountmenu" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
@@ -598,7 +598,7 @@ formatdevice(){
       options=()
       options+=("normal" "")
       options+=("fast" "")
-      sel=$(whiptail --backtitle "$apptitle" --title "$txtformatdevice" --menu "Wipe device ?" --cancel-button="Ignore" 0 0 0 \
+      sel=$(whiptail --backtitle "$apptitle" --title "$txtformatdevice" --menu "Wipe device ?" --cancel-button="$txtignore" 0 0 0 \
         "${options[@]}" \
         3>&1 1>&2 2>&3)
       if [ "$?" = "0" ]; then
@@ -677,7 +677,7 @@ installmenu(){
   options+=("$txteditmirrorlist" "($txtoptional)")
   options+=("$txtinstallarchlinux" "pacstrap base")
   options+=("$txtconfigarchlinux" "")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtinstallmenu" --menu "" --cancel-button "Unmount" --default-item "$nextitem" 0 0 0 \
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtinstallmenu" --menu "" --cancel-button "$txtunmount" --default-item "$nextitem" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
@@ -752,7 +752,7 @@ archmenu(){
   options+=("${txtinstall//%1/bootloader}" "grub-install")
   options+=("${txtenable//%1/dhcpcd}" "systemctl enable dhcpd")
   options+=("archdi" "$txtarchdidesc")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtarchinstallmenu" --menu "" --cancel-button "Back" --default-item "$nextitem" 0 0 0 \
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtarchinstallmenu" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
@@ -1108,7 +1108,7 @@ archinstallbootloader(){
         options+=("EFI" "")
         options+=("BIOS+EFI" "")
       fi
-      sel=$(whiptail --backtitle "$apptitle" --title "${txtinstall//%1/bootloader}" --menu "" --cancel-button "Back" 0 0 0 \
+      sel=$(whiptail --backtitle "$apptitle" --title "${txtinstall//%1/bootloader}" --menu "" --cancel-button "$txtback" 0 0 0 \
         "${options[@]}" \
         3>&1 1>&2 2>&3)
       if [ "$?" = "0" ]; then
@@ -1175,7 +1175,7 @@ installarchdi(){
     options+=("$txtarchdiinstallandlaunch" "")
     options+=("$txtarchdilaunch" "")
     options+=("$txtarchdiinstall" "")
-    sel=$(whiptail --backtitle "$apptitle" --title "$txtarchdimenu" --menu "" --cancel-button "Back" 0 0 0 \
+    sel=$(whiptail --backtitle "$apptitle" --title "$txtarchdimenu" --menu "" --cancel-button "$txtback" 0 0 0 \
       "${options[@]}" \
       3>&1 1>&2 2>&3)
     if [ "$?" = "0" ]; then
@@ -1195,7 +1195,7 @@ archdidownload(){
   options=()
   options+=("sourceforge.net" "recommended")
   options+=("github.com" "")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtselectserver" --menu "" --cancel-button "Back" 0 0 0 \
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtselectserver" --menu "" --cancel-button "$txtback" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
@@ -1245,6 +1245,10 @@ loadstrings(){
   locale=en_US.UTF-8
   #font=
   
+  txtexit="Exit"
+  txtback="Back"
+  txtignore="Ignore"
+  
   txtselectserver="Select source server :"
   
   txtmainmenu="Main Menu"
@@ -1274,6 +1278,7 @@ loadstrings(){
   txtformatdevices="Format Devices"
   txtformatdevice="Format Device"
   txtmount="Mount"
+  txtunmount="Unmount"
   txtmountdesc="Install or Config"
 
   txtformatdeviceconfirm="Warning, all data on selected devices will be erased ! \nFormat devices ?"
