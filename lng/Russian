@@ -10,6 +10,10 @@ locale=ru_RU.UTF-8
 font=cyr-sun16
 
 
+txtexit="Exit"
+txtback="Back"
+txtignore="Ignore"
+
 txtselectserver="Выберите сервер исходников :"
 
 txtmainmenu="Главное меню"
@@ -39,6 +43,7 @@ txtformatmountmenu="Форматирование и монтирование"
 txtformatdevices="Форматирование разделов"
 txtformatdevice="Форматирование раздела"
 txtmount="Монтирование"
+txtunmount="Unmount"
 txtmountdesc="Установка или настройка"
 
 txtformatdeviceconfirm="Внимание, все данные на выбранных разделах будут удалены ! \nФорматировать разделы ?"

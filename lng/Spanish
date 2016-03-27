@@ -10,6 +10,10 @@ locale=es_ES.UTF-8
 #font=
 
 
+txtexit="Exit"
+txtback="Back"
+txtignore="Ignore"
+
 txtselectserver="Seleccione el servidor de fuentes"
 
 txtmainmenu="Menú Principal"
@@ -39,6 +43,7 @@ txtformatmountmenu="Formatear y montar"
 txtformatdevices="Formatear las particiones"
 txtformatdevice="Formatear una particion"
 txtmount="Montar"
+txtunmount="Unmount"
 txtmountdesc="Installación o Configuración"
 
 txtformatdeviceconfirm="¡Atención!, todos los datos en las particiones seleccionadas serán eliminados \n¿Formatear las particiones?"

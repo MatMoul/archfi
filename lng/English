@@ -1,0 +1,94 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : https://github.com/MatMoul/archfi
+# language   : English
+# translator : matmoul (pseudo, name or e-mail.)
+# notes      : misc text...
+
+
+locale=en_US.UTF-8
+#font=
+
+
+txtexit="Exit"
+txtback="Back"
+txtignore="Ignore"
+
+txtselectserver="Select source server :"
+
+txtmainmenu="Main Menu"
+txtlanguage="Language"
+txtsetkeymap="Set Keyboard Layout"
+txteditor="Editor"
+txtdiskpartmenu="Disk Partitions"
+txtselectpartsmenu="Select Partitions and Install"
+txthelp="Help"
+txtchangelog="Changelog"
+txtreboot="Reboot"
+
+txtautoparts="Auto Partitions"
+txteditparts="Edit Partitions"
+
+txtautopartsconfirm="Selected device : %1\n\nAll data will be erased ! \n\nContinue ?"
+
+txtautopartclear="Clear all partition data"
+txtautopartcreate="Create %1 partition"
+txthybridpartcreate="Set hybrid MBR"
+txtautopartsettype="Set %1 partition type"
+
+txtselectdevice="Select %1 device :"
+txtselecteddevices="Selected devices :"
+
+txtformatmountmenu="Format and Mount"
+txtformatdevices="Format Devices"
+txtformatdevice="Format Device"
+txtmount="Mount"
+txtunmount="Unmount"
+txtmountdesc="Install or Config"
+
+txtformatdeviceconfirm="Warning, all data on selected devices will be erased ! \nFormat devices ?"
+
+txtselectpartformat="Select partition format for %1 :"
+txtformatingpart="Formatting partition %1 as"
+txtcreateluksdevice="Create luks device :"
+txtopenluksdevice="Open luks device :"
+txtluksdevicecreated="luks device created !"
+
+txtinstallmenu="Install Menu"
+
+txtarchinstallmenu="Arch Install Menu"
+txtrungrubmakeconfig="Run grub-mkconfig ?"
+
+txteditmirrorlist="Edit mirrorlist"
+txtinstallarchlinux="Install Arch Linux"
+txtconfigarchlinux="Config Arch Linux"
+
+txtsethostname="Set Computer Name"
+txtsetfont="Set Font"
+txtsetlocale="Set Locale"
+txtsettime="Set Time"
+txtsetrootpassword="Set root password"
+
+txtuseutcclock="Use UTC hardware clock ?"
+
+txtoptional="Optional"
+txtrecommandeasyinst="Recommanded for easy install"
+txtset="Set %1"
+txtgenerate="Generate %1"
+txtedit="Edit %1"
+txtinstall="Install %1"
+txtenable="Enable %1"
+
+txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
+
+
+txtpressanykey="Press any key to continue."
+
+txtinstallosprober="os-prober is a good solution if you want to use mutli-boot.\nInstall os-prober ?"
+txtefibootmgr="efibootmgr is required for efi computer."
+
+txtarchdidesc="Full desktop install script"
+txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
+txtarchdiinstallandlaunch="Install and run archdi"
+txtarchdiinstall="Install archdi"
+txtarchdilaunch="Launch archdi"

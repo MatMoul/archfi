@@ -7,8 +7,12 @@
 
 
 locale=fr_FR.UTF-8
-#font=
+font=lat1-16
 
+
+txtexit="Quitter"
+txtback="Retour"
+txtignore="Ignorer"
 
 txtselectserver="Sélectionnez le serveur source :"
 
@@ -39,6 +43,7 @@ txtformatmountmenu="Formatter et Monter"
 txtformatdevices="Formatter les partitions"
 txtformatdevice="Formatter une partition"
 txtmount="Monter"
+txtunmount="Démonter"
 txtmountdesc="Installation ou Configuration"
 
 txtformatdeviceconfirm="Attention, toutes les données sur les partitions sélectionnées vont être effacées ! \nFormatter les partitions ?"
