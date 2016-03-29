@@ -24,7 +24,7 @@ mainmenu(){
     nextitem=$1
   fi
   options=()
-  options+=("$txtlanguage" "")
+  options+=("$txtlanguage" "Language")
   options+=("$txtsetkeymap" "(loadkeys ...)")
   options+=("$txteditor" "")
   options+=("$txtdiskpartmenu" "")
