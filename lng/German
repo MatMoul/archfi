@@ -10,16 +10,16 @@ locale=de_DE.UTF-8
 #font=
 
 
-txtexit="Exit"
-txtback="Back"
-txtignore="Ignore"
+#txtexit="Exit"
+#txtback="Back"
+#txtignore="Ignore"
 
 txtselectserver="Wählen Sie einen Spiegelserver:"
 
 txtmainmenu="Hauptmenü"
 txtlanguage="Sprache"
 txtsetkeymap="Tastaturbelegung auswählen"
-txteditor="Editor"
+#txteditor="Editor"
 txtdiskpartmenu="Laufwerk partitionieren"
 txtselectpartsmenu="Partitionen zuweisen"
 txthelp="Hilfe"
@@ -43,7 +43,7 @@ txtformatmountmenu="Formatieren und einbinden"
 txtformatdevices="Partitionen formatieren"
 txtformatdevice="Laufwerk formatieren"
 txtmount="Einbinden"
-txtunmount="Unmount"
+3txtunmount="Unmount"
 txtmountdesc="Partitionen einbinden und Installation fortsetzen"
 
 txtformatdeviceconfirm="Warnung, werden alle Daten auf den ausgewählten Laufwerken werden gelöscht!\nLaufwerke wirklich formatieren?"

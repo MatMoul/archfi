@@ -10,9 +10,9 @@ locale=hu_HU.UTF-8
 font=lat2-16
 
 
-txtexit="Exit"
-txtback="Back"
-txtignore="Ignore"
+#txtexit="Exit"
+#txtback="Back"
+#txtignore="Ignore"
 
 txtselectserver="Forrás szerver kiválasztása :"
   
@@ -43,7 +43,7 @@ txtformatmountmenu="Formázás és Csatolás"
 txtformatdevices="Lemezek formázása"
 txtformatdevice="Lemez formázása"
 txtmount="Csatolás"
-txtunmount="Unmount"
+#txtunmount="Unmount"
 txtmountdesc="Telepítés vagy Beállítás"
 
 txtformatdeviceconfirm="Figyelem! Minden partíció és adat el fog veszni a lemezről ! \nFormázzuk a lemezeket ?"
