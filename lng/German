@@ -43,7 +43,7 @@ txtformatmountmenu="Formatieren und einbinden"
 txtformatdevices="Partitionen formatieren"
 txtformatdevice="Laufwerk formatieren"
 txtmount="Einbinden"
-3txtunmount="Unmount"
+#txtunmount="Unmount"
 txtmountdesc="Partitionen einbinden und Installation fortsetzen"
 
 txtformatdeviceconfirm="Warnung, werden alle Daten auf den ausgewählten Laufwerken werden gelöscht!\nLaufwerke wirklich formatieren?"
