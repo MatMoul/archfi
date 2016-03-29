@@ -3,16 +3,16 @@
 # project    : https://github.com/MatMoul/archfi
 # language   : Español
 # translator : Mystogab (gabriel.desimone@mail.com)
-# notes      : Version 0.1 (pending correction)
+# notes      : Version 0.2 (pending correction/updated for new language strings)
 
 
 locale=es_ES.UTF-8
 #font=
 
 
-txtexit="Exit"
-txtback="Back"
-txtignore="Ignore"
+txtexit="Salir"
+txtback="Atrás"
+txtignore="Ignorar"
 
 txtselectserver="Seleccione el servidor de fuentes"
 
@@ -43,7 +43,7 @@ txtformatmountmenu="Formatear y montar"
 txtformatdevices="Formatear las particiones"
 txtformatdevice="Formatear una particion"
 txtmount="Montar"
-txtunmount="Unmount"
+txtunmount="Desmontar"
 txtmountdesc="Installación o Configuración"
 
 txtformatdeviceconfirm="¡Atención!, todos los datos en las particiones seleccionadas serán eliminados \n¿Formatear las particiones?"
