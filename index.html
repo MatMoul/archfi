@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2016.03.28.01.47.34 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2016.03.29.23.24.03 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -24,7 +24,7 @@ mainmenu(){
     nextitem=$1
   fi
   options=()
-  options+=("$txtlanguage" "")
+  options+=("$txtlanguage" "Language")
   options+=("$txtsetkeymap" "(loadkeys ...)")
   options+=("$txteditor" "")
   options+=("$txtdiskpartmenu" "")
@@ -81,6 +81,7 @@ chooselanguage(){
   options+=("French" "(By MatMoul)")
   options+=("German" "(By untergrundbiber)")
   options+=("Hungarian" "(By KardiWeb)")
+  options+=("Polish" "(By dawidd6)")
   options+=("Russian" "(By Anonymous_Prodject)")
   options+=("Spanish" "(By Mystogab)")
   sel=$(whiptail --backtitle "$apptitle" --title "$txtlanguage" --menu "" 0 0 0 \
