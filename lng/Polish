@@ -7,7 +7,7 @@
 
 
 locale=pl_PL.UTF-8
-#font=
+font=lat2-16
 
 
 txtexit="Wyjdź"
