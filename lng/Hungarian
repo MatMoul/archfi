@@ -2,7 +2,7 @@
 # --------------------------------
 # project    : https://github.com/MatMoul/archfi
 # language   : Hungarian
-# translator : KardiWeb (kardiweb@fedoraproject.org)
+# translator : Laszlo Espadas (kardiweb@fedoraproject.org)
 # notes      : Fejlesztés alatt!
 
 
@@ -10,9 +10,9 @@ locale=hu_HU.UTF-8
 font=lat2-16
 
 
-#txtexit="Exit"
-#txtback="Back"
-#txtignore="Ignore"
+txtexit="Kilépés"
+txtback="Vissza"
+txtignore="Mellőzés"
 
 txtselectserver="Forrás szerver kiválasztása :"
   
@@ -43,7 +43,7 @@ txtformatmountmenu="Formázás és Csatolás"
 txtformatdevices="Lemezek formázása"
 txtformatdevice="Lemez formázása"
 txtmount="Csatolás"
-#txtunmount="Unmount"
+txtunmount="Lecsatolás"
 txtmountdesc="Telepítés vagy Beállítás"
 
 txtformatdeviceconfirm="Figyelem! Minden partíció és adat el fog veszni a lemezről ! \nFormázzuk a lemezeket ?"
