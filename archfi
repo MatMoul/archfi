@@ -940,7 +940,7 @@ archsetlocalechroot(){
 }
 
 archsettime(){
-  items=$(ls -l /mnt/usr/share/zoneinfo/ | grep '^d' | awk '{ print $9 }')
+  items=$(ls -l /mnt/usr/share/zoneinfo/ | grep '^d' | gawk -F':[0-9]* ' '/:/{print $2}')
   options=()
   for item in $items; do
     options+=("$item" "")
