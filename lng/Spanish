@@ -7,7 +7,7 @@
 
 
 locale=es_ES.UTF-8
-#font=
+font=Lat2-Terminus16
 
 
 txtexit="Salir"
