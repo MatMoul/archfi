@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2016.03.30.21.44.09 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2016.04.02.15.42.36 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -940,7 +940,7 @@ archsetlocalechroot(){
 }
 
 archsettime(){
-  items=$(ls -l /mnt/usr/share/zoneinfo/ | grep '^d' | awk '{ print $9 }')
+  items=$(ls -l /mnt/usr/share/zoneinfo/ | grep '^d' | gawk -F':[0-9]* ' '/:/{print $2}')
   options=()
   for item in $items; do
     options+=("$item" "")
