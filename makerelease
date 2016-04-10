@@ -54,9 +54,21 @@ if [ ! "$branch" = "master" ]; then
   esac
 fi
 
+read -p "Push release ? (Y/n)" choice
+case "$choice" in 
+  n|N ) exit 1;;
+    exit 1
+  ;;
+esac
+
+git checkout master
+echo "Push release..."
+git push
+
+
 read -p "Publish to server ? (Y/n)" choice
 case "$choice" in 
-  n|N )
+  n|N ) exit 1;;
     exit 1
   ;;
 esac
@@ -69,11 +81,6 @@ chmod 640 index.html
 git commit -a -m "New Release : $version"
 echo "Push index.html..."
 git push
-
-git checkout master
-echo "Push release..."
-git push
-
 
 #Sourceforge :
 
