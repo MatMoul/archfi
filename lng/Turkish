@@ -1,0 +1,94 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : https://github.com/MatMoul/archfi
+# language   : Turkish
+# translator : c0b41 (cobaimelan@protonmail.ch)
+# notes      : versiyon 0.1
+
+
+locale=tr_TR.UTF-8
+#font=
+
+
+txtexit="Çıkış"
+txtback="Geri Dön"
+txtignore="Boşver"
+
+txtselectserver="Kaynak sunucuyu seç :"
+
+txtmainmenu="Ana Menü"
+txtlanguage="Dil"
+txtsetkeymap="Klavye Düzenini Belirle"
+txteditor="Editör"
+txtdiskpartmenu="Disk Bölümleme"
+txtselectpartsmenu="Bölümleri seç ve yükle"
+txthelp="Yardım"
+txtchangelog="Değişiklikler"
+txtreboot="Yeniden Başlat"
+
+txtautoparts="Otomatik Bölümleme"
+txteditparts="Bölümleri Düzenle"
+
+txtautopartsconfirm="Seçilen Cihaz : %1\n\nBütün verileriniz silenecek! \n\nDevam ?"
+
+txtautopartclear="Bütün Bölümlerdiki Verileri Temizle"
+txtautopartcreate="%1 Bölüm Oluştur"
+txthybridpartcreate="Karışık MBR Belirle"
+txtautopartsettype="%1 Bölüm Tipini Belirle"
+
+txtselectdevice="%1 Cihazı Seç :"
+txtselecteddevices="Seçilen Cihazlar :"
+
+txtformatmountmenu="Format ve Mount"
+txtformatdevices="Cihazları Biçimlendir"
+txtformatdevice="Cihazı Biçimlendir"
+txtmount="Mount"
+txtunmount="Unmount"
+txtmountdesc="Yükle veya Ayarlar"
+
+txtformatdeviceconfirm="Uyarı,Seçilen cihazlarınızdaki tüm veriler silinecektir! \n Cihazları Biçimlendir ?"
+
+txtselectpartformat="Seçilen Bölüm için biçimlendir %1 :"
+txtformatingpart="Bölüm biçimlendiriliyor %1 "
+txtcreateluksdevice="luks cihazı oluştur :"
+txtopenluksdevice="luks cihazı aç :"
+txtluksdevicecreated="luks cihazları oluşturuldu !"
+
+txtinstallmenu="Yükleme Menüsü"
+
+txtarchinstallmenu="Arch Yükleme Menüsü"
+txtrungrubmakeconfig="grub-mkconfig çalıştır ?"
+
+txteditmirrorlist="Kaynak listesini Düzenlen"
+txtinstallarchlinux="Arch Linux Yükle"
+txtconfigarchlinux="Arch Linux Ayalar"
+
+txtsethostname="Bilgisayar Adını Belirle"
+txtsetfont="Yazı Tipini BelirleSet Font"
+txtsetlocale="Lokasyonu Belirle"
+txtsettime="Zamanı Belirle"
+txtsetrootpassword="root şifresini belirle "
+
+txtuseutcclock="UTC donanım saatini  kullan ?"
+
+txtoptional="İsteğe Bağlı"
+txtrecommandeasyinst="Önerilen kolay kurulum"
+txtset="%1 Belirle"
+txtgenerate="%1 Oluştur"
+txtedit="%1 Düzenle"
+txtinstall="%1 Yükle"
+txtenable="%1 Aktif Et"
+
+txtgrubluksdetected="Root bölümü şifrelendi!\n\ cryptdevice= ve GRUB_CMDLINE_LINUX içerisine /etc/default/grub ekle?"
+
+
+txtpressanykey="Devam etmek için bir tuşa basın.."
+
+txtinstallosprober="Multi-boot istiyorsanız os-prober bunun için başarılı bir çözümdür.\n os-prober yükle ?"
+txtefibootmgr="efibootmgr UEFI bilgisayar için gereklidir."
+
+txtarchdidesc="Tam Masaüstü kurulum script'i yükle"
+txtinstallarchdi="Arch Linux Masaüstü Kurulum (archdi) çalışma ortamınızı kurmanız için kullanabileceğiniz ikinci script.\n\nBu script'i çalıştırabilir yada kurabilirsiniz.Bir sonraki menüde seçin.\n\nArch Linux Masaüstü Kurulumu iki bağımlılıkları gerektirir :  wget ve libnewt.\n\npacstrap wget libnewt ?"
+txtarchdiinstallandlaunch="archdi Yükle ve Çalıştır"
+txtarchdiinstall="archdi Yükle"
+txtarchdilaunch="archdi Çalıştır"

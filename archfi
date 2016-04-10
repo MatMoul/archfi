@@ -84,6 +84,7 @@ chooselanguage(){
   options+=("Polish" "(By dawidd6)")
   options+=("Russian" "(By Anonymous_Prodject)")
   options+=("Spanish" "(By Mystogab)")
+  options+=("Turkish" "(By c0b41)")
   sel=$(whiptail --backtitle "$apptitle" --title "$txtlanguage" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
@@ -896,7 +897,7 @@ archsetkeymap(){
 
 archsetfont(){
   items=$(find /usr/share/kbd/consolefonts/*.psfu.gz -printf "%f\n")
-  
+
   options=()
   for item in $items; do
     options+=("${item%%.*}" "")
@@ -952,8 +953,8 @@ archsettime(){
   if [ ! "$?" = "0" ]; then
     return 1
   fi
-  
-  
+
+
   items=$(ls /mnt/usr/share/zoneinfo/$timezone/)
   options=()
   for item in $items; do
@@ -966,12 +967,12 @@ archsettime(){
   if [ ! "$?" = "0" ]; then
     return 1
   fi
-  
+
   clear
   echo "ln -sf /usr/share/zoneinfo/$timezone /mnt/etc/localtime"
   ln -sf /usr/share/zoneinfo/$timezone /mnt/etc/localtime
   pressanykey
-  
+
   if (whiptail --backtitle "$apptitle" --title "$txtsettime" --yesno "$txtuseutcclock" 0 0) then
     clear
     archchroot settimeutc
@@ -979,9 +980,9 @@ archsettime(){
     clear
     archchroot settimelocal
   fi
-  
+
   pressanykey
-  
+
 }
 archsettimeutcchroot(){
   echo "hwclock --systohc --utc"
@@ -1046,7 +1047,7 @@ archinstallgrub(){
   echo "pacstrap /mnt grub"
   pacstrap /mnt grub
   pressanykey
-  
+
   if [ "$eficomputer" == "1" ]; then
     if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
       if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" 0 0) then
@@ -1064,7 +1065,7 @@ archinstallgrub(){
       fi
     fi
   fi
-  
+
   if [ "$luksroot" = "1" ]; then
     if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "$txtgrubluksdetected" 0 0) then
       clear
@@ -1073,7 +1074,7 @@ archinstallgrub(){
       pressanykey
     fi
   fi
-  
+
   clear
   archchroot installgrub
   pressanykey
@@ -1242,16 +1243,16 @@ pressanykey(){
 }
 
 loadstrings(){
-  
+
   locale=en_US.UTF-8
   #font=
-  
+
   txtexit="Exit"
   txtback="Back"
   txtignore="Ignore"
-  
+
   txtselectserver="Select source server :"
-  
+
   txtmainmenu="Main Menu"
   txtlanguage="Language"
   txtsetkeymap="Set Keyboard Layout"
@@ -1291,10 +1292,10 @@ loadstrings(){
   txtluksdevicecreated="luks device created !"
 
   txtinstallmenu="Install Menu"
-  
+
   txtarchinstallmenu="Arch Install Menu"
   txtrungrubmakeconfig="Run grub-mkconfig ?"
-  
+
   txteditmirrorlist="Edit mirrorlist"
   txtinstallarchlinux="Install Arch Linux"
   txtconfigarchlinux="Config Arch Linux"
@@ -1304,9 +1305,9 @@ loadstrings(){
   txtsetlocale="Set Locale"
   txtsettime="Set Time"
   txtsetrootpassword="Set root password"
-  
+
   txtuseutcclock="Use UTC hardware clock ?"
-  
+
   txtoptional="Optional"
   txtrecommandeasyinst="Recommanded for easy install"
   txtset="Set %1"
@@ -1314,15 +1315,15 @@ loadstrings(){
   txtedit="Edit %1"
   txtinstall="Install %1"
   txtenable="Enable %1"
-  
+
   txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
 
 
   txtpressanykey="Press any key to continue."
-  
+
   txtinstallosprober="os-prober is a good solution if you want to use mutli-boot.\nInstall os-prober ?"
   txtefibootmgr="efibootmgr is required for efi computer."
-  
+
   txtarchdidesc="Full desktop install script"
   txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
   txtarchdiinstallandlaunch="Install and run archdi"
