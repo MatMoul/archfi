@@ -78,6 +78,7 @@ git commit -a -m "New Release : $version"
 echo "Push index.html..."
 git push
 
+git checkout master
 #Sourceforge :
 
 targetpath=.build/$version
