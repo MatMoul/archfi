@@ -57,8 +57,6 @@ fi
 read -p "Push release ? (Y/n)" choice
 case "$choice" in 
   n|N ) exit 1;;
-    exit 1
-  ;;
 esac
 
 git checkout master
@@ -69,8 +67,6 @@ git push
 read -p "Publish to server ? (Y/n)" choice
 case "$choice" in 
   n|N ) exit 1;;
-    exit 1
-  ;;
 esac
 
 echo "Create index.html..."
