@@ -12,11 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-<<<<<<< HEAD
 apptitle="Arch Linux Fast Install (archfi) - Version: 2016.04.12.23.45.07 (GPLv3)"
-=======
-apptitle="Arch Linux Fast Install (archfi) - Version: 2016.04.12.23.56.56 (GPLv3)"
->>>>>>> src
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -1342,11 +1338,8 @@ loadstrings(){
 # --------------------------------------------------------
 while (( "$#" )); do
   case $1 in
-baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
-<<<<<<< HEAD
-=======
-baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
->>>>>>> src
+    -t | --test) baseurl="https://raw.githubusercontent.com"
+                 baseurl="$baseurl/$2/archfi/$3";;
     --chroot) chroot=1
               command=$2
               args=$3;;
