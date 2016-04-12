@@ -1338,7 +1338,7 @@ loadstrings(){
 # --------------------------------------------------------
 while (( "$#" )); do
   case $1 in
-    -t | --test) baseurl=https://raw.githubusercontent.com/$1/archfi/$2;;
+    -t | --test) baseurl=https://raw.githubusercontent.com/$2/archfi/$3;;
     --chroot) chroot=1
               command=$2
               args=$3;;
