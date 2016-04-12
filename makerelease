@@ -36,7 +36,7 @@ echo ""
 
 echo "Finalise archfi script..."
 sed -i /apptitle=/c\apptitle=\""Arch Linux Fast Install (archfi) - Version: $version (GPLv3)"\" archfi
-sed -i /baseurl=/c\baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master archfi
+sed -i /baseurl=https://raw.githubusercontent.com/c\baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master archfi
 
 echo "Make last commit..."
 git commit -a -m "New Release : $version"

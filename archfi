@@ -1338,8 +1338,8 @@ loadstrings(){
 # --------------------------------------------------------
 while (( "$#" )); do
   case $1 in
-baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
-baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
+    -t | --test) baseurl="https://raw.githubusercontent"
+                 baseurl="$baseurl.com/""$2/archfi/$3";;
     --chroot) chroot=1
               command=$2
               args=$3;;
