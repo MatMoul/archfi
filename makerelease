@@ -86,7 +86,7 @@ mkdir -p $targetpath
 cp -R * $targetpath
 
 echo "Finalise archfi script..."
-sed -i "/baseurl=/c\baseurl=http://downloads.sourceforge.net/project/archfi/release/$version" $targetpath/archfi
+sed -i "/baseurl=http://downloads.sourceforge.net/c\baseurl=http://downloads.sourceforge.net/project/archfi/release/$version" $targetpath/archfi
 
 echo "Publish release..."
 scp -r $targetpath matmoul@web.sourceforge.net:/home/frs/project/$prjname/release/
