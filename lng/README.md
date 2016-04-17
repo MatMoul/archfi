@@ -1,11 +1,11 @@
 #Translations
 
-Translations is simple...
-Fork the project.
-Create your language file.
+Translations is simple...<br />
+Fork the project.<br />
+Create your language file.<br />
 Pull Request your change.
 
-You can test your change with the next command :
-sh archfi {githubusername} {branchname}
-As exemple :
+You can test your change with the next command :<br />
+sh archfi {githubusername} {branchname}<br />
+As exemple :<br />
 sh archfi matmoul master
