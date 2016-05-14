@@ -138,7 +138,8 @@ chooseeditor(){
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
-    echo "EDITOR=$sel"
+    echo "export EDITOR=$sel"
+    export EDITOR=$sel
     EDITOR=$sel
     pressanykey
   fi
