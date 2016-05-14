@@ -137,7 +137,9 @@ chooseeditor(){
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
+    echo "EDITOR=$sel"
     EDITOR=$sel
+    pressanykey
   fi
 }
 
@@ -969,7 +971,7 @@ archsettime(){
   fi
   
   clear
-  echo "ln -sf /usr/share/zoneinfo/$timezone /mnt/etc/localtime"
+  echo "ln -sf /mnt/usr/share/zoneinfo/$timezone /mnt/etc/localtime"
   ln -sf /usr/share/zoneinfo/$timezone /mnt/etc/localtime
   pressanykey
   
