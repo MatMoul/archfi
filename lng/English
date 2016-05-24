@@ -88,7 +88,7 @@ txtinstallosprober="os-prober is a good solution if you want to use mutli-boot.\
 txtefibootmgr="efibootmgr is required for efi computer."
 
 txtarchdidesc="Full desktop install script"
-txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
+txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install has two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
 txtarchdiinstallandlaunch="Install and run archdi"
 txtarchdiinstall="Install archdi"
 txtarchdilaunch="Launch archdi"
