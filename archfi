@@ -869,7 +869,7 @@ archchroot(){
 
 
 archsethostname(){
-  hostname=$(whiptail --backtitle "$apptitle" --title "$txtsethostname" --inputbox "" 0 0 "localhost" 3>&1 1>&2 2>&3)
+  hostname=$(whiptail --backtitle "$apptitle" --title "$txtsethostname" --inputbox "" 0 0 "archlinux" 3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
     echo "echo \"$hostname\" > /mnt/etc/hostname"
