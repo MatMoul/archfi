@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2016.12.21.00.52.07 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2017.02.03.19.31.33 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -869,7 +869,7 @@ archchroot(){
 
 
 archsethostname(){
-  hostname=$(whiptail --backtitle "$apptitle" --title "$txtsethostname" --inputbox "" 0 0 "localhost" 3>&1 1>&2 2>&3)
+  hostname=$(whiptail --backtitle "$apptitle" --title "$txtsethostname" --inputbox "" 0 0 "archlinux" 3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
     echo "echo \"$hostname\" > /mnt/etc/hostname"
