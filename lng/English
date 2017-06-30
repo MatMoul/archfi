@@ -60,7 +60,8 @@ txtarchinstallmenu="Arch Install Menu"
 txtrungrubmakeconfig="Run grub-mkconfig ?"
 
 txteditmirrorlist="Edit mirrorlist"
-txtinstallarchlinux="Install Arch Linux"
+txtinstallarchlinux="Install Arch Linux (base)"
+txtinstallarchlinuxdevel="Install Arch Linux (base+devel)"
 txtconfigarchlinux="Config Arch Linux"
 
 txtsethostname="Set Computer Name"
