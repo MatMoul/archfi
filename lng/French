@@ -60,7 +60,8 @@ txtarchinstallmenu="Menu Installation Arch Linux"
 txtrungrubmakeconfig="Exécuter grub-mkconfig ?"
 
 txteditmirrorlist="Editer mirrorlist"
-txtinstallarchlinux="Installer Arch Linux"
+txtinstallarchlinux="Installer Arch Linux (base)"
+txtinstallarchlinuxdevel="Installer Arch Linux (base+devel)"
 txtconfigarchlinux="Configurer Arch Linux"
 
 txtsethostname="Définir le nom de l'ordinateur"

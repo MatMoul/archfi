@@ -683,6 +683,7 @@ installmenu(){
   options=()
   options+=("$txteditmirrorlist" "($txtoptional)")
   options+=("$txtinstallarchlinux" "pacstrap base")
+  options+=("$txtinstallarchlinuxdevel" "pacstrap base-devel")
   options+=("$txtconfigarchlinux" "")
   sel=$(whiptail --backtitle "$apptitle" --title "$txtinstallmenu" --menu "" --cancel-button "$txtunmount" --default-item "$nextitem" 0 0 0 \
     "${options[@]}" \
