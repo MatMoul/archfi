@@ -80,6 +80,7 @@ chooselanguage(){
   options+=("English" "(By MatMoul)")
   options+=("French" "(By MatMoul)")
   options+=("German" "(By untergrundbiber)")
+  options+=("Italian" "(By thegoldgoat)")
   options+=("Hungarian" "(By KardiWeb)")
   options+=("Polish" "(By dawidd6)")
   options+=("Portuguese" "(By MaxWilliamJF)")
