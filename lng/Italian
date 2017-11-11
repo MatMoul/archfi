@@ -1,0 +1,92 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : https://github.com/MatMoul/archfi
+# language   : Italian
+# translator : Andrea Somaini
+# notes      : Traduzione in italiano
+
+
+locale=en_US.UTF-8
+
+
+txtexit="Esci"
+txtback="Indietro"
+txtignore="Ignora"
+
+txtselectserver="Seleziona un server sorgente :"
+
+txtmainmenu="Menu Principale"
+txtlanguage="Linguaggio"
+txtsetkeymap="Imposta Layout di tastiera"
+txteditor="Editor"
+txtdiskpartmenu="Partizioni del disco"
+txtselectpartsmenu="Seleziona partizione e installa"
+txthelp="Aiuto"
+txtchangelog="Changelog"
+txtreboot="Riavvia"
+
+txtautoparts="Partizioni automatiche"
+txteditparts="Partizioni manuali"
+
+txtautopartsconfirm="Selezione dispositivo : %1\n\nTutti i dati saranno cancellati ! \n\nContinuare ?"
+
+txtautopartclear="Cancella i dati di tutte le partizioni"
+txtautopartcreate="Crea partizione %1"
+txthybridpartcreate="Imposta MBR ibrido"
+txtautopartsettype="Seleziona tipo partizione per %1"
+
+txtselectdevice="Seleziona dispositivo %1 :"
+txtselecteddevices="Seleziona dispositivi :"
+
+txtformatmountmenu="Formatta e monta"
+txtformatdevices="Formatta dispositivi"
+txtformatdevice="Formatta dispositivo"
+txtmount="Monta"
+txtunmount="Smonta"
+txtmountdesc="Installa o configura"
+
+txtformatdeviceconfirm="Attenzione, tutti i dati nei dispositivi selezionati saranno cancellati ! \nFormattare i dispositivi ?"
+
+txtselectpartformat="Seleziona formato dispositivo  %1 :"
+txtformatingpart="Formattando %1 come"
+txtcreateluksdevice="Crea dispositivo luks :"
+txtopenluksdevice="Apri dispositivo luks :"
+txtluksdevicecreated="Dispositivo luks creato !"
+
+txtinstallmenu="Menu di installazione"
+
+txtarchinstallmenu="Menu di installazione di Arch"
+txtrungrubmakeconfig="Eseguire grub-mkconfig ?"
+
+txteditmirrorlist="Modifica mirrorlist"
+txtinstallarchlinux="Installa Arch Linux"
+txtconfigarchlinux="Configura Arch Linux"
+
+txtsethostname="Imposta nome computer"
+txtsetfont="Imposta font"
+txtsetlocale="Imposta locale"
+txtsettime="Imposta ora"
+txtsetrootpassword="Imposta password di root"
+
+txtuseutcclock="Usare orologo hardware UTC ?"
+
+txtoptional="Opzionale"
+txtrecommandeasyinst="Raccomandato per installazioni semplici"
+txtset="Imposta %1"
+txtgenerate="Genera %1"
+txtedit="Edit %1"
+txtinstall="Installa %1"
+txtenable="Abilita %1"
+
+txtgrubluksdetected="Partizione di root criptata !\n\nAggiungere il dispositivo criptato in GRUB_CMDLINE_LINUX in /etc/default/grub ?"
+
+txtpressanykey="Premi un tasto per continuare."
+
+txtinstallosprober="os-prober serve per le soluzioni multi-boot.\nInstallare os-prober ?"
+txtefibootmgr="efibootmgr e' necessario per computer efi."
+
+txtarchdidesc="Script di installazione di desktop completo"
+txtinstallarchdi="Arch Linux Desktop Install (archdi) e' uno script secondario che ti aiuta a installare tutti i software necessari.\n\nPuoi installare lo script o lanciarlo. Scegli nel prossimo menu.\n\nArch Linux Desktop Install ha due dipendenze : wget e libnewt.\n\npacstrap wget libnewt (vuoi installare queste dipendenze) ?"
+txtarchdiinstallandlaunch="Installa e lancia archdi"
+txtarchdiinstall="Installa archdi"
+txtarchdilaunch="Lancia archdi"
