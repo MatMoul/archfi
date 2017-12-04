@@ -1328,7 +1328,7 @@ loadstrings(){
   txtpressanykey="Press any key to continue."
   
   txtinstallosprober="os-prober is a good solution if you want to use mutli-boot.\nInstall os-prober ?"
-  txtefibootmgr="efibootmgr is required for efi computer."
+  txtefibootmgr="efibootmgr is required for EFI computers."
   
   txtarchdidesc="Full desktop install script"
   txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
