@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2017.11.11.21.34.16 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2018.06.05.02.14.13 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -934,7 +934,7 @@ archsetlocale(){
     echo "LANG=$locale.UTF-8" > /mnt/etc/locale.conf
     echo "echo \"LC_COLLATE=C\" >> /mnt/etc/locale.conf"
     echo "LC_COLLATE=C" >> /mnt/etc/locale.conf
-    echo "sed -i '/'$locale'.UTF-8/s/^#//g' /mnt/etc/locale.gen"
+    echo "sed -i '/"$locale".UTF-8/s/^#//g' /mnt/etc/locale.gen"
     sed -i '/'$locale'.UTF-8/s/^#//g' /mnt/etc/locale.gen
     archchroot setlocale
     pressanykey
@@ -1328,7 +1328,7 @@ loadstrings(){
   txtpressanykey="Press any key to continue."
   
   txtinstallosprober="os-prober is a good solution if you want to use mutli-boot.\nInstall os-prober ?"
-  txtefibootmgr="efibootmgr is required for efi computer."
+  txtefibootmgr="efibootmgr is required for EFI computers."
   
   txtarchdidesc="Full desktop install script"
   txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
