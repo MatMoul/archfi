@@ -26,7 +26,7 @@ mainmenu(){
   options=()
   options+=("$txtlanguage" "Language")
   options+=("$txtsetkeymap" "(loadkeys ...)")
-  options+=("$txteditor" "")
+  options+=("$txteditor" "($txtoptional)")
   options+=("$txtdiskpartmenu" "")
   options+=("$txtselectpartsmenu" "")
   options+=("" "")
@@ -42,7 +42,7 @@ mainmenu(){
       ;;
       "$txtsetkeymap")
         setkeymap
-        nextitem="$txteditor"
+        nextitem="$txtdiskpartmenu"
       ;;
       "$txteditor")
         chooseeditor
