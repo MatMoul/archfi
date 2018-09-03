@@ -1213,6 +1213,8 @@ installarchdi(){
   fi
 }
 archdidownload(){
+  txtselectserver="Select source server :"
+  txtback="Back"
   options=()
   options+=("sourceforge.net" "recommended")
   options+=("github.com" "")
