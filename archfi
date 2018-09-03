@@ -1186,6 +1186,7 @@ archenabledhcpcdchroot(){
 }
 
 installarchdi(){
+  txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
   if(whiptail --backtitle "$apptitle" --title "archdi" --yesno "$txtinstallarchdi" 0 0) then
     clear
     echo "pacstrap /mnt wget libnewt"
@@ -1213,6 +1214,8 @@ installarchdi(){
   fi
 }
 archdidownload(){
+  txtselectserver="Select source server :"
+  txtback="Back"
   options=()
   options+=("sourceforge.net" "recommended")
   options+=("github.com" "")
