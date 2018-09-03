@@ -527,13 +527,26 @@ formatbootdevice(){
   pressanykey
 }
 formatswapdevice(){
+  options=()
+  options+=("swap" "")
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtformatdevice" --menu "${txtselectpartformat//%1/$1 ($2)}" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ ! "$?" = "0" ]; then
+    return 1
+  fi
   clear
   echo "${txtformatingpart//%1/$swapdev} swap"
-  echo "----------------------------------------------"
-  echo "mkswap $swapdev"
-  mkswap $swapdev
-  echo ""
-  pressanykey
+  echo "----------------------------------------------------"
+  case $sel in
+    swap)
+      echo "mkswap $swapdev"
+      mkswap $swapdev
+      echo ""
+      pressanykey
+    ;;
+  esac
+  clear
 }
 formatdevice(){
   options=()
