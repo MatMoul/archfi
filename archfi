@@ -477,7 +477,7 @@ formatdevices(){
       formatbootdevice boot $bootdev
     fi
     if [ ! "$swapdev" = "" ]; then
-      formatswapdevice
+      formatswapdevice swap $swapdev
     fi
     formatdevice root $rootdev
     if [ ! "$homedev" = "" ]; then
