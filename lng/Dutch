@@ -1,0 +1,94 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : https://github.com/MatMoul/archfi
+# language   : Dutch
+# translator : bowero (pseudo, name or e-mail.)
+# notes      : misc text...
+
+
+locale=nl_NL.UTF-8
+#font=
+
+
+txtexit="Sluit"
+txtback="Terug"
+txtignore="Negeer"
+
+txtselectserver="Selecteer bronserver :"
+
+txtmainmenu="Hoofdmenu"
+txtlanguage="Taal"
+txtsetkeymap="Stel toetsenbordindeling in"
+txteditor="Editor"
+txtdiskpartmenu="Schijfpartities"
+txtselectpartsmenu="Selecteer partities en installeer"
+txthelp="Help"
+txtchangelog="Aanpassingen"
+txtreboot="Herstart"
+
+txtautoparts="Partitioneer automatisch"
+txteditparts="Partitioneer handmatig"
+
+txtautopartsconfirm="Geselecteerde schijf : %1\n\nAlle data zal worden verwijderd ! \n\nDoorgaan ?"
+
+txtautopartclear="Verwijder de data voor alle partities"
+txtautopartcreate="Creeer %1 partition"
+txthybridpartcreate="Stel hybride MBR in"
+txtautopartsettype="Stel %1 partitietype in"
+
+txtselectdevice="Selecteer %1 schijf :"
+txtselecteddevices="Geselecteerde schijven :"
+
+txtformatmountmenu="Formatteer en koppel"
+txtformatdevices="Formatteer schijven"
+txtformatdevice="Formatteer schijf"
+txtmount="Koppel"
+txtunmount="Ontkoppel"
+txtmountdesc="Installeer of configureer"
+
+txtformatdeviceconfirm="Waarschuwing, alle data op de geselecteerde schijven zal worden verwijderd ! \n Schijven formatteren ?"
+
+txtselectpartformat="Selecteer partitiebestandssysteem voor %1 :"
+txtformatingpart="Partitie %1 aan het formatteren als"
+txtcreateluksdevice="Creeer luks schijf :"
+txtopenluksdevice="Open luks schijf :"
+txtluksdevicecreated="luks schijf gecreeerd !"
+
+txtinstallmenu="Installatiemenu"
+
+txtarchinstallmenu="Arch installatie menu"
+txtrungrubmakeconfig="grub-mkconfig uitvoeren?"
+
+txteditmirrorlist="Wijzig mirrorlijst?"
+txtinstallarchlinux="Installeer Arch Linux"
+txtconfigarchlinux="Configureer Arch Linux"
+
+txtsethostname="Stel computernaam in"
+txtsetfont="Stel lettertype in"
+txtsetlocale="Stel standaardtaal in"
+txtsettime="Stel tijd in"
+txtsetrootpassword="Stel root wachtwoord in"
+
+txtuseutcclock="UTC-hardwareklok gebruiken ?"
+
+txtoptional="Optioneel"
+txtrecommandeasyinst="Aanbevolen voor makkelijke installatie"
+txtset="Stel %1 in"
+txtgenerate="Genereer %1"
+txtedit="Wijzig %1"
+txtinstall="Installeer %1"
+txtenable="Zet %1 aan"
+
+txtgrubluksdetected="Versleutelde rootpartitie !\n\nVoeg cryptdevice= to GRUB_CMDLINE_LINUX toe in /etc/default/grub ?"
+
+
+txtpressanykey="Druk op een knop om door te gaan"
+
+txtinstallosprober="os-prober is een goede oplossing als je een multiboot wilt gebruiken.\nos-prober installeren ?"
+txtefibootmgr="efibootmgr is noodzakelijk voor efi-computer."
+
+txtarchdidesc="Volledige desktop-installatiescript"
+txtinstallarchdi="Arch Linux Desktop Install (archdi) is een tweede script dat je kan helpen om een volledig werkstation the installeren.\n\n Je kan het script gewoon opstarten of installeren. Kies in het volgende menu.\n\nArch Linux Desktop Install heeft twee afhankelijkheden : wget and libnewt.\n\npacstrap wget libnewt ?"
+txtarchdiinstallandlaunch="Installeer en voer archdi uit"
+txtarchdiinstall="Installeer archdi"
+txtarchdilaunch="Start archdi"
