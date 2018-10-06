@@ -11,7 +11,8 @@ if [ ! "$?" = "1" ]; then
   exit 1
 fi
 
-scp matmoul@web.sourceforge.net:/home/frs/project/$prjname/README.txt /dev/null
+scp "matmoul@web.sourceforge.net:/home/frs/project/$prjname/release/2018.09.04.01.26.38/README.txt" /dev/null
+
 if [ ! "$?" = "0" ]; then
   echo "No Sourceforge ssh key loaded exiting..."
   exit 1
