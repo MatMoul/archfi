@@ -10,16 +10,16 @@ locale=de_DE.UTF-8
 #font=
 
 
-#txtexit="Exit"
-#txtback="Back"
-#txtignore="Ignore"
+txtexit="Verlassen"
+txtback="Zurück"
+txtignore="Ignorieren"
 
 txtselectserver="Wählen Sie einen Spiegelserver:"
 
 txtmainmenu="Hauptmenü"
 txtlanguage="Sprache"
 txtsetkeymap="Tastaturbelegung auswählen"
-#txteditor="Editor"
+txteditor="Texteditor"
 txtdiskpartmenu="Laufwerk partitionieren"
 txtselectpartsmenu="Partitionen zuweisen"
 txthelp="Hilfe"
@@ -29,7 +29,7 @@ txtreboot="System neu starten"
 txtautoparts="Auto-Partitionierung"
 txteditparts="Partitionen bearbeiten"
 
-txtautopartsconfirm="Ausgewählte Laufwerk: %1\n\nAlle Daten werden gelöscht!\n\nFortfahren?"
+txtautopartsconfirm="Ausgewähltes Laufwerk: %1\n\nAlle Daten werden gelöscht!\n\nFortfahren?"
 
 txtautopartclear="Alle Partitionsdaten löschen"
 txtautopartcreate="Erstelle %1 Partition"
@@ -42,8 +42,8 @@ txtselecteddevices="Ausgewählte Partitionen:"
 txtformatmountmenu="Formatieren und einbinden"
 txtformatdevices="Partitionen formatieren"
 txtformatdevice="Laufwerk formatieren"
-txtmount="Einbinden"
-#txtunmount="Unmount"
+txtmount="Einhängen"
+txtunmount="Aushängen"
 txtmountdesc="Partitionen einbinden und Installation fortsetzen"
 
 txtformatdeviceconfirm="Warnung, werden alle Daten auf den ausgewählten Laufwerken werden gelöscht!\nLaufwerke wirklich formatieren?"
@@ -74,7 +74,7 @@ txtoptional="Optional"
 txtrecommandeasyinst="Empfohlen für eine einfache Installation"
 txtset="%1 einstellen"
 txtgenerate="Generiere %1"
-txtedit="%1 edieren"
+txtedit="%1 editieren"
 txtinstall="Installiere %1"
 txtenable="%1 aktivieren"
 
