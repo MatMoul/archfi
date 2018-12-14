@@ -1,0 +1,94 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : https://github.com/MatMoul/archfi
+# language   : zh-cn
+# translator : chery (pseudo, name or e-mail.)
+# notes      : misc text...
+
+
+locale=en_US.UTF-8
+#font=
+
+
+txtexit="退出"
+txtback="返回"
+txtignore="忽略"
+
+txtselectserver="设置源服务器:"
+
+txtmainmenu="主界面"
+txtlanguage="语言"
+txtsetkeymap="设置键盘布局"
+txteditor="编辑器"
+txtdiskpartmenu="分区"
+txtselectpartsmenu="设置分区并安装"
+txthelp="帮助"
+txtchangelog="变更日志"
+txtreboot="重启"
+
+txtautoparts="自动分区"
+txteditparts="编辑分区"
+
+txtautopartsconfirm="选择磁盘器 : %1\n\n全部数据将被擦除 ! \n\n继续 ?"
+
+txtautopartclear="Clear all partition data"
+txtautopartcreate="创建%1分区"
+txthybridpartcreate="Set hybrid MBR"
+txtautopartsettype="设置分区%1类型"
+
+txtselectdevice="选择%1磁盘 :"
+txtselecteddevices="已选 磁盘 :"
+
+txtformatmountmenu="格式化并挂载"
+txtformatdevices="格式化磁盘s"
+txtformatdevice="格式化磁盘"
+txtmount="挂载"
+txtunmount="卸载"
+txtmountdesc="安装并配置"
+
+txtformatdeviceconfirm="警告, 选择磁盘的数据将被全部擦除! \nFormat devices ?"
+
+txtselectpartformat="Select partition format for %1 :"
+txtformatingpart="Formatting partition %1 as"
+txtcreateluksdevice="Create luks device :"
+txtopenluksdevice="Open luks device :"
+txtluksdevicecreated="luks device created !"
+
+txtinstallmenu="安装菜单"
+
+txtarchinstallmenu="Arch安装菜单"
+txtrungrubmakeconfig="运行grub-mkconfig?"
+
+txteditmirrorlist="编辑源列表"
+txtinstallarchlinux="安装Arch Linux"
+txtconfigarchlinux="配置Arch Linux"
+
+txtsethostname="设置计算机名"
+txtsetfont="设置字体"
+txtsetlocale="设置区域"
+txtsettime="设置时区"
+txtsetrootpassword="设置root用户密码"
+
+txtuseutcclock="使用UTC硬盘时间?"
+
+txtoptional="可选"
+txtrecommandeasyinst="推荐简单安装"
+txtset="设置%1"
+txtgenerate="生成%1"
+txtedit="编辑%1"
+txtinstall="安装 %1"
+txtenable="开启 %1"
+
+txtgrubluksdetected="加密用户根分区 !\n\n添加加密磁盘= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
+
+
+txtpressanykey="任意键继续."
+
+txtinstallosprober="如果你想使用mutli-boot，os-prober是一个很好的解决方案.\n 安装os-prober吗?"
+txtefibootmgr="efibootmgr依赖于EFI."
+
+txtarchdidesc="图形桌面安装脚本"
+txtinstallarchdi="archdi 是ARCH linux 安装的第二个脚本,用于帮助我们安装完整的桌面的环境.\n\n你仅仅需要安装并运行这个脚本. 选择接下来的菜单.\n\nArch Linux Desktop 安装需要两个依赖 : wget and libnewt.\n\npacstrap wget libnewt ?"
+txtarchdiinstallandlaunch="安装并运行archdi"
+txtarchdiinstall="安装archdi"
+txtarchdilaunch="启动archdi"
