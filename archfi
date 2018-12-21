@@ -1100,7 +1100,9 @@ archinstallgrub(){
   pressanykey
 }
 archinstallgrubchroot(){
+  echo "mkdir /boot/grub"
   echo "grub-mkconfig -o /boot/grub/grub.cfg"
+  mkdir /boot/grub
   grub-mkconfig -o /boot/grub/grub.cfg
   exit
 }
