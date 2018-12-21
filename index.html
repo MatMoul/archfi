@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2018.10.13.01.10.19 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2018.12.22.00.20.25 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 
 
@@ -1100,7 +1100,9 @@ archinstallgrub(){
   pressanykey
 }
 archinstallgrubchroot(){
+  echo "mkdir /boot/grub"
   echo "grub-mkconfig -o /boot/grub/grub.cfg"
+  mkdir /boot/grub
   grub-mkconfig -o /boot/grub/grub.cfg
   exit
 }
