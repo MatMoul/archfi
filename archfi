@@ -14,6 +14,7 @@
 
 apptitle="Arch Linux Fast Install (archfi) - Version: 2018.12.22.00.20.25 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
+skipfont="0"
 
 
 # --------------------------------------------------------
@@ -98,7 +99,9 @@ chooselanguage(){
     else
       eval $(curl -L $baseurl/lng/$sel | sed '/^#/ d')
     fi
-    eval $(setfont $font)
+    if [ "$skipfont" = "0" ]; then
+			eval $(setfont $font)
+    fi
     font=
     if [ "$(cat /etc/locale.gen | grep ""#$locale"")" != "" ]; then
       sed -i "/$locale/s/^#//g" /etc/locale.gen
@@ -1363,6 +1366,7 @@ loadstrings(){
 # --------------------------------------------------------
 while (( "$#" )); do
   case $1 in
+		-sf | --skip-font) skipfont=1;;
     -t | --test) baseurl="https://raw.githubusercontent"
                  baseurl="$baseurl.com/""$2/archfi/$3";;
     --chroot) chroot=1
