@@ -1366,6 +1366,13 @@ loadstrings(){
 # --------------------------------------------------------
 while (( "$#" )); do
   case $1 in
+    --help)
+			echo "archfi"
+			echo "------"
+			echo "-sf | --skip-font                Skip setfont from language files"
+			echo "-t | --test ghusername ghbranch  Test language files"
+			exit 0
+    ;;
 		-sf | --skip-font) skipfont=1;;
     -t | --test) baseurl="https://raw.githubusercontent"
                  baseurl="$baseurl.com/""$2/archfi/$3";;
