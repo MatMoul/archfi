@@ -772,9 +772,7 @@ archmenu(){
   options+=("${txtedit//%1/crypttab}" "($txtoptional)")
   options+=("${txtedit//%1/mkinitcpio.conf}" "($txtoptional)")
   options+=("${txtedit//%1/mirrorlist}" "($txtoptional)")
-  options+=("${txtinstall//%1/grub}" "pacstrap grub (efibootmgr), grub-mkconfig")
-  options+=("${txtedit//%1/grub}" "($txtoptional)")
-  options+=("${txtinstall//%1/bootloader}" "grub-install")
+  options+=("$txtbootloader" "")
   options+=("${txtenable//%1/dhcpcd}" "systemctl enable dhcpd")
   options+=("archdi" "$txtarchdidesc")
   sel=$(whiptail --backtitle "$apptitle" --title "$txtarchinstallmenu" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
@@ -814,7 +812,7 @@ archmenu(){
           if [ "$luksroot" = "1" ]; then
             nextitem="${txtgenerate//%1/mkinitcpio.conf}"
           else
-            nextitem="${txtinstall//%1/grub}"
+            nextitem="$txtbootloader"
           fi
         fi
       ;;
@@ -823,12 +821,12 @@ archmenu(){
         if [ "$luksroot" = "1" ]; then
           nextitem="${txtgenerate//%1/mkinitcpio.conf}"
         else
-          nextitem="${txtinstall//%1/grub}"
+          nextitem="$txtbootloader"
         fi
       ;;
       "${txtgenerate//%1/mkinitcpio.conf}")
         archgenmkinitcpio
-        nextitem="${txtinstall//%1/grub}"
+        nextitem="$txtbootloader"
       ;;
       "${txtedit//%1/fstab}")
         $EDITOR /mnt/etc/fstab
@@ -846,22 +844,9 @@ archmenu(){
         $EDITOR /mnt/etc/pacman.d/mirrorlist
         nextitem="${txtedit//%1/mirrorlist}"
       ;;
-      "${txtinstall//%1/grub}")
-        archinstallgrub
-        nextitem="${txtinstall//%1/bootloader}"
-      ;;
-      "${txtedit//%1/grub}")
-        $EDITOR /mnt/etc/default/grub
-        if (whiptail --backtitle "$apptitle" --title "${txtedit//%1/grub}" --yesno "$txtrungrubmakeconfig" 0 0) then
-          clear
-          archchroot installgrub
-          pressanykey
-        fi
-        nextitem="${txtinstall//%1/bootloader}"
-      ;;
-      "${txtinstall//%1/bootloader}")
-        archinstallbootloader
-        nextitem="${txtenable//%1/dhcpcd}"
+      "$txtbootloader")
+				archbootloadermenu
+				nextitem="${txtenable//%1/dhcpcd}"
       ;;
       "${txtenable//%1/dhcpcd}")
         archenabledhcpcd
@@ -1065,7 +1050,61 @@ archgenmkinitcpiochroot(){
   exit
 }
 
-archinstallgrub(){
+
+archbootloadermenu(){
+  options=()
+  options+=("grub" "")
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloadermenu" --menu "" --cancel-button "$txtback" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ "$?" = "0" ]; then
+    case $sel in
+      "grub")
+        archbootloadergrubmenu
+      ;;
+    esac
+  fi
+}
+
+
+archbootloadergrubmenu(){
+  if [ "$1" = "" ]; then
+    nextblitem="."
+  else
+    nextblitem=$1
+  fi
+  options=()
+  options+=("${txtinstall//%1/grub}" "pacstrap grub (efibootmgr), grub-mkconfig")
+  options+=("${txtedit//%1/grub}" "($txtoptional)")
+  options+=("${txtinstall//%1/bootloader}" "grub-install")
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloadergrubmenu" --menu "" --cancel-button "$txtback" --default-item "$nextblitem" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ "$?" = "0" ]; then
+    case $sel in
+      "${txtinstall//%1/grub}")
+        archgrubinstall
+        nextblitem="${txtinstall//%1/bootloader}"
+      ;;
+      "${txtedit//%1/grub}")
+        $EDITOR /mnt/etc/default/grub
+        if (whiptail --backtitle "$apptitle" --title "${txtedit//%1/grub}" --yesno "$txtrungrubmakeconfig" 0 0) then
+          clear
+          archchroot grubinstall
+          pressanykey
+        fi
+        nextblitem="${txtinstall//%1/bootloader}"
+      ;;
+      "${txtinstall//%1/bootloader}")
+        archgrubinstallbootloader
+        nextblitem="${txtinstall//%1/bootloader}"
+      ;;
+    esac
+    archbootloadergrubmenu "$nextblitem"
+  fi
+}
+
+archgrubinstall(){
   clear
   echo "pacstrap /mnt grub"
   pacstrap /mnt grub
@@ -1099,10 +1138,10 @@ archinstallgrub(){
   fi
   
   clear
-  archchroot installgrub
+  archchroot grubinstall
   pressanykey
 }
-archinstallgrubchroot(){
+archgrubinstallchroot(){
   echo "mkdir /boot/grub"
   echo "grub-mkconfig -o /boot/grub/grub.cfg"
   mkdir /boot/grub
@@ -1110,7 +1149,7 @@ archinstallgrubchroot(){
   exit
 }
 
-archinstallbootloader(){
+archgrubinstallbootloader(){
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
   for item in $items; do
@@ -1141,34 +1180,34 @@ archinstallbootloader(){
       if [ "$?" = "0" ]; then
         clear
         case $sel in
-          "BIOS") archchroot installbootloader $device;;
-          "EFI") archchroot installbootloaderefi $device;;
-          "BIOS+EFI") archchroot installbootloaderefiusb $device;;
+          "BIOS") archchroot grubbootloaderinstall $device;;
+          "EFI") archchroot grubbootloaderefiinstall $device;;
+          "BIOS+EFI") archchroot grubbootloaderefiusbinstall $device;;
         esac
         pressanykey
       fi
     else
       clear
-      archchroot installbootloader $device
+      archchroot grubbootloaderinstall $device
       pressanykey
     fi
   fi
 }
-archinstallbootloaderchroot(){
+archgrubinstallbootloaderchroot(){
   if [ ! "$1" = "none" ]; then
     echo "grub-install --target=i386-pc --recheck $1"
     grub-install --target=i386-pc --recheck $1
   fi
   exit
 }
-archinstallbootloaderefichroot(){
+archgrubinstallbootloaderefichroot(){
   if [ ! "$1" = "none" ]; then
     echo "grub-install --target=x86_64-efi --efi-directory=/boot --recheck $1"
     grub-install --target=x86_64-efi --efi-directory=/boot --recheck $1
   fi
   exit
 }
-archinstallbootloaderefiusbchroot(){
+archgrubinstallbootloaderefiusbchroot(){
   if [ ! "$1" = "none" ]; then
     echo "grub-install --target=i386-pc --recheck $1"
     grub-install --target=i386-pc --recheck $1
@@ -1177,6 +1216,9 @@ archinstallbootloaderefiusbchroot(){
   fi
   exit
 }
+
+
+
 
 archenabledhcpcd(){
   if (whiptail --backtitle "$apptitle" --title "${txtenable//%1/dhcpcd}" --yesno "${txtenable//%1/dhcpcd} ?" 0 0) then
@@ -1322,7 +1364,6 @@ loadstrings(){
   txtinstallmenu="Install Menu"
   
   txtarchinstallmenu="Arch Install Menu"
-  txtrungrubmakeconfig="Run grub-mkconfig ?"
   
   txteditmirrorlist="Edit mirrorlist"
   txtinstallarchlinux="Install Arch Linux"
@@ -1336,6 +1377,15 @@ loadstrings(){
   
   txtuseutcclock="Use UTC hardware clock ?"
   
+  txtbootloader="Bootloader"
+  txtbootloadermenu="Choose your bootloader"
+  
+  txtefibootmgr="efibootmgr is required for EFI computers."
+  
+  txtbootloadergrubmenu="Grub Install Menu"
+  txtrungrubmakeconfig="Run grub-mkconfig ?"
+  txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
+  
   txtoptional="Optional"
   txtrecommandeasyinst="Recommanded for easy install"
   txtset="Set %1"
@@ -1344,13 +1394,7 @@ loadstrings(){
   txtinstall="Install %1"
   txtenable="Enable %1"
   
-  txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
-
-
   txtpressanykey="Press any key to continue."
-  
-  txtinstallosprober="os-prober is a good solution if you want to use mutli-boot.\nInstall os-prober ?"
-  txtefibootmgr="efibootmgr is required for EFI computers."
   
   txtarchdidesc="Full desktop install script"
   txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
@@ -1391,10 +1435,10 @@ if [ "$chroot" = "1" ]; then
     'settimelocal') archsettimelocalchroot;;
     'genmkinitcpio') archgenmkinitcpiochroot;;
     'enabledhcpcd') archenabledhcpcdchroot;;
-    'installgrub') archinstallgrubchroot;;
-    'installbootloader') archinstallbootloaderchroot $args;;
-    'installbootloaderefi') archinstallbootloaderefichroot $args;;
-    'installbootloaderefiusb') archinstallbootloaderefiusbchroot $args;;
+    'grubinstall') archgrubinstallchroot;;
+    'grubbootloaderinstall') archgrubinstallbootloaderchroot $args;;
+    'grubbootloaderefiinstall') archgrubinstallbootloaderefichroot $args;;
+    'grubbootloaderefiusbinstall') archgrubinstallbootloaderefiusbchroot $args;;
     'archdiinstallandlaunch') archdiinstallandlaunchchroot;;
     'archdiinstall') archdiinstallchroot;;
     'archdilaunch') archdilaunchchroot;;

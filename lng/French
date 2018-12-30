@@ -71,6 +71,14 @@ txtsetrootpassword="Définir le mot de passe root"
 
 txtuseutcclock="Utiliser une horloge matériel UTC ?"
 
+txtbootloader="Bootloader"
+txtbootloadermenu="Choisissez votre bootloader"
+
+txtefibootmgr="efibootmgr est requis pour un système EFI."
+
+txtbootloadergrubmenu="Menu Installation Grub"
+txtgrubluksdetected="Partition root cryptée !\n\nAjouter cryptdevice= to GRUB_CMDLINE_LINUX dans /etc/default/grub ?"
+
 txtoptional="Optionnel"
 txtrecommandeasyinst="Recommandé pour installation rapide"
 txtset="Définir %1"
@@ -79,13 +87,7 @@ txtedit="Editer %1"
 txtinstall="Installer %1"
 txtenable="Activer %1"
 
-txtgrubluksdetected="Partition root cryptée !\n\nAjouter cryptdevice= to GRUB_CMDLINE_LINUX dans /etc/default/grub ?"
-
-
 txtpressanykey="Appuyez sur une touche pour continuer."
-
-txtinstallosprober="Pour démarrer sur plusieurs systèmes.\nInstaller os-prober ?"
-txtefibootmgr="efibootmgr est requis pour un système EFI."
 
 txtarchdidesc="Installation d'un poste de travail"
 txtinstallarchdi="Arch Linux Desktop Install (archdi) est un second script peut vous aidez à installer un poste de travail complet.\n\nVous pouvez exécuter ou installer le script en choisissant dans le menu suivant.\n\nArch Linux Desktop Install possède 2 dépendences : wget et libnewt.\n\npacstrap wget libnewt ?"
