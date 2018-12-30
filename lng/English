@@ -6,91 +6,93 @@
 # notes      : misc text...
 
 
-  
-  locale=en_US.UTF-8
-  #font=
-  
-  txtexit="Exit"
-  txtback="Back"
-  txtignore="Ignore"
-  
-  txtselectserver="Select source server :"
-  
-  txtmainmenu="Main Menu"
-  txtlanguage="Language"
-  txtsetkeymap="Set Keyboard Layout"
-  txteditor="Editor"
-  txtdiskpartmenu="Disk Partitions"
-  txtselectpartsmenu="Select Partitions and Install"
-  txthelp="Help"
-  txtchangelog="Changelog"
-  txtreboot="Reboot"
 
-  txtautoparts="Auto Partitions"
-  txteditparts="Edit Partitions"
+locale=en_US.UTF-8
+#font=
 
-  txtautopartsconfirm="Selected device : %1\n\nAll data will be erased ! \n\nContinue ?"
+txtexit="Exit"
+txtback="Back"
+txtignore="Ignore"
 
-  txtautopartclear="Clear all partition data"
-  txtautopartcreate="Create %1 partition"
-  txthybridpartcreate="Set hybrid MBR"
-  txtautopartsettype="Set %1 partition type"
+txtselectserver="Select source server :"
 
-  txtselectdevice="Select %1 device :"
-  txtselecteddevices="Selected devices :"
+txtmainmenu="Main Menu"
+txtlanguage="Language"
+txtsetkeymap="Set Keyboard Layout"
+txteditor="Editor"
+txtdiskpartmenu="Disk Partitions"
+txtselectpartsmenu="Select Partitions and Install"
+txthelp="Help"
+txtchangelog="Changelog"
+txtreboot="Reboot"
 
-  txtformatmountmenu="Format and Mount"
-  txtformatdevices="Format Devices"
-  txtformatdevice="Format Device"
-  txtmount="Mount"
-  txtunmount="Unmount"
-  txtmountdesc="Install or Config"
+txtautoparts="Auto Partitions"
+txteditparts="Edit Partitions"
 
-  txtformatdeviceconfirm="Warning, all data on selected devices will be erased ! \nFormat devices ?"
+txtautopartsconfirm="Selected device : %1\n\nAll data will be erased ! \n\nContinue ?"
 
-  txtselectpartformat="Select partition format for %1 :"
-  txtformatingpart="Formatting partition %1 as"
-  txtcreateluksdevice="Create luks device :"
-  txtopenluksdevice="Open luks device :"
-  txtluksdevicecreated="luks device created !"
+txtautopartclear="Clear all partition data"
+txtautopartcreate="Create %1 partition"
+txthybridpartcreate="Set hybrid MBR"
+txtautopartsettype="Set %1 partition type"
 
-  txtinstallmenu="Install Menu"
-  
-  txtarchinstallmenu="Arch Install Menu"
-  txtrungrubmakeconfig="Run grub-mkconfig ?"
-  
-  txteditmirrorlist="Edit mirrorlist"
-  txtinstallarchlinux="Install Arch Linux"
-  txtconfigarchlinux="Config Arch Linux"
+txtselectdevice="Select %1 device :"
+txtselecteddevices="Selected devices :"
 
-  txtsethostname="Set Computer Name"
-  txtsetfont="Set Font"
-  txtsetlocale="Set Locale"
-  txtsettime="Set Time"
-  txtsetrootpassword="Set root password"
-  
-  txtuseutcclock="Use UTC hardware clock ?"
-  
-  txtbootloader="Bootloader"
-  txtbootloadermenu="Choose your bootloader"
-  
-  txtefibootmgr="efibootmgr is required for EFI computers."
-  
-  txtbootloadergrubmenu="Grub Install Menu"
-  txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
-  
-  txtoptional="Optional"
-  txtrecommandeasyinst="Recommanded for easy install"
-  txtset="Set %1"
-  txtgenerate="Generate %1"
-  txtedit="Edit %1"
-  txtinstall="Install %1"
-  txtenable="Enable %1"
-  
-  txtpressanykey="Press any key to continue."
-  
-  txtarchdidesc="Full desktop install script"
-  txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
-  txtarchdiinstallandlaunch="Install and run archdi"
-  txtarchdiinstall="Install archdi"
-  txtarchdilaunch="Launch archdi"
+txtformatmountmenu="Format and Mount"
+txtformatdevices="Format Devices"
+txtformatdevice="Format Device"
+txtmount="Mount"
+txtunmount="Unmount"
+txtmountdesc="Install or Config"
+
+txtformatdeviceconfirm="Warning, all data on selected devices will be erased ! \nFormat devices ?"
+
+txtselectpartformat="Select partition format for %1 :"
+txtformatingpart="Formatting partition %1 as"
+txtcreateluksdevice="Create luks device :"
+txtopenluksdevice="Open luks device :"
+txtluksdevicecreated="luks device created !"
+
+txtinstallmenu="Install Menu"
+
+txtarchinstallmenu="Arch Install Menu"
+
+txteditmirrorlist="Edit mirrorlist"
+txtinstallarchlinux="Install Arch Linux"
+txtconfigarchlinux="Config Arch Linux"
+
+txtsethostname="Set Computer Name"
+txtsetfont="Set Font"
+txtsetlocale="Set Locale"
+txtsettime="Set Time"
+txtsetrootpassword="Set root password"
+
+txtuseutcclock="Use UTC hardware clock ?"
+
+txtbootloader="Bootloader"
+txtbootloadermenu="Choose your bootloader"
+
+txtefibootmgr="efibootmgr is required for EFI computers."
+
+txtbootloadergrubmenu="Grub Install Menu"
+txtrungrubmakeconfig="Run grub-mkconfig ?"
+txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
+
+txtbootloadersyslinuxmenu="Syslinux Install Menu"
+
+txtoptional="Optional"
+txtrecommandeasyinst="Recommanded for easy install"
+txtset="Set %1"
+txtgenerate="Generate %1"
+txtedit="Edit %1"
+txtinstall="Install %1"
+txtenable="Enable %1"
+
+txtpressanykey="Press any key to continue."
+
+txtarchdidesc="Full desktop install script"
+txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
+txtarchdiinstallandlaunch="Install and run archdi"
+txtarchdiinstall="Install archdi"
+txtarchdilaunch="Launch archdi"

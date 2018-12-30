@@ -57,7 +57,6 @@ txtluksdevicecreated="La partition luks à été crée !"
 txtinstallmenu="Menu Installation"
 
 txtarchinstallmenu="Menu Installation Arch Linux"
-txtrungrubmakeconfig="Exécuter grub-mkconfig ?"
 
 txteditmirrorlist="Editer mirrorlist"
 txtinstallarchlinux="Installer Arch Linux"
@@ -77,7 +76,10 @@ txtbootloadermenu="Choisissez votre bootloader"
 txtefibootmgr="efibootmgr est requis pour un système EFI."
 
 txtbootloadergrubmenu="Menu Installation Grub"
+txtrungrubmakeconfig="Exécuter grub-mkconfig ?"
 txtgrubluksdetected="Partition root cryptée !\n\nAjouter cryptdevice= to GRUB_CMDLINE_LINUX dans /etc/default/grub ?"
+
+txtbootloadersyslinuxmenu="Menu Installation Syslinux"
 
 txtoptional="Optionnel"
 txtrecommandeasyinst="Recommandé pour installation rapide"

@@ -100,7 +100,7 @@ chooselanguage(){
       eval $(curl -L $baseurl/lng/$sel | sed '/^#/ d')
     fi
     if [ "$skipfont" = "0" ]; then
-			eval $(setfont $font)
+      eval $(setfont $font)
     fi
     font=
     if [ "$(cat /etc/locale.gen | grep ""#$locale"")" != "" ]; then
@@ -845,8 +845,8 @@ archmenu(){
         nextitem="${txtedit//%1/mirrorlist}"
       ;;
       "$txtbootloader")
-				archbootloadermenu
-				nextitem="${txtenable//%1/dhcpcd}"
+        archbootloadermenu
+        nextitem="${txtenable//%1/dhcpcd}"
       ;;
       "${txtenable//%1/dhcpcd}")
         archenabledhcpcd
@@ -1054,6 +1054,9 @@ archgenmkinitcpiochroot(){
 archbootloadermenu(){
   options=()
   options+=("grub" "")
+  if [ "$efimode" != "1" ]&&[ "$efimode" != "2" ]; then
+    options+=("syslinux" "")
+  fi
   sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloadermenu" --menu "" --cancel-button "$txtback" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
@@ -1061,6 +1064,9 @@ archbootloadermenu(){
     case $sel in
       "grub")
         archbootloadergrubmenu
+      ;;
+      "syslinux")
+        archbootloadersyslinuxbmenu
       ;;
     esac
   fi
@@ -1217,6 +1223,82 @@ archgrubinstallbootloaderefiusbchroot(){
   exit
 }
 
+
+archbootloadersyslinuxbmenu(){
+  if [ "$1" = "" ]; then
+    nextblitem="."
+  else
+    nextblitem=$1
+  fi
+  options=()
+  options+=("${txtinstall//%1/syslinux}" "pacstrap syslinux (gptfdisk,mtools)")
+  options+=("${txtedit//%1/syslinux}" "($txtoptional)")
+  options+=("${txtinstall//%1/bootloader}" "syslinux-install_update")
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloadersyslinuxmenu" --menu "" --cancel-button "$txtback" --default-item "$nextblitem" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ "$?" = "0" ]; then
+    case $sel in
+      "${txtinstall//%1/syslinux}")
+        archsyslinuxinstall
+        nextblitem="${txtinstall//%1/bootloader}"
+      ;;
+      "${txtedit//%1/syslinux}")
+        $EDITOR /mnt/boot/syslinux/syslinux.cfg
+        nextblitem="${txtinstall//%1/bootloader}"
+      ;;
+      "${txtinstall//%1/bootloader}")
+        archsyslinuxinstallbootloader
+        nextblitem="${txtinstall//%1/bootloader}"
+      ;;
+    esac
+    archbootloadersyslinuxbmenu "$nextblitem"
+  fi
+}
+
+archsyslinuxinstall(){
+  clear
+  
+  if [ "$(parted ${rootdev::8} print|grep gpt)" != "" ]; then
+    echo "Add gptfdisk to support your gpt disk"
+    additionalpkg=$additionalpkg"gptfdisk "
+  fi
+  
+  if [ "$bootdev" != "" ]; then
+    if [ "$(parted $bootdev print|grep fat)" != "" ]; then
+      echo "Add mtools to support your fat boot partition"
+      additionalpkg=$additionalpkg"mtools "
+    fi
+  fi
+
+  echo "pacstrap /mnt syslinux $additionalpkg"
+  pacstrap /mnt syslinux $additionalpkg
+  pressanykey
+
+  clear
+  echo "Updating /boot/syslinux/syslinux.cfg"
+  if [ "$luksroot" = "1" ]; then
+    echo "sed -i \"/APPEND\ root=/c\    APPEND root=/dev/mapper/root cryptdevice=$rootdev:root rw\" /mnt/boot/syslinux/syslinux.cfg"
+    sed -i "/APPEND\ root=/c\    APPEND root=/dev/mapper/root cryptdevice=$rootdev:root\ rw" /mnt/boot/syslinux/syslinux.cfg
+  else
+    echo "sed -i \"/APPEND\ root=/c\    APPEND root=$rootdev rw\" /mnt/boot/syslinux/syslinux.cfg"
+    sed -i "/APPEND\ root=/c\    APPEND root=$rootdev\ rw" /mnt/boot/syslinux/syslinux.cfg
+  fi
+  pressanykey
+}
+
+archsyslinuxinstallbootloader(){
+  clear
+  archchroot syslinuxbootloaderinstall $device
+  pressanykey
+}
+archsyslinuxinstallbootloaderchroot(){
+  if [ ! "$1" = "none" ]; then
+    echo "syslinux-install_update -i -a -m"
+    syslinux-install_update -i -a -m
+  fi
+  exit
+}
 
 
 
@@ -1386,6 +1468,8 @@ loadstrings(){
   txtrungrubmakeconfig="Run grub-mkconfig ?"
   txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
   
+  txtbootloadersyslinuxmenu="Syslinux Install Menu"
+  
   txtoptional="Optional"
   txtrecommandeasyinst="Recommanded for easy install"
   txtset="Set %1"
@@ -1411,15 +1495,15 @@ loadstrings(){
 while (( "$#" )); do
   case $1 in
     --help)
-			echo "archfi"
-			echo "------"
-			echo "-sf | --skip-font                Skip setfont from language files"
-			echo "-t | --test ghusername ghbranch  Test language files"
-			exit 0
+      echo "archfi"
+      echo "------"
+      echo "-sf | --skip-font                Skip setfont from language files"
+      echo "-t | --test ghusername ghbranch  Test language files"
+      exit 0
     ;;
-		-sf | --skip-font) skipfont=1;;
+    -sf | --skip-font) skipfont=1;;
     -t | --test) baseurl="https://raw.githubusercontent"
-                 baseurl="$baseurl.com/""$2/archfi/$3";;
+                baseurl="$baseurl.com/""$2/archfi/$3";;
     --chroot) chroot=1
               command=$2
               args=$3;;
@@ -1439,6 +1523,7 @@ if [ "$chroot" = "1" ]; then
     'grubbootloaderinstall') archgrubinstallbootloaderchroot $args;;
     'grubbootloaderefiinstall') archgrubinstallbootloaderefichroot $args;;
     'grubbootloaderefiusbinstall') archgrubinstallbootloaderefiusbchroot $args;;
+    'syslinuxbootloaderinstall') archsyslinuxinstallbootloaderchroot $args;;
     'archdiinstallandlaunch') archdiinstallandlaunchchroot;;
     'archdiinstall') archdiinstallchroot;;
     'archdilaunch') archdilaunchchroot;;
