@@ -81,6 +81,8 @@ txtgrubluksdetected="Partition root cryptée !\n\nAjouter cryptdevice= to GRUB_C
 
 txtbootloadersyslinuxmenu="Menu Installation Syslinux"
 
+txtbootloaderrefindmenu="Menu Installation rEFInd"
+
 txtoptional="Optionnel"
 txtrecommandeasyinst="Recommandé pour installation rapide"
 txtset="Définir %1"

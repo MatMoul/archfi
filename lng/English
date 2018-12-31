@@ -81,6 +81,8 @@ txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLIN
 
 txtbootloadersyslinuxmenu="Syslinux Install Menu"
 
+txtbootloaderrefindmenu="rEFInd Install Menu"
+
 txtoptional="Optional"
 txtrecommandeasyinst="Recommanded for easy install"
 txtset="Set %1"

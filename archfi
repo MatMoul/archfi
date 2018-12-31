@@ -1068,6 +1068,7 @@ archbootloadermenu(){
   options+=("grub" "")
   if [ "$efimode" == "1" ]; then
     options+=("systemd-boot" "")
+    options+=("refind" "")
   fi
   if [ "$efimode" != "2" ]; then
     options+=("syslinux" "")
@@ -1077,15 +1078,10 @@ archbootloadermenu(){
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     case $sel in
-      "grub")
-        archbootloadergrubmenu
-      ;;
-      "systemd-boot")
-        archbootloadersystemdbmenu
-      ;;
-      "syslinux")
-        archbootloadersyslinuxbmenu
-      ;;
+      "grub") archbootloadergrubmenu;;
+      "systemd-boot")archbootloadersystemdbmenu;;
+      "refind") archbootloaderrefindmenu;;
+      "syslinux")archbootloadersyslinuxbmenu;;
     esac
   fi
 }
@@ -1425,6 +1421,58 @@ archsystemdinstallchroot(){
 }
 
 
+archbootloaderrefindmenu(){
+  if [ "$1" = "" ]; then
+    nextblitem="."
+  else
+    nextblitem=$1
+  fi
+  options=()
+  options+=("${txtinstall//%1/refind}" "pacstrap refind-efi")
+  options+=("${txtedit//%1/refind_linux.conf}" "($txtoptional)")
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloaderrefindmenu" --menu "" --cancel-button "$txtback" --default-item "$nextblitem" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ "$?" = "0" ]; then
+    case $sel in
+      "${txtinstall//%1/refind}")
+        archrefindinstall
+        nextblitem="${txtedit//%1/refind_linux.conf}"
+      ;;
+      "${txtedit//%1/refind_linux.conf}")
+        $EDITOR /mnt/boot/refind_linux.conf
+        nextblitem="${txtedit//%1/refind_linux.conf}"
+      ;;
+    esac
+    archbootloaderrefindmenu "$nextblitem"
+  fi
+
+}
+
+archrefindinstall(){
+  clear
+  
+  echo "pacstrap /mnt refind-efi"
+  echo "archchroot refindbootloaderinstall $realrootdev"
+  echo "echo \"\\\"Arch Linux         \\\" \\\"root=UUID=$rootuuid rw add_efi_memmap\\\"\" > /mnt/boot/refind_linux.conf"
+  echo "echo \"\\\"Arch Linux Fallback\\\" \\\"root=UUID=$rootuuid rw add_efi_memmap initrd=/initramfs-linux-fallback.img\\\"\" >> /mnt/boot/refind_linux.conf"
+  echo "echo \"\\\"Arch Linux Terminal\\\" \\\"root=UUID=$rootuuid rw add_efi_memmap systemd.unit=multi-user.target\\\"\" >> /mnt/boot/refind_linux.conf"
+  
+  pacstrap /mnt refind-efi
+  archchroot refindbootloaderinstall $realrootdev
+  rootuuid=$(blkid -s UUID -o value $realrootdev)
+  echo "\"Arch Linux         \" \"root=UUID=$rootuuid rw add_efi_memmap\"" > /mnt/boot/refind_linux.conf
+  echo "\"Arch Linux Fallback\" \"root=UUID=$rootuuid rw add_efi_memmap initrd=/initramfs-linux-fallback.img\"" >> /mnt/boot/refind_linux.conf
+  echo "\"Arch Linux Terminal\" \"root=UUID=$rootuuid rw add_efi_memmap systemd.unit=multi-user.target\"" >> /mnt/boot/refind_linux.conf
+  pressanykey
+}
+archrefindinstallchroot(){
+  #--usedefault /dev/sdXY --alldrivers
+  echo "refind-install"
+  refind-install
+}
+
+
 archenabledhcpcd(){
   if (whiptail --backtitle "$apptitle" --title "${txtenable//%1/dhcpcd}" --yesno "${txtenable//%1/dhcpcd} ?" 0 0) then
     clear
@@ -1593,6 +1641,8 @@ loadstrings(){
   
   txtbootloadersyslinuxmenu="Syslinux Install Menu"
   
+  txtbootloaderrefindmenu="rEFInd Install Menu"
+  
   txtoptional="Optional"
   txtrecommandeasyinst="Recommanded for easy install"
   txtset="Set %1"
@@ -1659,6 +1709,7 @@ if [ "$chroot" = "1" ]; then
     'syslinuxbootloaderinstall') archsyslinuxinstallbootloaderchroot $args;;
     'syslinuxbootloaderefiinstall') archsyslinuxinstallbootloaderefichroot $args;;
     'systemdbootloaderinstall') archsystemdinstallchroot $args;;
+    'refindbootloaderinstall') archrefindinstallchroot $args;;
     'archdiinstallandlaunch') archdiinstallandlaunchchroot;;
     'archdiinstall') archdiinstallchroot;;
     'archdilaunch') archdilaunchchroot;;
@@ -1672,7 +1723,7 @@ else
     fi
   else
     eficomputer=1
-    if [ "$efimode" != "" ]; then
+    if [ "$efimode" == "" ]; then
       efimode=1
     fi
   fi
