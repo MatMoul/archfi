@@ -1056,7 +1056,7 @@ archgenmkinitcpiochroot(){
 archbootloadermenu(){
   options=()
   options+=("grub" "")
-  if [ "$efimode" != "1" ]&&[ "$efimode" != "2" ]; then
+  if [ "$efimode" != "2" ]; then
     options+=("syslinux" "")
   fi
   sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloadermenu" --menu "" --cancel-button "$txtback" 0 0 0 \
@@ -1261,6 +1261,11 @@ archbootloadersyslinuxbmenu(){
 archsyslinuxinstall(){
   clear
   
+  if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
+    echo "Add efibootmgr to support your efi installation"
+    additionalpkg=$additionalpkg"efibootmgr "
+  fi
+  
   if [ "$(parted ${realrootdev::8} print|grep gpt)" != "" ]; then
     echo "Add gptfdisk to support your gpt disk"
     additionalpkg=$additionalpkg"gptfdisk "
@@ -1286,18 +1291,32 @@ archsyslinuxinstall(){
     echo "sed -i \"/APPEND\ root=/c\    APPEND root=$rootdev rw\" /mnt/boot/syslinux/syslinux.cfg"
     sed -i "/APPEND\ root=/c\    APPEND root=$rootdev\ rw" /mnt/boot/syslinux/syslinux.cfg
   fi
+  
   pressanykey
 }
 
 archsyslinuxinstallbootloader(){
   clear
-  archchroot syslinuxbootloaderinstall $device
+  if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
+    archchroot syslinuxbootloaderefiinstall $bootdev
+  else
+    archchroot syslinuxbootloaderinstall $bootdev
+  fi
   pressanykey
 }
 archsyslinuxinstallbootloaderchroot(){
   if [ ! "$1" = "none" ]; then
     echo "syslinux-install_update -i -a -m"
     syslinux-install_update -i -a -m
+  fi
+  exit
+}
+archsyslinuxinstallbootloaderefichroot(){
+  if [ ! "$1" = "none" ]; then
+    echo "cp -r /usr/lib/syslinux/efi64/* /boot/syslinux"
+    echo "efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose"
+    cp -r /usr/lib/syslinux/efi64/* /boot/syslinux
+    efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose
   fi
   exit
 }
@@ -1526,6 +1545,7 @@ if [ "$chroot" = "1" ]; then
     'grubbootloaderefiinstall') archgrubinstallbootloaderefichroot $args;;
     'grubbootloaderefiusbinstall') archgrubinstallbootloaderefiusbchroot $args;;
     'syslinuxbootloaderinstall') archsyslinuxinstallbootloaderchroot $args;;
+    'syslinuxbootloaderefiinstall') archsyslinuxinstallbootloaderefichroot $args;;
     'archdiinstallandlaunch') archdiinstallandlaunchchroot;;
     'archdiinstall') archdiinstallchroot;;
     'archdilaunch') archdilaunchchroot;;
