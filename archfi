@@ -420,6 +420,7 @@ selectparts(){
   if [ ! "$?" = "0" ]; then
     return 1
   fi
+  realrootdev=$rootdev
 
   homedev=$(whiptail --backtitle "$apptitle" --title "$txtselectpartsmenu" --menu "${txtselectdevice//%1/home}" 0 0 0 \
     "none" "-" \
@@ -648,6 +649,7 @@ formatdevice(){
       pressanykey
       formatdevice $1 /dev/mapper/$1 noluks
       if [ "$1" = "root" ]; then
+        realrootdev=$rootdev
         rootdev=/dev/mapper/$1
         luksroot=1
         luksrootuuid=$(cryptsetup luksUUID $2)
@@ -1259,7 +1261,7 @@ archbootloadersyslinuxbmenu(){
 archsyslinuxinstall(){
   clear
   
-  if [ "$(parted ${rootdev::8} print|grep gpt)" != "" ]; then
+  if [ "$(parted ${realrootdev::8} print|grep gpt)" != "" ]; then
     echo "Add gptfdisk to support your gpt disk"
     additionalpkg=$additionalpkg"gptfdisk "
   fi
@@ -1278,8 +1280,8 @@ archsyslinuxinstall(){
   clear
   echo "Updating /boot/syslinux/syslinux.cfg"
   if [ "$luksroot" = "1" ]; then
-    echo "sed -i \"/APPEND\ root=/c\    APPEND root=/dev/mapper/root cryptdevice=$rootdev:root rw\" /mnt/boot/syslinux/syslinux.cfg"
-    sed -i "/APPEND\ root=/c\    APPEND root=/dev/mapper/root cryptdevice=$rootdev:root\ rw" /mnt/boot/syslinux/syslinux.cfg
+    echo "sed -i \"/APPEND\ root=/c\    APPEND root=/dev/mapper/root cryptdevice=$realrootdev:root rw\" /mnt/boot/syslinux/syslinux.cfg"
+    sed -i "/APPEND\ root=/c\    APPEND root=/dev/mapper/root cryptdevice=$realrootdev:root\ rw" /mnt/boot/syslinux/syslinux.cfg
   else
     echo "sed -i \"/APPEND\ root=/c\    APPEND root=$rootdev rw\" /mnt/boot/syslinux/syslinux.cfg"
     sed -i "/APPEND\ root=/c\    APPEND root=$rootdev\ rw" /mnt/boot/syslinux/syslinux.cfg
