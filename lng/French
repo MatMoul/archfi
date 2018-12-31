@@ -80,6 +80,9 @@ txtrungrubmakeconfig="Exécuter grub-mkconfig ?"
 txtgrubluksdetected="Partition root cryptée !\n\nAjouter cryptdevice= to GRUB_CMDLINE_LINUX dans /etc/default/grub ?"
 
 txtbootloadersyslinuxmenu="Menu Installation Syslinux"
+txtsyslinuxaddefibootmgr="Une installation EFI nécessite efibootmgr"
+txtsyslinuxaddgptfdisk="Un disque GPT nécessite gptfdisk"
+txtsyslinuxaddmtools="Un partition de boot FAT nécessite mtools"
 
 txtbootloaderrefindmenu="Menu Installation rEFInd"
 

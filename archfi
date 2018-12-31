@@ -1269,23 +1269,22 @@ archbootloadersyslinuxbmenu(){
     archbootloadersyslinuxbmenu "$nextblitem"
   fi
 }
-
 archsyslinuxinstall(){
   clear
   
   if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
-    echo "Add efibootmgr to support your efi installation"
+    echo "$txtsyslinuxaddefibootmgr"
     additionalpkg=$additionalpkg"efibootmgr "
   fi
   
   if [ "$(parted ${realrootdev::8} print|grep gpt)" != "" ]; then
-    echo "Add gptfdisk to support your gpt disk"
+    echo "$txtsyslinuxaddgptfdisk"
     additionalpkg=$additionalpkg"gptfdisk "
   fi
   
   if [ "$bootdev" != "" ]; then
     if [ "$(parted $bootdev print|grep fat)" != "" ]; then
-      echo "Add mtools to support your fat boot partition"
+      echo "$txtsyslinuxaddmtools"
       additionalpkg=$additionalpkg"mtools "
     fi
   fi
@@ -1306,7 +1305,6 @@ archsyslinuxinstall(){
   
   pressanykey
 }
-
 archsyslinuxinstallbootloader(){
   clear
   if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
@@ -1344,7 +1342,7 @@ archbootloadersystemdbmenu(){
   options+=("${txtinstall//%1/systemd-boot}" "bootctl install")
   options+=("${txtedit//%1/loader.conf}" "($txtoptional)")
   options+=("${txtedit//%1/entries}" "($txtoptional)")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloadersyslinuxmenu" --menu "" --cancel-button "$txtback" --default-item "$nextblitem" 0 0 0 \
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloadersystemdmenu" --menu "" --cancel-button "$txtback" --default-item "$nextblitem" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
@@ -1365,7 +1363,6 @@ archbootloadersystemdbmenu(){
     archbootloadersystemdbmenu "$nextblitem"
   fi
 }
-
 archsystemdinstall(){
   clear
   archchroot systemdbootloaderinstall $realrootdev
@@ -1403,15 +1400,9 @@ archsystemdinstall(){
     sed -i "s/XXXX/$parttype/" /mnt/boot/loader/entries/arch.conf
   fi
   
-  
-  
-  
   cp /mnt/boot/loader/entries/arch.conf /mnt/boot/loader/entries/arch-fallback.conf
   sed -i "s/Arch Linux/Arch Linux Fallback/" /mnt/boot/loader/entries/arch-fallback.conf
   sed -i "s/initramfs-linux/initramfs-linux-fallback/" /mnt/boot/loader/entries/arch-fallback.conf
-  
-  
-  
   
   pressanykey
 }
@@ -1448,7 +1439,6 @@ archbootloaderrefindmenu(){
   fi
 
 }
-
 archrefindinstall(){
   clear
   
@@ -1640,6 +1630,11 @@ loadstrings(){
   txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
   
   txtbootloadersyslinuxmenu="Syslinux Install Menu"
+  txtsyslinuxaddefibootmgr="EFI install require efibootmgr"
+  txtsyslinuxaddgptfdisk="GPT disk require gptfdisk"
+  txtsyslinuxaddmtools="FAT boot part require mtools"
+  
+  txtbootloadersystemdmenu="Systemd-boot Install Menu"
   
   txtbootloaderrefindmenu="rEFInd Install Menu"
   
