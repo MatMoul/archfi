@@ -1032,7 +1032,7 @@ archgenfstabmenu(){
   options+=("LABEL" "genfstab -L")
   options+=("PARTUUID" "genfstab -t PARTUUID")
   options+=("PARTLABEL" "genfstab -t PARTLABEL")
-  sel=$(whiptail --backtitle "$apptitle" --title "ARCHGENFSTABMENU" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
+  sel=$(whiptail --backtitle "$apptitle" --title "${txtgenerate//%1/fstab}" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
