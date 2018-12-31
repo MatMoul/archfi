@@ -1056,6 +1056,9 @@ archgenmkinitcpiochroot(){
 archbootloadermenu(){
   options=()
   options+=("grub" "")
+  if [ "$efimode" == "1" ]; then
+    options+=("systemd-boot" "")
+  fi
   if [ "$efimode" != "2" ]; then
     options+=("syslinux" "")
   fi
@@ -1066,6 +1069,9 @@ archbootloadermenu(){
     case $sel in
       "grub")
         archbootloadergrubmenu
+      ;;
+      "systemd-boot")
+        archbootloadersystemdbmenu
       ;;
       "syslinux")
         archbootloadersyslinuxbmenu
@@ -1322,6 +1328,92 @@ archsyslinuxinstallbootloaderefichroot(){
 }
 
 
+archbootloadersystemdbmenu(){
+  if [ "$1" = "" ]; then
+    nextblitem="."
+  else
+    nextblitem=$1
+  fi
+  options=()
+  options+=("${txtinstall//%1/systemd-boot}" "bootctl install")
+  options+=("${txtedit//%1/loader.conf}" "($txtoptional)")
+  options+=("${txtedit//%1/entries}" "($txtoptional)")
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloadersyslinuxmenu" --menu "" --cancel-button "$txtback" --default-item "$nextblitem" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ "$?" = "0" ]; then
+    case $sel in
+      "${txtinstall//%1/systemd-boot}")
+        archsystemdinstall
+        nextblitem="${txtinstall//%1/loader.conf}"
+      ;;
+      "${txtedit//%1/loader.conf}")
+        $EDITOR /mnt/boot/loader/loader.conf
+        nextblitem="${txtedit//%1/entries}"
+      ;;
+      "${txtedit//%1/entries}")
+        $EDITOR /mnt/boot/loader/entries/*
+        nextblitem="${txtedit//%1/entries}"
+      ;;
+    esac
+    archbootloadersystemdbmenu "$nextblitem"
+  fi
+}
+
+archsystemdinstall(){
+  clear
+  archchroot systemdbootloaderinstall $realrootdev
+  
+  partuuid=$(blkid -s PARTUUID -o value $realrootdev)
+  parttype=$(blkid -s TYPE -o value $rootdev)
+  
+  echo "cp /mnt/usr/share/systemd/bootctl/arch.conf /mnt/boot/loader/entries"
+  echo "echo \"timeout 2\" >> /mnt/boot/loader/loader.conf"
+  echo "cp /mnt/usr/share/systemd/bootctl/loader.conf /mnt/boot/loader"
+  if [ "$luksroot" = "1" ]; then
+    cryptuuid=$(blkid -s UUID -o value $realrootdev)
+    echo "sed -i \"s/PARTUUID=XXXX/\\/dev\\/mapper\\/root/\" /mnt/boot/loader/entries/arch.conf"
+    echo "sed -i \"s/XXXX/$parttype/\" /mnt/boot/loader/entries/arch.conf"
+    echo "sed -i \"s/root=/cryptdevice=UUID=$cryptuuid:root root=/\" /mnt/boot/loader/entries/arch.conf"
+  else
+    echo "sed -i \"s/PARTUUID=XXXX/PARTUUID=$partuuid/\" /mnt/boot/loader/entries/arch.conf"
+    echo "sed -i \"s/XXXX/$parttype/\" /mnt/boot/loader/entries/arch.conf"
+  fi
+  echo "cp /mnt/boot/loader/entries/arch.conf /mnt/boot/loader/entries/arch-fallback.conf"
+  echo "sed -i \"s/Arch Linux/Arch Linux Fallback/\" /mnt/boot/loader/entries/arch-fallback.conf"
+  echo "sed -i \"s/initramfs-linux/initramfs-linux-fallback/\" /mnt/boot/loader/entries/arch-fallback.conf"
+  
+  cp /mnt/usr/share/systemd/bootctl/loader.conf /mnt/boot/loader
+  echo "timeout 2" >> /mnt/boot/loader/loader.conf
+  cp /mnt/usr/share/systemd/bootctl/arch.conf /mnt/boot/loader/entries
+  
+  
+  if [ "$luksroot" = "1" ]; then
+    sed -i "s/PARTUUID=XXXX/\/dev\/mapper\/root/" /mnt/boot/loader/entries/arch.conf
+    sed -i "s/XXXX/$parttype/" /mnt/boot/loader/entries/arch.conf
+    sed -i "s/root=/cryptdevice=UUID=$cryptuuid:root root=/" /mnt/boot/loader/entries/arch.conf
+  else
+    sed -i "s/PARTUUID=XXXX/PARTUUID=$partuuid/" /mnt/boot/loader/entries/arch.conf
+    sed -i "s/XXXX/$parttype/" /mnt/boot/loader/entries/arch.conf
+  fi
+  
+  
+  
+  
+  cp /mnt/boot/loader/entries/arch.conf /mnt/boot/loader/entries/arch-fallback.conf
+  sed -i "s/Arch Linux/Arch Linux Fallback/" /mnt/boot/loader/entries/arch-fallback.conf
+  sed -i "s/initramfs-linux/initramfs-linux-fallback/" /mnt/boot/loader/entries/arch-fallback.conf
+  
+  
+  
+  
+  pressanykey
+}
+archsystemdinstallchroot(){
+  echo "bootctl --path=/boot install"
+  bootctl --path=/boot install
+}
+
 
 archenabledhcpcd(){
   if (whiptail --backtitle "$apptitle" --title "${txtenable//%1/dhcpcd}" --yesno "${txtenable//%1/dhcpcd} ?" 0 0) then
@@ -1546,6 +1638,7 @@ if [ "$chroot" = "1" ]; then
     'grubbootloaderefiusbinstall') archgrubinstallbootloaderefiusbchroot $args;;
     'syslinuxbootloaderinstall') archsyslinuxinstallbootloaderchroot $args;;
     'syslinuxbootloaderefiinstall') archsyslinuxinstallbootloaderefichroot $args;;
+    'systemdbootloaderinstall') archsystemdinstallchroot $args;;
     'archdiinstallandlaunch') archdiinstallandlaunchchroot;;
     'archdiinstall') archdiinstallchroot;;
     'archdilaunch') archdilaunchchroot;;
