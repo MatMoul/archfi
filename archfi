@@ -817,7 +817,7 @@ archmenu(){
         nextitem="${txtgenerate//%1/fstab}"
       ;;
       "${txtgenerate//%1/fstab}")
-        archgenfstab
+        archgenfstabmenu
         if [ "$luksdrive" = "1" ]; then
           nextitem="${txtgenerate//%1/crypttab}"
         else
@@ -1026,10 +1026,39 @@ archsetrootpasswordchroot(){
   exit
 }
 
-archgenfstab(){
-  clear
-  echo "genfstab -U -p /mnt > /mnt/etc/fstab"
-  genfstab -U -p /mnt > /mnt/etc/fstab
+archgenfstabmenu(){
+  options=()
+  options+=("UUID" "genfstab -U")
+  options+=("LABEL" "genfstab -L")
+  options+=("PARTUUID" "genfstab -t PARTUUID")
+  options+=("PARTLABEL" "genfstab -t PARTLABEL")
+  sel=$(whiptail --backtitle "$apptitle" --title "ARCHGENFSTABMENU" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ "$?" = "0" ]; then
+    case $sel in
+      "UUID")
+        clear
+        echo "genfstab -U -p /mnt > /mnt/etc/fstab"
+        genfstab -U -p /mnt > /mnt/etc/fstab
+      ;;
+      "LABEL")
+        clear
+        echo "genfstab -L -p /mnt > /mnt/etc/fstab"
+        genfstab -L -p /mnt > /mnt/etc/fstab
+      ;;
+      "PARTUUID")
+        clear
+        echo "genfstab -t PARTUUID -p /mnt > /mnt/etc/fstab"
+        genfstab -t PARTUUID -p /mnt > /mnt/etc/fstab
+      ;;
+      "PARTLABEL")
+        clear
+        echo "genfstab -t PARTLABEL -p /mnt > /mnt/etc/fstab"
+        genfstab -t PARTLABEL -p /mnt > /mnt/etc/fstab
+      ;;
+    esac
+  fi
   pressanykey
 }
 
