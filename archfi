@@ -901,10 +901,14 @@ archsetkeymap(){
   #done
   items=$(find /usr/share/kbd/keymaps/ -type f -printf "%f\n" | sort -V)
   options=()
+  defsel=""
   for item in $items; do
+    if [ "${item%%.*}" == "$keymap" ]; then
+      defsel="${item%%.*}"
+    fi
     options+=("${item%%.*}" "")
   done
-  keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" 0 0 0 \
+  keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" --default-item "$defsel" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
@@ -936,10 +940,14 @@ archsetfont(){
 archsetlocale(){
   items=$(ls /usr/share/i18n/locales)
   options=()
+  defsel=""
   for item in $items; do
+    if [ "$defsel" == "" ]&&[ "${keymap::2}" == "${item::2}" ]; then
+      defsel="$item"
+    fi
     options+=("$item" "")
   done
-  locale=$(whiptail --backtitle "$apptitle" --title "$txtsetlocale" --menu "" 0 0 0 \
+  locale=$(whiptail --backtitle "$apptitle" --title "$txtsetlocale" --menu "" --default-item "$defsel" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
