@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2019.01.01.02.09.48 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2019.01.01.20.34.17 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 skipfont="0"
 
@@ -901,10 +901,14 @@ archsetkeymap(){
   #done
   items=$(find /usr/share/kbd/keymaps/ -type f -printf "%f\n" | sort -V)
   options=()
+  defsel=""
   for item in $items; do
+    if [ "${item%%.*}" == "$keymap" ]; then
+      defsel="${item%%.*}"
+    fi
     options+=("${item%%.*}" "")
   done
-  keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" 0 0 0 \
+  keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" --default-item "$defsel" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
@@ -936,10 +940,14 @@ archsetfont(){
 archsetlocale(){
   items=$(ls /usr/share/i18n/locales)
   options=()
+  defsel=""
   for item in $items; do
+    if [ "$defsel" == "" ]&&[ "${keymap::2}" == "${item::2}" ]; then
+      defsel="$item"
+    fi
     options+=("$item" "")
   done
-  locale=$(whiptail --backtitle "$apptitle" --title "$txtsetlocale" --menu "" 0 0 0 \
+  locale=$(whiptail --backtitle "$apptitle" --title "$txtsetlocale" --menu "" --default-item "$defsel" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
@@ -1253,6 +1261,11 @@ archgrubinstallbootloaderefichroot(){
   if [ ! "$1" = "none" ]; then
     echo "grub-install --target=x86_64-efi --efi-directory=/boot --recheck $1"
     grub-install --target=x86_64-efi --efi-directory=/boot --recheck $1
+    isvbox=$(lspci | grep "VirtualBox G")
+    if [ "$isvbox" ]; then
+      echo "VirtualBox detected, creating startup.nsh..."
+      echo "\EFI\arch\grubx64.efi" > /boot/startup.nsh
+    fi
   fi
   exit
 }
@@ -1262,6 +1275,11 @@ archgrubinstallbootloaderefiusbchroot(){
     grub-install --target=i386-pc --recheck $1
     echo "grub-install --target=x86_64-efi --efi-directory=/boot --removable --recheck $1"
     grub-install --target=x86_64-efi --efi-directory=/boot --removable --recheck $1
+    isvbox=$(lspci | grep "VirtualBox G")
+    if [ "$isvbox" ]; then
+      echo "VirtualBox detected, creating startup.nsh..."
+      echo "\EFI\arch\grubx64.efi" > /boot/startup.nsh
+    fi
   fi
   exit
 }
@@ -1356,6 +1374,11 @@ archsyslinuxinstallbootloaderefichroot(){
     echo "efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose"
     cp -r /usr/lib/syslinux/efi64/* /boot/syslinux
     efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose
+    isvbox=$(lspci | grep "VirtualBox G")
+    if [ "$isvbox" ]; then
+      echo "VirtualBox detected, creating startup.nsh..."
+      echo "\syslinux\syslinux.efi" > /boot/startup.nsh
+    fi
   fi
   exit
 }
@@ -1438,6 +1461,11 @@ archsystemdinstall(){
 archsystemdinstallchroot(){
   echo "bootctl --path=/boot install"
   bootctl --path=/boot install
+  isvbox=$(lspci | grep "VirtualBox G")
+  if [ "$isvbox" ]; then
+    echo "VirtualBox detected, creating startup.nsh..."
+    echo "\EFI\systemd\systemd-bootx64.efi" > /boot/startup.nsh
+  fi
 }
 
 
@@ -1489,6 +1517,11 @@ archrefindinstallchroot(){
   #--usedefault /dev/sdXY --alldrivers
   echo "refind-install"
   refind-install
+  isvbox=$(lspci | grep "VirtualBox G")
+  if [ "$isvbox" ]; then
+    echo "VirtualBox detected, creating startup.nsh..."
+    echo "\EFI\refind\refind_x64.efi" > /boot/startup.nsh
+  fi
 }
 
 
