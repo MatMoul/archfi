@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2018.12.31.03.14.35 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2019.01.01.02.09.48 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 skipfont="0"
 
@@ -578,6 +578,16 @@ formatdevice(){
     btrfs)
       echo "mkfs.btrfs -f $2"
       mkfs.btrfs -f $2
+      if [ "$1" = "root" ]; then
+        echo "mount $2 /mnt"
+        echo "btrfs subvolume create /mnt/root"
+        echo "btrfs subvolume set-default /mnt/root"
+        echo "umount /mnt"
+        mount $2 /mnt
+        btrfs subvolume create /mnt/root
+        btrfs subvolume set-default /mnt/root
+        umount /mnt
+      fi
     ;;
     reiserfs)
       echo "mkfs.reiserfs -f $2"
@@ -807,7 +817,7 @@ archmenu(){
         nextitem="${txtgenerate//%1/fstab}"
       ;;
       "${txtgenerate//%1/fstab}")
-        archgenfstab
+        archgenfstabmenu
         if [ "$luksdrive" = "1" ]; then
           nextitem="${txtgenerate//%1/crypttab}"
         else
@@ -1016,10 +1026,39 @@ archsetrootpasswordchroot(){
   exit
 }
 
-archgenfstab(){
-  clear
-  echo "genfstab -U -p /mnt > /mnt/etc/fstab"
-  genfstab -U -p /mnt > /mnt/etc/fstab
+archgenfstabmenu(){
+  options=()
+  options+=("UUID" "genfstab -U")
+  options+=("LABEL" "genfstab -L")
+  options+=("PARTUUID" "genfstab -t PARTUUID")
+  options+=("PARTLABEL" "genfstab -t PARTLABEL")
+  sel=$(whiptail --backtitle "$apptitle" --title "${txtgenerate//%1/fstab}" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ "$?" = "0" ]; then
+    case $sel in
+      "UUID")
+        clear
+        echo "genfstab -U -p /mnt > /mnt/etc/fstab"
+        genfstab -U -p /mnt > /mnt/etc/fstab
+      ;;
+      "LABEL")
+        clear
+        echo "genfstab -L -p /mnt > /mnt/etc/fstab"
+        genfstab -L -p /mnt > /mnt/etc/fstab
+      ;;
+      "PARTUUID")
+        clear
+        echo "genfstab -t PARTUUID -p /mnt > /mnt/etc/fstab"
+        genfstab -t PARTUUID -p /mnt > /mnt/etc/fstab
+      ;;
+      "PARTLABEL")
+        clear
+        echo "genfstab -t PARTLABEL -p /mnt > /mnt/etc/fstab"
+        genfstab -t PARTLABEL -p /mnt > /mnt/etc/fstab
+      ;;
+    esac
+  fi
   pressanykey
 }
 
@@ -1056,7 +1095,11 @@ archgenmkinitcpiochroot(){
 archbootloadermenu(){
   options=()
   options+=("grub" "")
-  if [ "$efimode" != "1" ]&&[ "$efimode" != "2" ]; then
+  if [ "$efimode" == "1" ]; then
+    options+=("systemd-boot" "")
+    options+=("refind" "")
+  fi
+  if [ "$efimode" != "2" ]; then
     options+=("syslinux" "")
   fi
   sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloadermenu" --menu "" --cancel-button "$txtback" 0 0 0 \
@@ -1064,12 +1107,10 @@ archbootloadermenu(){
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     case $sel in
-      "grub")
-        archbootloadergrubmenu
-      ;;
-      "syslinux")
-        archbootloadersyslinuxbmenu
-      ;;
+      "grub") archbootloadergrubmenu;;
+      "systemd-boot")archbootloadersystemdbmenu;;
+      "refind") archbootloaderrefindmenu;;
+      "syslinux")archbootloadersyslinuxbmenu;;
     esac
   fi
 }
@@ -1257,18 +1298,22 @@ archbootloadersyslinuxbmenu(){
     archbootloadersyslinuxbmenu "$nextblitem"
   fi
 }
-
 archsyslinuxinstall(){
   clear
   
+  if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
+    echo "$txtsyslinuxaddefibootmgr"
+    additionalpkg=$additionalpkg"efibootmgr "
+  fi
+  
   if [ "$(parted ${realrootdev::8} print|grep gpt)" != "" ]; then
-    echo "Add gptfdisk to support your gpt disk"
+    echo "$txtsyslinuxaddgptfdisk"
     additionalpkg=$additionalpkg"gptfdisk "
   fi
   
   if [ "$bootdev" != "" ]; then
     if [ "$(parted $bootdev print|grep fat)" != "" ]; then
-      echo "Add mtools to support your fat boot partition"
+      echo "$txtsyslinuxaddmtools"
       additionalpkg=$additionalpkg"mtools "
     fi
   fi
@@ -1286,12 +1331,16 @@ archsyslinuxinstall(){
     echo "sed -i \"/APPEND\ root=/c\    APPEND root=$rootdev rw\" /mnt/boot/syslinux/syslinux.cfg"
     sed -i "/APPEND\ root=/c\    APPEND root=$rootdev\ rw" /mnt/boot/syslinux/syslinux.cfg
   fi
+  
   pressanykey
 }
-
 archsyslinuxinstallbootloader(){
   clear
-  archchroot syslinuxbootloaderinstall $device
+  if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
+    archchroot syslinuxbootloaderefiinstall $bootdev
+  else
+    archchroot syslinuxbootloaderinstall $bootdev
+  fi
   pressanykey
 }
 archsyslinuxinstallbootloaderchroot(){
@@ -1301,7 +1350,146 @@ archsyslinuxinstallbootloaderchroot(){
   fi
   exit
 }
+archsyslinuxinstallbootloaderefichroot(){
+  if [ ! "$1" = "none" ]; then
+    echo "cp -r /usr/lib/syslinux/efi64/* /boot/syslinux"
+    echo "efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose"
+    cp -r /usr/lib/syslinux/efi64/* /boot/syslinux
+    efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose
+  fi
+  exit
+}
 
+
+archbootloadersystemdbmenu(){
+  if [ "$1" = "" ]; then
+    nextblitem="."
+  else
+    nextblitem=$1
+  fi
+  options=()
+  options+=("${txtinstall//%1/systemd-boot}" "bootctl install")
+  options+=("${txtedit//%1/loader.conf}" "($txtoptional)")
+  options+=("${txtedit//%1/entries}" "($txtoptional)")
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloadersystemdmenu" --menu "" --cancel-button "$txtback" --default-item "$nextblitem" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ "$?" = "0" ]; then
+    case $sel in
+      "${txtinstall//%1/systemd-boot}")
+        archsystemdinstall
+        nextblitem="${txtinstall//%1/loader.conf}"
+      ;;
+      "${txtedit//%1/loader.conf}")
+        $EDITOR /mnt/boot/loader/loader.conf
+        nextblitem="${txtedit//%1/entries}"
+      ;;
+      "${txtedit//%1/entries}")
+        $EDITOR /mnt/boot/loader/entries/*
+        nextblitem="${txtedit//%1/entries}"
+      ;;
+    esac
+    archbootloadersystemdbmenu "$nextblitem"
+  fi
+}
+archsystemdinstall(){
+  clear
+  archchroot systemdbootloaderinstall $realrootdev
+  
+  partuuid=$(blkid -s PARTUUID -o value $realrootdev)
+  parttype=$(blkid -s TYPE -o value $rootdev)
+  
+  echo "cp /mnt/usr/share/systemd/bootctl/arch.conf /mnt/boot/loader/entries"
+  echo "echo \"timeout 2\" >> /mnt/boot/loader/loader.conf"
+  echo "cp /mnt/usr/share/systemd/bootctl/loader.conf /mnt/boot/loader"
+  if [ "$luksroot" = "1" ]; then
+    cryptuuid=$(blkid -s UUID -o value $realrootdev)
+    echo "sed -i \"s/PARTUUID=XXXX/\\/dev\\/mapper\\/root/\" /mnt/boot/loader/entries/arch.conf"
+    echo "sed -i \"s/XXXX/$parttype/\" /mnt/boot/loader/entries/arch.conf"
+    echo "sed -i \"s/root=/cryptdevice=UUID=$cryptuuid:root root=/\" /mnt/boot/loader/entries/arch.conf"
+  else
+    echo "sed -i \"s/PARTUUID=XXXX/PARTUUID=$partuuid/\" /mnt/boot/loader/entries/arch.conf"
+    echo "sed -i \"s/XXXX/$parttype/\" /mnt/boot/loader/entries/arch.conf"
+  fi
+  echo "cp /mnt/boot/loader/entries/arch.conf /mnt/boot/loader/entries/arch-fallback.conf"
+  echo "sed -i \"s/Arch Linux/Arch Linux Fallback/\" /mnt/boot/loader/entries/arch-fallback.conf"
+  echo "sed -i \"s/initramfs-linux/initramfs-linux-fallback/\" /mnt/boot/loader/entries/arch-fallback.conf"
+  
+  cp /mnt/usr/share/systemd/bootctl/loader.conf /mnt/boot/loader
+  echo "timeout 2" >> /mnt/boot/loader/loader.conf
+  cp /mnt/usr/share/systemd/bootctl/arch.conf /mnt/boot/loader/entries
+  
+  
+  if [ "$luksroot" = "1" ]; then
+    sed -i "s/PARTUUID=XXXX/\/dev\/mapper\/root/" /mnt/boot/loader/entries/arch.conf
+    sed -i "s/XXXX/$parttype/" /mnt/boot/loader/entries/arch.conf
+    sed -i "s/root=/cryptdevice=UUID=$cryptuuid:root root=/" /mnt/boot/loader/entries/arch.conf
+  else
+    sed -i "s/PARTUUID=XXXX/PARTUUID=$partuuid/" /mnt/boot/loader/entries/arch.conf
+    sed -i "s/XXXX/$parttype/" /mnt/boot/loader/entries/arch.conf
+  fi
+  
+  cp /mnt/boot/loader/entries/arch.conf /mnt/boot/loader/entries/arch-fallback.conf
+  sed -i "s/Arch Linux/Arch Linux Fallback/" /mnt/boot/loader/entries/arch-fallback.conf
+  sed -i "s/initramfs-linux/initramfs-linux-fallback/" /mnt/boot/loader/entries/arch-fallback.conf
+  
+  pressanykey
+}
+archsystemdinstallchroot(){
+  echo "bootctl --path=/boot install"
+  bootctl --path=/boot install
+}
+
+
+archbootloaderrefindmenu(){
+  if [ "$1" = "" ]; then
+    nextblitem="."
+  else
+    nextblitem=$1
+  fi
+  options=()
+  options+=("${txtinstall//%1/refind}" "pacstrap refind-efi")
+  options+=("${txtedit//%1/refind_linux.conf}" "($txtoptional)")
+  sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloaderrefindmenu" --menu "" --cancel-button "$txtback" --default-item "$nextblitem" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ "$?" = "0" ]; then
+    case $sel in
+      "${txtinstall//%1/refind}")
+        archrefindinstall
+        nextblitem="${txtedit//%1/refind_linux.conf}"
+      ;;
+      "${txtedit//%1/refind_linux.conf}")
+        $EDITOR /mnt/boot/refind_linux.conf
+        nextblitem="${txtedit//%1/refind_linux.conf}"
+      ;;
+    esac
+    archbootloaderrefindmenu "$nextblitem"
+  fi
+
+}
+archrefindinstall(){
+  clear
+  
+  echo "pacstrap /mnt refind-efi"
+  echo "archchroot refindbootloaderinstall $realrootdev"
+  echo "echo \"\\\"Arch Linux         \\\" \\\"root=UUID=$rootuuid rw add_efi_memmap\\\"\" > /mnt/boot/refind_linux.conf"
+  echo "echo \"\\\"Arch Linux Fallback\\\" \\\"root=UUID=$rootuuid rw add_efi_memmap initrd=/initramfs-linux-fallback.img\\\"\" >> /mnt/boot/refind_linux.conf"
+  echo "echo \"\\\"Arch Linux Terminal\\\" \\\"root=UUID=$rootuuid rw add_efi_memmap systemd.unit=multi-user.target\\\"\" >> /mnt/boot/refind_linux.conf"
+  
+  pacstrap /mnt refind-efi
+  archchroot refindbootloaderinstall $realrootdev
+  rootuuid=$(blkid -s UUID -o value $realrootdev)
+  echo "\"Arch Linux         \" \"root=UUID=$rootuuid rw add_efi_memmap\"" > /mnt/boot/refind_linux.conf
+  echo "\"Arch Linux Fallback\" \"root=UUID=$rootuuid rw add_efi_memmap initrd=/initramfs-linux-fallback.img\"" >> /mnt/boot/refind_linux.conf
+  echo "\"Arch Linux Terminal\" \"root=UUID=$rootuuid rw add_efi_memmap systemd.unit=multi-user.target\"" >> /mnt/boot/refind_linux.conf
+  pressanykey
+}
+archrefindinstallchroot(){
+  #--usedefault /dev/sdXY --alldrivers
+  echo "refind-install"
+  refind-install
+}
 
 
 archenabledhcpcd(){
@@ -1471,6 +1659,13 @@ loadstrings(){
   txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
   
   txtbootloadersyslinuxmenu="Syslinux Install Menu"
+  txtsyslinuxaddefibootmgr="EFI install require efibootmgr"
+  txtsyslinuxaddgptfdisk="GPT disk require gptfdisk"
+  txtsyslinuxaddmtools="FAT boot part require mtools"
+  
+  txtbootloadersystemdmenu="Systemd-boot Install Menu"
+  
+  txtbootloaderrefindmenu="rEFInd Install Menu"
   
   txtoptional="Optional"
   txtrecommandeasyinst="Recommanded for easy install"
@@ -1499,13 +1694,23 @@ while (( "$#" )); do
     --help)
       echo "archfi"
       echo "------"
-      echo "-sf | --skip-font                Skip setfont from language files"
-      echo "-t | --test ghusername ghbranch  Test language files"
+      echo "-sf | --skip-font                  Skip setfont from language files"
+      echo "-efiX                              -efi0 : disable EFI, -efi1 efi inst, -efi2 efi hybrid inst"
+      echo "-t | --test ghusername ghbranch    Test language files"
       exit 0
     ;;
     -sf | --skip-font) skipfont=1;;
     -t | --test) baseurl="https://raw.githubusercontent"
                 baseurl="$baseurl.com/""$2/archfi/$3";;
+    -efi0) efimode=0;;
+    -efi1)
+      eficomputer=1
+      efimode=1
+    ;;
+    -efi2)
+      eficomputer=1
+      efimode=2
+    ;;
     --chroot) chroot=1
               command=$2
               args=$3;;
@@ -1526,6 +1731,9 @@ if [ "$chroot" = "1" ]; then
     'grubbootloaderefiinstall') archgrubinstallbootloaderefichroot $args;;
     'grubbootloaderefiusbinstall') archgrubinstallbootloaderefiusbchroot $args;;
     'syslinuxbootloaderinstall') archsyslinuxinstallbootloaderchroot $args;;
+    'syslinuxbootloaderefiinstall') archsyslinuxinstallbootloaderefichroot $args;;
+    'systemdbootloaderinstall') archsystemdinstallchroot $args;;
+    'refindbootloaderinstall') archrefindinstallchroot $args;;
     'archdiinstallandlaunch') archdiinstallandlaunchchroot;;
     'archdiinstall') archdiinstallchroot;;
     'archdilaunch') archdilaunchchroot;;
@@ -1534,10 +1742,14 @@ else
   pacman -S --needed arch-install-scripts wget libnewt
   dmesg |grep efi: > /dev/null
   if [ "$?" == "1" ]; then
-    eficomputer=0
+    if [ "$eficomputer" != "1" ]; then
+      eficomputer=0
+    fi
   else
     eficomputer=1
-    efimode=1
+    if [ "$efimode" == "" ]; then
+      efimode=1
+    fi
   fi
   loadstrings
   EDITOR=nano
