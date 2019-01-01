@@ -1253,6 +1253,11 @@ archgrubinstallbootloaderefichroot(){
   if [ ! "$1" = "none" ]; then
     echo "grub-install --target=x86_64-efi --efi-directory=/boot --recheck $1"
     grub-install --target=x86_64-efi --efi-directory=/boot --recheck $1
+    isvbox=$(lspci | grep "VirtualBox G")
+    if [ "$isvbox" ]; then
+      echo "VirtualBox detected, creating startup.nsh..."
+      echo "\EFI\arch\grubx64.efi" > /boot/startup.nsh
+    fi
   fi
   exit
 }
@@ -1262,6 +1267,11 @@ archgrubinstallbootloaderefiusbchroot(){
     grub-install --target=i386-pc --recheck $1
     echo "grub-install --target=x86_64-efi --efi-directory=/boot --removable --recheck $1"
     grub-install --target=x86_64-efi --efi-directory=/boot --removable --recheck $1
+    isvbox=$(lspci | grep "VirtualBox G")
+    if [ "$isvbox" ]; then
+      echo "VirtualBox detected, creating startup.nsh..."
+      echo "\EFI\arch\grubx64.efi" > /boot/startup.nsh
+    fi
   fi
   exit
 }
@@ -1356,6 +1366,11 @@ archsyslinuxinstallbootloaderefichroot(){
     echo "efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose"
     cp -r /usr/lib/syslinux/efi64/* /boot/syslinux
     efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose
+    isvbox=$(lspci | grep "VirtualBox G")
+    if [ "$isvbox" ]; then
+      echo "VirtualBox detected, creating startup.nsh..."
+      echo "\syslinux\syslinux.efi" > /boot/startup.nsh
+    fi
   fi
   exit
 }
@@ -1438,6 +1453,11 @@ archsystemdinstall(){
 archsystemdinstallchroot(){
   echo "bootctl --path=/boot install"
   bootctl --path=/boot install
+  isvbox=$(lspci | grep "VirtualBox G")
+  if [ "$isvbox" ]; then
+    echo "VirtualBox detected, creating startup.nsh..."
+    echo "\EFI\systemd\systemd-bootx64.efi" > /boot/startup.nsh
+  fi
 }
 
 
@@ -1489,6 +1509,11 @@ archrefindinstallchroot(){
   #--usedefault /dev/sdXY --alldrivers
   echo "refind-install"
   refind-install
+  isvbox=$(lspci | grep "VirtualBox G")
+  if [ "$isvbox" ]; then
+    echo "VirtualBox detected, creating startup.nsh..."
+    echo "\EFI\refind\refind_x64.efi" > /boot/startup.nsh
+  fi
 }
 
 
