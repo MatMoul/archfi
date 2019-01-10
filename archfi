@@ -243,9 +243,15 @@ diskpartautodos(){
       sleep 1
       echo ""
       pressanykey
-      bootdev=$device"1"
-      swapdev=$device"2"
-      rootdev=$device"3"
+      if [ "${device::8}" == "/dev/nvm" ]; then
+        bootdev=$device"p1"
+        swapdev=$device"p2"
+        rootdev=$device"p3"
+      else
+        bootdev=$device"1"
+        swapdev=$device"2"
+        rootdev=$device"3"
+      fi
       efimode="0"
     fi
   fi
@@ -277,9 +283,15 @@ diskpartautogpt(){
       sgdisk $device -n=4:0:0
       echo ""
       pressanykey
-      bootdev=$device"2"
-      swapdev=$device"3"
-      rootdev=$device"4"
+      if [ "${device::8}" == "/dev/nvm" ]; then
+        bootdev=$device"p2"
+        swapdev=$device"p3"
+        rootdev=$device"p4"
+      else
+        bootdev=$device"2"
+        swapdev=$device"3"
+        rootdev=$device"4"
+      fi
       efimode="0"
     fi
   fi
@@ -309,9 +321,15 @@ diskpartautoefi(){
       sgdisk $device -n=4:0:0
       echo ""
       pressanykey
-      bootdev=$device"1"
-      swapdev=$device"3"
-      rootdev=$device"4"
+      if [ "${device::8}" == "/dev/nvm" ]; then
+        bootdev=$device"p1"
+        swapdev=$device"p3"
+        rootdev=$device"p4"
+      else
+        bootdev=$device"1"
+        swapdev=$device"3"
+        rootdev=$device"4"
+      fi
       efimode="1"
     fi
   fi
@@ -341,9 +359,15 @@ diskpartautoefiusb(){
       echo -e "r\nh\n3\nN\n\nY\nN\nw\nY\n" | gdisk $device
       echo ""
       pressanykey
-      bootdev=$device"1"
-      swapdev=
-      rootdev=$device"4"
+      if [ "${device::8}" == "/dev/nvm" ]; then
+        bootdev=$device"p1"
+        swapdev=
+        rootdev=$device"p4"
+      else
+        bootdev=$device"1"
+        swapdev=
+        rootdev=$device"4"
+      fi
       efimode="2"
     fi
   fi
