@@ -1381,9 +1381,16 @@ archsyslinuxinstall(){
     additionalpkg=$additionalpkg"efibootmgr "
   fi
   
-  if [ "$(parted ${realrootdev::8} print|grep gpt)" != "" ]; then
-    echo "$txtsyslinuxaddgptfdisk"
-    additionalpkg=$additionalpkg"gptfdisk "
+  if [ "$isnvme" = "1" ]; then
+    if [ "$(parted ${realrootdev::(-2)} print|grep gpt)" != "" ]; then
+      echo "$txtsyslinuxaddgptfdisk"
+      additionalpkg=$additionalpkg"gptfdisk "
+    fi
+  else
+    if [ "$(parted ${realrootdev::8} print|grep gpt)" != "" ]; then
+      echo "$txtsyslinuxaddgptfdisk"
+      additionalpkg=$additionalpkg"gptfdisk "
+    fi
   fi
   
   if [ "$bootdev" != "" ]; then
@@ -1428,9 +1435,14 @@ archsyslinuxinstallbootloaderchroot(){
 archsyslinuxinstallbootloaderefichroot(){
   if [ ! "$1" = "none" ]; then
     echo "cp -r /usr/lib/syslinux/efi64/* /boot/syslinux"
-    echo "efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose"
     cp -r /usr/lib/syslinux/efi64/* /boot/syslinux
-    efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose
+    if [ "${1::8}" == "/dev/nvm" ]; then
+      echo "efibootmgr --create --disk ${1::(-2)} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose"
+      efibootmgr --create --disk ${1::(-2)} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose
+    else
+      echo "efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose"
+      efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose
+    fi
     isvbox=$(lspci | grep "VirtualBox G")
     if [ "$isvbox" ]; then
       echo "VirtualBox detected, creating startup.nsh..."
