@@ -464,6 +464,13 @@ selectparts(){
   msg=$msg"root : "$rootdev"\n"
   msg=$msg"home : "$homedev"\n\n"
   if (whiptail --backtitle "$apptitle" --title "$txtselectpartsmenu" --yesno "$msg" 0 0) then
+    isnvme=0
+    if [ "${bootdev::8}" == "/dev/nvm" ]; then
+      isnvme=1
+    fi
+    if [ "${rootdev::8}" == "/dev/nvm" ]; then
+      isnvme=1
+    fi
     mountmenu
   fi
 }
@@ -802,7 +809,10 @@ archmenu(){
     options+=("${txtgenerate//%1/crypttab}" "")
   fi
   if [ "$luksroot" = "1" ]; then
-    options+=("${txtgenerate//%1/mkinitcpio.conf}" "(encrypt hooks)")
+    options+=("${txtgenerate//%1/mkinitcpio.conf-luks}" "(encrypt hooks)")
+  fi
+  if [ "$isnvme" = "1" ]; then
+    options+=("${txtgenerate//%1/mkinitcpio.conf-nvme}" "(nvme module)")
   fi
   options+=("${txtedit//%1/fstab}" "($txtoptional)")
   options+=("${txtedit//%1/crypttab}" "($txtoptional)")
@@ -846,22 +856,38 @@ archmenu(){
           nextitem="${txtgenerate//%1/crypttab}"
         else
           if [ "$luksroot" = "1" ]; then
-            nextitem="${txtgenerate//%1/mkinitcpio.conf}"
+            nextitem="${txtgenerate//%1/mkinitcpio.conf-luks}"
           else
-            nextitem="$txtbootloader"
+            if [ "$isnvme" = "1" ]; then
+              nextitem="${txtgenerate//%1/mkinitcpio.conf-nvme}"
+            else
+              nextitem="$txtbootloader"
+            fi
           fi
         fi
       ;;
       "${txtgenerate//%1/crypttab}")
         archgencrypttab
         if [ "$luksroot" = "1" ]; then
-          nextitem="${txtgenerate//%1/mkinitcpio.conf}"
+          nextitem="${txtgenerate//%1/mkinitcpio.conf-luks}"
+        else
+          if [ "$isnvme" = "1" ]; then
+            nextitem="${txtgenerate//%1/mkinitcpio.conf-nvme}"
+          else
+            nextitem="$txtbootloader"
+          fi
+        fi
+      ;;
+      "${txtgenerate//%1/mkinitcpio.conf-luks}")
+        archgenmkinitcpioluks
+        if [ "$isnvme" = "1" ]; then
+          nextitem="${txtgenerate//%1/mkinitcpio.conf-nvme}"
         else
           nextitem="$txtbootloader"
         fi
       ;;
-      "${txtgenerate//%1/mkinitcpio.conf}")
-        archgenmkinitcpio
+      "${txtgenerate//%1/mkinitcpio.conf-nvme}")
+        archgenmkinitcpionvme
         nextitem="$txtbootloader"
       ;;
       "${txtedit//%1/fstab}")
@@ -1101,10 +1127,17 @@ archgencrypttab(){
   pressanykey
 }
 
-archgenmkinitcpio(){
+archgenmkinitcpioluks(){
   clear
   echo "sed -i \"s/block filesystems/block encrypt filesystems/g\" /mnt/etc/mkinitcpio.conf"
   sed -i "s/block filesystems/block encrypt filesystems/g" /mnt/etc/mkinitcpio.conf
+  archchroot genmkinitcpio
+  pressanykey
+}
+archgenmkinitcpionvme(){
+  clear
+  echo "sed -i \"s/MODULES=()/MODULES=(nvme)/g\" /mnt/etc/mkinitcpio.conf"
+  sed -i "s/MODULES=()/MODULES=(nvme)/g" /mnt/etc/mkinitcpio.conf
   archchroot genmkinitcpio
   pressanykey
 }
