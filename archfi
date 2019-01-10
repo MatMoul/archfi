@@ -12,7 +12,11 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
+<<<<<<< HEAD
 apptitle="Arch Linux Fast Install (archfi) - Version: 2019.01.01.20.34.17 (GPLv3)"
+=======
+apptitle="Arch Linux Fast Install (archfi) - Version: 2019.01.10.23.04.13 (GPLv3)"
+>>>>>>> src
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 skipfont="0"
 
@@ -243,9 +247,15 @@ diskpartautodos(){
       sleep 1
       echo ""
       pressanykey
-      bootdev=$device"1"
-      swapdev=$device"2"
-      rootdev=$device"3"
+      if [ "${device::8}" == "/dev/nvm" ]; then
+        bootdev=$device"p1"
+        swapdev=$device"p2"
+        rootdev=$device"p3"
+      else
+        bootdev=$device"1"
+        swapdev=$device"2"
+        rootdev=$device"3"
+      fi
       efimode="0"
     fi
   fi
@@ -277,9 +287,15 @@ diskpartautogpt(){
       sgdisk $device -n=4:0:0
       echo ""
       pressanykey
-      bootdev=$device"2"
-      swapdev=$device"3"
-      rootdev=$device"4"
+      if [ "${device::8}" == "/dev/nvm" ]; then
+        bootdev=$device"p2"
+        swapdev=$device"p3"
+        rootdev=$device"p4"
+      else
+        bootdev=$device"2"
+        swapdev=$device"3"
+        rootdev=$device"4"
+      fi
       efimode="0"
     fi
   fi
@@ -309,9 +325,15 @@ diskpartautoefi(){
       sgdisk $device -n=4:0:0
       echo ""
       pressanykey
-      bootdev=$device"1"
-      swapdev=$device"3"
-      rootdev=$device"4"
+      if [ "${device::8}" == "/dev/nvm" ]; then
+        bootdev=$device"p1"
+        swapdev=$device"p3"
+        rootdev=$device"p4"
+      else
+        bootdev=$device"1"
+        swapdev=$device"3"
+        rootdev=$device"4"
+      fi
       efimode="1"
     fi
   fi
@@ -341,9 +363,15 @@ diskpartautoefiusb(){
       echo -e "r\nh\n3\nN\n\nY\nN\nw\nY\n" | gdisk $device
       echo ""
       pressanykey
-      bootdev=$device"1"
-      swapdev=
-      rootdev=$device"4"
+      if [ "${device::8}" == "/dev/nvm" ]; then
+        bootdev=$device"p1"
+        swapdev=
+        rootdev=$device"p4"
+      else
+        bootdev=$device"1"
+        swapdev=
+        rootdev=$device"4"
+      fi
       efimode="2"
     fi
   fi
@@ -440,6 +468,13 @@ selectparts(){
   msg=$msg"root : "$rootdev"\n"
   msg=$msg"home : "$homedev"\n\n"
   if (whiptail --backtitle "$apptitle" --title "$txtselectpartsmenu" --yesno "$msg" 0 0) then
+    isnvme=0
+    if [ "${bootdev::8}" == "/dev/nvm" ]; then
+      isnvme=1
+    fi
+    if [ "${rootdev::8}" == "/dev/nvm" ]; then
+      isnvme=1
+    fi
     mountmenu
   fi
 }
@@ -778,7 +813,10 @@ archmenu(){
     options+=("${txtgenerate//%1/crypttab}" "")
   fi
   if [ "$luksroot" = "1" ]; then
-    options+=("${txtgenerate//%1/mkinitcpio.conf}" "(encrypt hooks)")
+    options+=("${txtgenerate//%1/mkinitcpio.conf-luks}" "(encrypt hooks)")
+  fi
+  if [ "$isnvme" = "1" ]; then
+    options+=("${txtgenerate//%1/mkinitcpio.conf-nvme}" "(nvme module)")
   fi
   options+=("${txtedit//%1/fstab}" "($txtoptional)")
   options+=("${txtedit//%1/crypttab}" "($txtoptional)")
@@ -822,22 +860,38 @@ archmenu(){
           nextitem="${txtgenerate//%1/crypttab}"
         else
           if [ "$luksroot" = "1" ]; then
-            nextitem="${txtgenerate//%1/mkinitcpio.conf}"
+            nextitem="${txtgenerate//%1/mkinitcpio.conf-luks}"
           else
-            nextitem="$txtbootloader"
+            if [ "$isnvme" = "1" ]; then
+              nextitem="${txtgenerate//%1/mkinitcpio.conf-nvme}"
+            else
+              nextitem="$txtbootloader"
+            fi
           fi
         fi
       ;;
       "${txtgenerate//%1/crypttab}")
         archgencrypttab
         if [ "$luksroot" = "1" ]; then
-          nextitem="${txtgenerate//%1/mkinitcpio.conf}"
+          nextitem="${txtgenerate//%1/mkinitcpio.conf-luks}"
+        else
+          if [ "$isnvme" = "1" ]; then
+            nextitem="${txtgenerate//%1/mkinitcpio.conf-nvme}"
+          else
+            nextitem="$txtbootloader"
+          fi
+        fi
+      ;;
+      "${txtgenerate//%1/mkinitcpio.conf-luks}")
+        archgenmkinitcpioluks
+        if [ "$isnvme" = "1" ]; then
+          nextitem="${txtgenerate//%1/mkinitcpio.conf-nvme}"
         else
           nextitem="$txtbootloader"
         fi
       ;;
-      "${txtgenerate//%1/mkinitcpio.conf}")
-        archgenmkinitcpio
+      "${txtgenerate//%1/mkinitcpio.conf-nvme}")
+        archgenmkinitcpionvme
         nextitem="$txtbootloader"
       ;;
       "${txtedit//%1/fstab}")
@@ -1077,10 +1131,17 @@ archgencrypttab(){
   pressanykey
 }
 
-archgenmkinitcpio(){
+archgenmkinitcpioluks(){
   clear
   echo "sed -i \"s/block filesystems/block encrypt filesystems/g\" /mnt/etc/mkinitcpio.conf"
   sed -i "s/block filesystems/block encrypt filesystems/g" /mnt/etc/mkinitcpio.conf
+  archchroot genmkinitcpio
+  pressanykey
+}
+archgenmkinitcpionvme(){
+  clear
+  echo "sed -i \"s/MODULES=()/MODULES=(nvme)/g\" /mnt/etc/mkinitcpio.conf"
+  sed -i "s/MODULES=()/MODULES=(nvme)/g" /mnt/etc/mkinitcpio.conf
   archchroot genmkinitcpio
   pressanykey
 }
@@ -1324,9 +1385,16 @@ archsyslinuxinstall(){
     additionalpkg=$additionalpkg"efibootmgr "
   fi
   
-  if [ "$(parted ${realrootdev::8} print|grep gpt)" != "" ]; then
-    echo "$txtsyslinuxaddgptfdisk"
-    additionalpkg=$additionalpkg"gptfdisk "
+  if [ "$isnvme" = "1" ]; then
+    if [ "$(parted ${realrootdev::(-2)} print|grep gpt)" != "" ]; then
+      echo "$txtsyslinuxaddgptfdisk"
+      additionalpkg=$additionalpkg"gptfdisk "
+    fi
+  else
+    if [ "$(parted ${realrootdev::8} print|grep gpt)" != "" ]; then
+      echo "$txtsyslinuxaddgptfdisk"
+      additionalpkg=$additionalpkg"gptfdisk "
+    fi
   fi
   
   if [ "$bootdev" != "" ]; then
@@ -1371,9 +1439,14 @@ archsyslinuxinstallbootloaderchroot(){
 archsyslinuxinstallbootloaderefichroot(){
   if [ ! "$1" = "none" ]; then
     echo "cp -r /usr/lib/syslinux/efi64/* /boot/syslinux"
-    echo "efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose"
     cp -r /usr/lib/syslinux/efi64/* /boot/syslinux
-    efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose
+    if [ "${1::8}" == "/dev/nvm" ]; then
+      echo "efibootmgr --create --disk ${1::(-2)} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose"
+      efibootmgr --create --disk ${1::(-2)} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose
+    else
+      echo "efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose"
+      efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose
+    fi
     isvbox=$(lspci | grep "VirtualBox G")
     if [ "$isvbox" ]; then
       echo "VirtualBox detected, creating startup.nsh..."
