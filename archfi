@@ -13,9 +13,9 @@
 
 
 <<<<<<< HEAD
-apptitle="Arch Linux Fast Install (archfi) - Version: 2019.01.10.23.16.00 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2019.02.02.22.56.27 (GPLv3)"
 =======
-apptitle="Arch Linux Fast Install (archfi) - Version: 2019.02.02.22.54.56 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2019.02.02.22.56.27 (GPLv3)"
 >>>>>>> src
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 skipfont="0"
