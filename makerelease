@@ -106,6 +106,6 @@ rm -R .build
 
 if [ ! "$branch" = "master" ]; then
   git checkout $branch
-  git pull
+  git merge master
   git push
 fi
