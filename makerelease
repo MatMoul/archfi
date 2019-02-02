@@ -45,6 +45,7 @@ git commit -a -m "New Release : $version"
 if [ ! "$branch" = "master" ]; then
   echo "Merge branch $branch to master..."
   git checkout master
+  git pull
   git merge $branch
 
   read -p "Delete branch $branch ? (y/N)" choice
@@ -61,6 +62,7 @@ case "$choice" in
 esac
 
 git checkout master
+git pull
 echo "Push release..."
 git push
 
@@ -73,6 +75,7 @@ esac
 echo "Create index.html..."
 fle=$(cat archfi)
 git checkout gh-pages
+git pull
 echo "$fle" > index.html
 chmod 640 index.html
 git commit -a -m "New Release : $version"
@@ -104,4 +107,6 @@ rm -R .build
 
 if [ ! "$branch" = "master" ]; then
   git checkout $branch
+  git pull
+  git push
 fi
