@@ -32,7 +32,7 @@ txteditparts="Editer partitions"
 txtautopartsconfirm="Périphérique séléctionné : %1\n\nToutes les données vont être effacées ! \n\nContinuer ?"
 
 txtautopartclear="Suppression des partitions"
-txtautopartcreate="Créeation de la partition %1"
+txtautopartcreate="Création de la partition %1"
 txthybridpartcreate="Définition du MBR hybride"
 txtautopartsettype="Définition du type de la partition %1"
 
