@@ -8,11 +8,11 @@ Translations is simple:
 - you can test your change with the next command:
 
 ```
-sh archfi {githubusername} {branchname}
+sh archfi -t {githubusername} {branchname}
 ```
 
 As exemple:
 
 ```
-sh archfi matmoul master
+sh archfi -t matmoul master
 ```
