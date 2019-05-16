@@ -819,7 +819,7 @@ archmenu(){
   options+=("${txtedit//%1/mkinitcpio.conf}" "($txtoptional)")
   options+=("${txtedit//%1/mirrorlist}" "($txtoptional)")
   options+=("$txtbootloader" "")
-  options+=("${txtenable//%1/dhcpcd}" "systemctl enable dhcpd")
+  options+=("${txtenable//%1/dhcpcd}" "systemctl enable dhcpcd")
   options+=("archdi" "$txtarchdidesc")
   sel=$(whiptail --backtitle "$apptitle" --title "$txtarchinstallmenu" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
     "${options[@]}" \
