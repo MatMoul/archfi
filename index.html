@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2019.05.12.21.48.27 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2019.05.16.03.38.58 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 skipfont="0"
 
@@ -819,7 +819,7 @@ archmenu(){
   options+=("${txtedit//%1/mkinitcpio.conf}" "($txtoptional)")
   options+=("${txtedit//%1/mirrorlist}" "($txtoptional)")
   options+=("$txtbootloader" "")
-  options+=("${txtenable//%1/dhcpcd}" "systemctl enable dhcpd")
+  options+=("${txtenable//%1/dhcpcd}" "systemctl enable dhcpcd")
   options+=("archdi" "$txtarchdidesc")
   sel=$(whiptail --backtitle "$apptitle" --title "$txtarchinstallmenu" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
     "${options[@]}" \
