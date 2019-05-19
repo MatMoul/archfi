@@ -6,7 +6,7 @@ With this script, you can install Arch Linux with two simple terminal commands.
 
 This wizard is made to install minimum packages (Base, bootloader and optionally archdi).
 
-At the end of this wizard, you can install or launch [archdi](https://github.com/MatMoul/archdi) (Arch Linux Destop Install) to install and configure desktop packages.
+At the end of this wizard, you can install or launch [archdi](https://github.com/MatMoul/archdi) (Arch Linux Desktop Install) to install and configure desktop packages.
 
 You can watch my videos to see how to use it [here](https://www.youtube.com/playlist?list=PLytHgIKLV1caHlCrcTSkm5OF2WSVI1_Sq).
 
@@ -14,7 +14,7 @@ You can watch my videos to see how to use it [here](https://www.youtube.com/play
 
 1. Boot with the [last Arch Linux image](https://www.archlinux.org/download/) with a [bootable device](https://wiki.archlinux.org/index.php/USB_flash_installation_media).
 
-2. Make sure you have Internet connexion on the Arch iso. If you have a wireless connexion the `wifi-menu` command might be useful to you. You can also read the [Network configuration](https://wiki.archlinux.org/index.php/Network_configuration) from ArchLinux guide for more detailled instructions.
+2. Make sure you have Internet connexion on the Arch iso. If you have a wireless connection the `wifi-menu` command might be useful to you. You can also read the [Network configuration](https://wiki.archlinux.org/index.php/Network_configuration) from the Arch Linux guide for more detailed instructions.
 
 3. Download the script with from the command line:
 
