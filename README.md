@@ -18,21 +18,15 @@ You can watch my videos to see how to use it [here](https://www.youtube.com/play
 
 3. Download the script with from the command line:
 
-```
-wget archfi.sf.net/archfi
-```
+    wget archfi.sf.net/archfi
 
 If SourceForge is down, use this instead:
 
-```
-wget matmoul.github.io/archfi
-```
+    wget matmoul.github.io/archfi
 
 4. Finally, launch the script:
 
-```
-sh archfi
-```
+    sh archfi
 
 Then follow the on-screen instructions to completion.
 
