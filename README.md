@@ -1,5 +1,7 @@
 # archfi
 
+![screenshot](https://i.imgur.com/0GCmIgo.png)
+
 Just a simple bash script wizard to install Arch Linux after you have booted on the official Arch Linux install media.
 
 With this script, you can install Arch Linux with two simple terminal commands.
