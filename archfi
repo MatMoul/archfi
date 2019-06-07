@@ -15,62 +15,62 @@
 apptitle="Arch Linux Fast Install (archfi) - Version: 2019.06.01.22.34.34 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 skipfont="0"
-
+dialogexe='whiptail'
 
 # --------------------------------------------------------
 mainmenu(){
-  if [ "$1" = "" ]; then
+  if [ "${1}" = "" ]; then
     nextitem="."
   else
-    nextitem=$1
+    nextitem=${1}
   fi
   options=()
-  options+=("$txtlanguage" "Language")
-  options+=("$txtsetkeymap" "(loadkeys ...)")
-  options+=("$txteditor" "($txtoptional)")
-  options+=("$txtdiskpartmenu" "")
-  options+=("$txtselectpartsmenu" "")
+  options+=("${txtlanguage}" "Language")
+  options+=("${txtsetkeymap}" "(loadkeys ...)")
+  options+=("${txteditor}" "(${txtoptional})")
+  options+=("${txtdiskpartmenu}" "")
+  options+=("${txtselectpartsmenu}" "")
   options+=("" "")
-  options+=("$txtreboot" "")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtmainmenu" --menu "" --cancel-button "$txtexit" --default-item "$nextitem" 0 0 0 \
+  options+=("${txtreboot}" "")
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtmainmenu}" --menu "" --cancel-button "${txtexit}" --default-item "${nextitem}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    case $sel in
-      "$txtlanguage")
+    case ${sel} in
+      "${txtlanguage}")
         chooselanguage
-        nextitem="$txtsetkeymap"
+        nextitem="${txtsetkeymap}"
       ;;
-      "$txtsetkeymap")
+      "${txtsetkeymap}")
         setkeymap
-        nextitem="$txtdiskpartmenu"
+        nextitem="${txtdiskpartmenu}"
       ;;
-      "$txteditor")
+      "${txteditor}")
         chooseeditor
-        nextitem="$txtdiskpartmenu"
+        nextitem="${txtdiskpartmenu}"
       ;;
-      "$txtdiskpartmenu")
+      "${txtdiskpartmenu}")
         diskpartmenu
-        nextitem="$txtselectpartsmenu"
+        nextitem="${txtselectpartsmenu}"
       ;;
-      "$txtselectpartsmenu")
+      "${txtselectpartsmenu}")
         selectparts
-        nextitem="$txtreboot"
+        nextitem="${txtreboot}"
       ;;
-      "$txthelp")
+      "${txthelp}")
         help
-        nextitem="$txtreboot"
+        nextitem="${txtreboot}"
       ;;
-      "$txtchangelog")
+      "${txtchangelog}")
         showchangelog
-        nextitem="$txtreboot"
+        nextitem="${txtreboot}"
       ;;
-      "$txtreboot")
+      "${txtreboot}")
         rebootpc
-        nextitem="$txtreboot"
+        nextitem="${txtreboot}"
       ;;
     esac
-    mainmenu "$nextitem"
+    mainmenu "${nextitem}"
   else
     clear
   fi
@@ -89,46 +89,46 @@ chooselanguage(){
   options+=("Russian" "(By Anonymous_Prodject)")
   options+=("Spanish" "(By Mystogab)")
   options+=("Turkish" "(By c0b41)")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtlanguage" --menu "" 0 0 0 \
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtlanguage}" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
-    if [ "$sel" = "English" ]; then
+    if [ "${sel}" = "English" ]; then
       loadstrings
     else
-      eval $(curl -L $baseurl/lng/$sel | sed '/^#/ d')
+      eval $(curl -L ${baseurl}/lng/${sel} | sed '/^#/ d')
     fi
-    if [ "$skipfont" = "0" ]; then
-      eval $(setfont $font)
+    if [ "${skipfont}" = "0" ]; then
+      eval $(setfont ${font})
     fi
     font=
-    if [ "$(cat /etc/locale.gen | grep ""#$locale"")" != "" ]; then
-      sed -i "/$locale/s/^#//g" /etc/locale.gen
+    if [ "$(cat /etc/locale.gen | grep ""#${locale}"")" != "" ]; then
+      sed -i "/${locale}/s/^#//g" /etc/locale.gen
       locale-gen
     fi
-    export LANG=$locale
+    export LANG=${locale}
   fi
 }
 
 setkeymap(){
   #items=$(localectl list-keymaps)
   #options=()
-  #for item in $items; do
-  #  options+=("$item" "")
+  #for item in ${items}; do
+  #  options+=("${item}" "")
   #done
   items=$(find /usr/share/kbd/keymaps/ -type f -printf "%f\n" | sort -V)
   options=()
-  for item in $items; do
+  for item in ${items}; do
     options+=("${item%%.*}" "")
   done
-  keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" 0 0 0 \
+  keymap=$(${dialogexe} --backtitle "${apptitle}" --title "${txtsetkeymap}" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
-    echo "loadkeys $keymap"
-    loadkeys $keymap
+    echo "loadkeys ${keymap}"
+    loadkeys ${keymap}
     pressanykey
   fi
 }
@@ -139,20 +139,20 @@ chooseeditor(){
   options+=("vim" "")
   options+=("vi" "")
   options+=("edit" "")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txteditor" --menu "" 0 0 0 \
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txteditor}" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
-    echo "export EDITOR=$sel"
-    export EDITOR=$sel
-    EDITOR=$sel
+    echo "export EDITOR=${sel}"
+    export EDITOR=${sel}
+    EDITOR=${sel}
     pressanykey
   fi
 }
 
 rebootpc(){
-  if (whiptail --backtitle "$apptitle" --title "$txtreboot" --yesno "$txtreboot ?" --defaultno 0 0) then
+  if (${dialogexe} --backtitle "${apptitle}" --title "${txtreboot}" --yesno "${txtreboot} ?" --defaultno 0 0) then
     clear
     reboot
   fi
@@ -163,54 +163,54 @@ rebootpc(){
 
 # --------------------------------------------------------
 diskpartmenu(){
-  if [ "$1" = "" ]; then
+  if [ "${1}" = "" ]; then
     nextitem="."
   else
-    nextitem=$1
+    nextitem=${1}
   fi
   options=()
-  if [ "$eficomputer" == "0" ]; then
-    options+=("$txtautoparts (gpt)" "")
-    options+=("$txtautoparts (dos)" "")
+  if [ "${eficomputer}" == "0" ]; then
+    options+=("${txtautoparts} (gpt)" "")
+    options+=("${txtautoparts} (dos)" "")
   else
-    options+=("$txtautoparts (gpt,efi)" "")
-    options+=("$txtautoparts (gpt)" "")
-    options+=("$txtautoparts (dos)" "")
-    options+=("$txtautoparts (gpt,bios+efi,noswap)" "")
+    options+=("${txtautoparts} (gpt,efi)" "")
+    options+=("${txtautoparts} (gpt)" "")
+    options+=("${txtautoparts} (dos)" "")
+    options+=("${txtautoparts} (gpt,bios+efi,noswap)" "")
   fi
-  options+=("$txteditparts (cfdisk)" "")
-  options+=("$txteditparts (cgdisk)" "")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtdiskpartmenu" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
+  options+=("${txteditparts} (cfdisk)" "")
+  options+=("${txteditparts} (cgdisk)" "")
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtdiskpartmenu}" --menu "" --cancel-button "${txtback}" --default-item "${nextitem}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    case $sel in
-      "$txtautoparts (dos)")
+    case ${sel} in
+      "${txtautoparts} (dos)")
         diskpartautodos
-        nextitem="$txtautoparts (dos)"
+        nextitem="${txtautoparts} (dos)"
       ;;
-      "$txtautoparts (gpt)")
+      "${txtautoparts} (gpt)")
         diskpartautogpt
-        nextitem="$txtautoparts (gpt)"
+        nextitem="${txtautoparts} (gpt)"
       ;;
-      "$txtautoparts (gpt,efi)")
+      "${txtautoparts} (gpt,efi)")
         diskpartautoefi
-        nextitem="$txtautoparts (gpt,efi)"
+        nextitem="${txtautoparts} (gpt,efi)"
       ;;
-      "$txtautoparts (gpt,bios+efi,noswap)")
+      "${txtautoparts} (gpt,bios+efi,noswap)")
         diskpartautoefiusb
-        nextitem="$txtautoparts (gpt,bios+efi,noswap)"
+        nextitem="${txtautoparts} (gpt,bios+efi,noswap)"
       ;;
-      "$txteditparts (cfdisk)")
+      "${txteditparts} (cfdisk)")
         diskpartcfdisk
-        nextitem="$txteditparts (cfdisk)"
+        nextitem="${txteditparts} (cfdisk)"
       ;;
-      "$txteditparts (cgdisk)")
+      "${txteditparts} (cgdisk)")
         diskpartcgdisk
-        nextitem="$txteditparts (cgdisk)"
+        nextitem="${txteditparts} (cgdisk)"
       ;;
     esac
-    diskpartmenu "$nextitem"
+    diskpartmenu "${nextitem}"
   fi
 }
 
@@ -218,39 +218,39 @@ diskpartmenu(){
 diskpartautodos(){
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
-  for item in $items; do
-    options+=("$item" "")
+  for item in ${items}; do
+    options+=("${item}" "")
   done
-  device=$(whiptail --backtitle "$apptitle" --title "$txtautoparts (dos)" --menu "" 0 0 0 \
+  device=$(${dialogexe} --backtitle "${apptitle}" --title "${txtautoparts} (dos)" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    if (whiptail --backtitle "$apptitle" --title "$txtautoparts (dos)" --yesno "${txtautopartsconfirm//%1/$device}" --defaultno 0 0) then
+    if (${dialogexe} --backtitle "${apptitle}" --title "${txtautoparts} (dos)" --yesno "${txtautopartsconfirm//%1/${device}}" --defaultno 0 0) then
       clear
-      echo "$txtautopartclear"
-      parted $device mklabel msdos
+      echo "${txtautopartclear}"
+      parted ${device} mklabel msdos
       sleep 1
       echo "${txtautopartcreate//%1/boot}"
-      echo -e "n\np\n\n\n+512M\na\nw" | fdisk $device
+      echo -e "n\np\n\n\n+512M\na\nw" | fdisk ${device}
       sleep 1
       echo "${txtautopartcreate//%1/swap}"
-      swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
-      swapsize=$(($swapsize/1000))"M"
-      echo -e "n\np\n\n\n+$swapsize\nt\n\n82\nw" | fdisk $device
+      swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print ${2} }')
+      swapsize=$((${swapsize}/1000))"M"
+      echo -e "n\np\n\n\n+${swapsize}\nt\n\n82\nw" | fdisk ${device}
       sleep 1
       echo "${txtautopartcreate//%1/root}"
-      echo -e "n\np\n\n\n\nw" | fdisk $device
+      echo -e "n\np\n\n\n\nw" | fdisk ${device}
       sleep 1
       echo ""
       pressanykey
       if [ "${device::8}" == "/dev/nvm" ]; then
-        bootdev=$device"p1"
-        swapdev=$device"p2"
-        rootdev=$device"p3"
+        bootdev=${device}"p1"
+        swapdev=${device}"p2"
+        rootdev=${device}"p3"
       else
-        bootdev=$device"1"
-        swapdev=$device"2"
-        rootdev=$device"3"
+        bootdev=${device}"1"
+        swapdev=${device}"2"
+        rootdev=${device}"3"
       fi
       efimode="0"
     fi
@@ -260,37 +260,37 @@ diskpartautodos(){
 diskpartautogpt(){
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
-  for item in $items; do
-    options+=("$item" "")
+  for item in ${items}; do
+    options+=("${item}" "")
   done
-  device=$(whiptail --backtitle "$apptitle" --title "$txtautoparts (gpt)" --menu "" 0 0 0 \
+  device=$(${dialogexe} --backtitle "${apptitle}" --title "${txtautoparts} (gpt)" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    if (whiptail --backtitle "$apptitle" --title "$txtautoparts (gpt)" --yesno "${txtautopartsconfirm//%1/$device}" --defaultno 0 0) then
+    if (${dialogexe} --backtitle "${apptitle}" --title "${txtautoparts} (gpt)" --yesno "${txtautopartsconfirm//%1/${device}}" --defaultno 0 0) then
       clear
-      echo "$txtautopartclear"
-      parted $device mklabel gpt
+      echo "${txtautopartclear}"
+      parted ${device} mklabel gpt
       echo "${txtautopartcreate//%1/BIOS boot}"
-      sgdisk $device -n=1:0:+31M -t=1:ef02
+      sgdisk ${device} -n=1:0:+31M -t=1:ef02
       echo "${txtautopartcreate//%1/boot}"
-      sgdisk $device -n=2:0:+512M
+      sgdisk ${device} -n=2:0:+512M
       echo "${txtautopartcreate//%1/swap}"
-      swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
-      swapsize=$(($swapsize/1000))"M"
-      sgdisk $device -n=3:0:+$swapsize -t=3:8200
+      swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print ${2} }')
+      swapsize=$((${swapsize}/1000))"M"
+      sgdisk ${device} -n=3:0:+${swapsize} -t=3:8200
       echo "${txtautopartcreate//%1/root}"
-      sgdisk $device -n=4:0:0
+      sgdisk ${device} -n=4:0:0
       echo ""
       pressanykey
       if [ "${device::8}" == "/dev/nvm" ]; then
-        bootdev=$device"p2"
-        swapdev=$device"p3"
-        rootdev=$device"p4"
+        bootdev=${device}"p2"
+        swapdev=${device}"p3"
+        rootdev=${device}"p4"
       else
-        bootdev=$device"2"
-        swapdev=$device"3"
-        rootdev=$device"4"
+        bootdev=${device}"2"
+        swapdev=${device}"3"
+        rootdev=${device}"4"
       fi
       efimode="0"
     fi
@@ -300,35 +300,35 @@ diskpartautogpt(){
 diskpartautoefi(){
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
-  for item in $items; do
-    options+=("$item" "")
+  for item in ${items}; do
+    options+=("${item}" "")
   done
-  device=$(whiptail --backtitle "$apptitle" --title "$txtautoparts (gpt,efi)" --menu "" 0 0 0 \
+  device=$(${dialogexe} --backtitle "${apptitle}" --title "${txtautoparts} (gpt,efi)" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    if (whiptail --backtitle "$apptitle" --title "$txtautoparts (gpt,efi)" --yesno "${txtautopartsconfirm//%1/$device}" --defaultno 0 0) then
+    if (${dialogexe} --backtitle "${apptitle}" --title "${txtautoparts} (gpt,efi)" --yesno "${txtautopartsconfirm//%1/${device}}" --defaultno 0 0) then
       clear
-      echo "$txtautopartclear"
-      parted $device mklabel gpt
+      echo "${txtautopartclear}"
+      parted ${device} mklabel gpt
       echo "${txtautopartcreate//%1/EFI boot}"
-      sgdisk $device -n=1:0:+1024M -t=1:ef00
+      sgdisk ${device} -n=1:0:+1024M -t=1:ef00
       echo "${txtautopartcreate//%1/swap}"
-      swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
-      swapsize=$(($swapsize/1000))"M"
-      sgdisk $device -n=3:0:+$swapsize -t=3:8200
+      swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print ${2} }')
+      swapsize=$((${swapsize}/1000))"M"
+      sgdisk ${device} -n=3:0:+${swapsize} -t=3:8200
       echo "${txtautopartcreate//%1/root}"
-      sgdisk $device -n=4:0:0
+      sgdisk ${device} -n=4:0:0
       echo ""
       pressanykey
       if [ "${device::8}" == "/dev/nvm" ]; then
-        bootdev=$device"p1"
-        swapdev=$device"p3"
-        rootdev=$device"p4"
+        bootdev=${device}"p1"
+        swapdev=${device}"p3"
+        rootdev=${device}"p4"
       else
-        bootdev=$device"1"
-        swapdev=$device"3"
-        rootdev=$device"4"
+        bootdev=${device}"1"
+        swapdev=${device}"3"
+        rootdev=${device}"4"
       fi
       efimode="1"
     fi
@@ -338,35 +338,35 @@ diskpartautoefi(){
 diskpartautoefiusb(){
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
-  for item in $items; do
-    options+=("$item" "")
+  for item in ${items}; do
+    options+=("${item}" "")
   done
-  device=$(whiptail --backtitle "$apptitle" --title "$txtautoparts (gpt,efi)" --menu "" 0 0 0 \
+  device=$(${dialogexe} --backtitle "${apptitle}" --title "${txtautoparts} (gpt,efi)" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    if (whiptail --backtitle "$apptitle" --title "$txtautoparts (gpt,efi)" --yesno "${txtautopartsconfirm//%1/$device}" --defaultno 0 0) then
+    if (${dialogexe} --backtitle "${apptitle}" --title "${txtautoparts} (gpt,efi)" --yesno "${txtautopartsconfirm//%1/${device}}" --defaultno 0 0) then
       clear
-      echo "$txtautopartclear"
-      parted $device mklabel gpt
+      echo "${txtautopartclear}"
+      parted ${device} mklabel gpt
       echo "${txtautopartcreate//%1/EFI boot}"
-      sgdisk $device -n=1:0:+1024M -t=1:ef00
+      sgdisk ${device} -n=1:0:+1024M -t=1:ef00
       echo "${txtautopartcreate//%1/BIOS boot}"
-      sgdisk $device -n=3:0:+31M -t=3:ef02
+      sgdisk ${device} -n=3:0:+31M -t=3:ef02
       echo "${txtautopartcreate//%1/root}"
-      sgdisk $device -n=4:0:0
-      echo "$txthybridpartcreate"
-      echo -e "r\nh\n3\nN\n\nY\nN\nw\nY\n" | gdisk $device
+      sgdisk ${device} -n=4:0:0
+      echo "${txthybridpartcreate}"
+      echo -e "r\nh\n3\nN\n\nY\nN\nw\nY\n" | gdisk ${device}
       echo ""
       pressanykey
       if [ "${device::8}" == "/dev/nvm" ]; then
-        bootdev=$device"p1"
+        bootdev=${device}"p1"
         swapdev=
-        rootdev=$device"p4"
+        rootdev=${device}"p4"
       else
-        bootdev=$device"1"
+        bootdev=${device}"1"
         swapdev=
-        rootdev=$device"4"
+        rootdev=${device}"4"
       fi
       efimode="2"
     fi
@@ -376,30 +376,30 @@ diskpartautoefiusb(){
 diskpartcfdisk(){
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
-  for item in $items; do
-    options+=("$item" "")
+  for item in ${items}; do
+    options+=("${item}" "")
   done
-  device=$(whiptail --backtitle "$apptitle" --title "$txteditparts (cfdisk)" --menu "" 0 0 0 \
+  device=$(${dialogexe} --backtitle "${apptitle}" --title "${txteditparts} (cfdisk)" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
-    cfdisk $device
+    cfdisk ${device}
   fi
 }
 
 diskpartcgdisk(){
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
-  for item in $items; do
-    options+=("$item" "")
+  for item in ${items}; do
+    options+=("${item}" "")
   done
-  device=$(whiptail --backtitle "$apptitle" --title "$txteditparts (cfdisk)" --menu "" 0 0 0 \
+  device=$(${dialogexe} --backtitle "${apptitle}" --title "${txteditparts} (cfdisk)" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
-    cgdisk $device
+    cgdisk ${device}
   fi
 }
 # --------------------------------------------------------
@@ -410,60 +410,60 @@ diskpartcgdisk(){
 selectparts(){
   items=$(lsblk -p -n -l -o NAME -e 7,11)
   options=()
-  for item in $items; do
-    options+=("$item" "")
+  for item in ${items}; do
+    options+=("${item}" "")
   done
 
-  bootdev=$(whiptail --backtitle "$apptitle" --title "$txtselectpartsmenu" --menu "${txtselectdevice//%1/boot}" --default-item "$bootdev" 0 0 0 \
+  bootdev=$(${dialogexe} --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --menu "${txtselectdevice//%1/boot}" --default-item "${bootdev}" 0 0 0 \
     "none" "-" \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ ! "$?" = "0" ]; then
     return 1
   else
-    if [ "$bootdev" = "none" ]; then
+    if [ "${bootdev}" = "none" ]; then
       bootdev=
     fi
   fi
 
-  swapdev=$(whiptail --backtitle "$apptitle" --title "$txtselectpartsmenu" --menu "${txtselectdevice//%1/swap}" --default-item "$swapdev" 0 0 0 \
+  swapdev=$(${dialogexe} --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --menu "${txtselectdevice//%1/swap}" --default-item "${swapdev}" 0 0 0 \
     "none" "-" \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ ! "$?" = "0" ]; then
     return 1
   else
-    if [ "$swapdev" = "none" ]; then
+    if [ "${swapdev}" = "none" ]; then
       swapdev=
     fi
   fi
 
-  rootdev=$(whiptail --backtitle "$apptitle" --title "$txtselectpartsmenu" --menu "${txtselectdevice//%1/root}" --default-item "$rootdev" 0 0 0 \
+  rootdev=$(${dialogexe} --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --menu "${txtselectdevice//%1/root}" --default-item "${rootdev}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ ! "$?" = "0" ]; then
     return 1
   fi
-  realrootdev=$rootdev
+  realrootdev=${rootdev}
 
-  homedev=$(whiptail --backtitle "$apptitle" --title "$txtselectpartsmenu" --menu "${txtselectdevice//%1/home}" 0 0 0 \
+  homedev=$(${dialogexe} --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --menu "${txtselectdevice//%1/home}" 0 0 0 \
     "none" "-" \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ ! "$?" = "0" ]; then
     return 1
   else
-    if [ "$homedev" = "none" ]; then
+    if [ "${homedev}" = "none" ]; then
       homedev=
     fi
   fi
 
-  msg="$txtselecteddevices\n\n"
-  msg=$msg"boot : "$bootdev"\n"
-  msg=$msg"swap : "$swapdev"\n"
-  msg=$msg"root : "$rootdev"\n"
-  msg=$msg"home : "$homedev"\n\n"
-  if (whiptail --backtitle "$apptitle" --title "$txtselectpartsmenu" --yesno "$msg" 0 0) then
+  msg="${txtselecteddevices}\n\n"
+  msg=${msg}"boot : "${bootdev}"\n"
+  msg=${msg}"swap : "${swapdev}"\n"
+  msg=${msg}"root : "${rootdev}"\n"
+  msg=${msg}"home : "${homedev}"\n\n"
+  if (${dialogexe} --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --yesno "${msg}" 0 0) then
     isnvme=0
     if [ "${bootdev::8}" == "/dev/nvm" ]; then
       isnvme=1
@@ -480,83 +480,83 @@ selectparts(){
 
 # --------------------------------------------------------
 mountmenu(){
-  if [ "$1" = "" ]; then
+  if [ "${1}" = "" ]; then
     nextitem="."
   else
-    nextitem=$1
+    nextitem=${1}
   fi
   options=()
-  options+=("$txtformatdevices" "")
-  options+=("$txtmount" "$txtmountdesc")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtformatmountmenu" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
+  options+=("${txtformatdevices}" "")
+  options+=("${txtmount}" "${txtmountdesc}")
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtformatmountmenu}" --menu "" --cancel-button "${txtback}" --default-item "${nextitem}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    case $sel in
-      "$txtformatdevices")
+    case ${sel} in
+      "${txtformatdevices}")
         formatdevices
-        nextitem="$txtmount"
+        nextitem="${txtmount}"
       ;;
-      "$txtmount")
+      "${txtmount}")
         mountparts
-        nextitem="$txtmount"
+        nextitem="${txtmount}"
       ;;
     esac
-    mountmenu "$nextitem"
+    mountmenu "${nextitem}"
   fi
 }
 
 
 formatdevices(){
-  if (whiptail --backtitle "$apptitle" --title "$txtformatdevices" --yesno "$txtformatdeviceconfirm" --defaultno 0 0) then
-    if [ ! "$bootdev" = "" ]; then
-      formatbootdevice boot $bootdev
+  if (${dialogexe} --backtitle "${apptitle}" --title "${txtformatdevices}" --yesno "${txtformatdeviceconfirm}" --defaultno 0 0) then
+    if [ ! "${bootdev}" = "" ]; then
+      formatbootdevice boot ${bootdev}
     fi
-    if [ ! "$swapdev" = "" ]; then
-      formatswapdevice swap $swapdev
+    if [ ! "${swapdev}" = "" ]; then
+      formatswapdevice swap ${swapdev}
     fi
-    formatdevice root $rootdev
-    if [ ! "$homedev" = "" ]; then
-      formatdevice home $homedev
+    formatdevice root ${rootdev}
+    if [ ! "${homedev}" = "" ]; then
+      formatdevice home ${homedev}
     fi
   fi
 }
 formatbootdevice(){
   options=()
-  if [ "$efimode" == "1" ]||[ "$efimode" = "2" ]; then
+  if [ "${efimode}" == "1" ]||[ "${efimode}" = "2" ]; then
     options+=("fat32" "(EFI)")
   fi
   options+=("ext2" "")
   options+=("ext3" "")
   options+=("ext4" "")
-  if [ ! "$efimode" = "1" ]&&[ ! "$efimode" = "2" ]; then
+  if [ ! "${efimode}" = "1" ]&&[ ! "${efimode}" = "2" ]; then
     options+=("fat32" "(EFI)")
   fi
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtformatdevice" --menu "${txtselectpartformat//%1/$1 ($2)}" 0 0 0 \
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtformatdevice}" --menu "${txtselectpartformat//%1/${1} (${2})}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ ! "$?" = "0" ]; then
     return 1
   fi
   clear
-  echo "${txtformatingpart//%1/$2} $sel"
+  echo "${txtformatingpart//%1/${2}} ${sel}"
   echo "----------------------------------------------"
-  case $sel in
+  case ${sel} in
     ext2)
-      echo "mkfs.ext2 $2"
-      mkfs.ext2 $2
+      echo "mkfs.ext2 ${2}"
+      mkfs.ext2 ${2}
     ;;
     ext3)
-      echo "mkfs.ext3 $2"
-      mkfs.ext3 $2
+      echo "mkfs.ext3 ${2}"
+      mkfs.ext3 ${2}
     ;;
     ext4)
-      echo "mkfs.ext4 $2"
-      mkfs.ext4 $2
+      echo "mkfs.ext4 ${2}"
+      mkfs.ext4 ${2}
     ;;
     fat32)
-      echo "mkfs.fat $2"
-      mkfs.fat $2
+      echo "mkfs.fat ${2}"
+      mkfs.fat ${2}
     ;;
   esac
   echo ""
@@ -565,19 +565,19 @@ formatbootdevice(){
 formatswapdevice(){
   options=()
   options+=("swap" "")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtformatdevice" --menu "${txtselectpartformat//%1/$1 ($2)}" 0 0 0 \
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtformatdevice}" --menu "${txtselectpartformat//%1/${1} (${2})}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ ! "$?" = "0" ]; then
     return 1
   fi
   clear
-  echo "${txtformatingpart//%1/$swapdev} swap"
+  echo "${txtformatingpart//%1/${swapdev}} swap"
   echo "----------------------------------------------------"
-  case $sel in
+  case ${sel} in
     swap)
-      echo "mkswap $swapdev"
-      mkswap $swapdev
+      echo "mkswap ${swapdev}"
+      mkswap ${swapdev}
       echo ""
       pressanykey
     ;;
@@ -593,70 +593,70 @@ formatdevice(){
   options+=("ext2" "")
   options+=("xfs" "")
   options+=("jfs" "")
-  if [ ! "$3" = "noluks" ]; then
+  if [ ! "${3}" = "noluks" ]; then
     options+=("luks" "encrypted")
   fi
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtformatdevice" --menu "${txtselectpartformat//%1/$1 ($2)}" 0 0 0 \
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtformatdevice}" --menu "${txtselectpartformat//%1/${1} (${2})}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ ! "$?" = "0" ]; then
     return 1
   fi
   clear
-  echo "${txtformatingpart//%1/$2} $sel"
+  echo "${txtformatingpart//%1/${2}} ${sel}"
   echo "----------------------------------------------"
-  case $sel in
+  case ${sel} in
     btrfs)
-      echo "mkfs.btrfs -f $2"
-      mkfs.btrfs -f $2
-      if [ "$1" = "root" ]; then
-        echo "mount $2 /mnt"
+      echo "mkfs.btrfs -f ${2}"
+      mkfs.btrfs -f ${2}
+      if [ "${1}" = "root" ]; then
+        echo "mount ${2} /mnt"
         echo "btrfs subvolume create /mnt/root"
         echo "btrfs subvolume set-default /mnt/root"
         echo "umount /mnt"
-        mount $2 /mnt
+        mount ${2} /mnt
         btrfs subvolume create /mnt/root
         btrfs subvolume set-default /mnt/root
         umount /mnt
       fi
     ;;
     reiserfs)
-      echo "mkfs.reiserfs -f $2"
-      mkfs.reiserfs -f $2
+      echo "mkfs.reiserfs -f ${2}"
+      mkfs.reiserfs -f ${2}
     ;;
     ext4)
-      echo "mkfs.ext4 $2"
-      mkfs.ext4 $2
+      echo "mkfs.ext4 ${2}"
+      mkfs.ext4 ${2}
     ;;
     ext3)
-      echo "mkfs.ext3 $2"
-      mkfs.ext3 $2
+      echo "mkfs.ext3 ${2}"
+      mkfs.ext3 ${2}
     ;;
     ext2)
-      echo "mkfs.ext2 $2"
-      mkfs.ext2 $2
+      echo "mkfs.ext2 ${2}"
+      mkfs.ext2 ${2}
     ;;
     xfs)
-      echo "mkfs.xfs -f $2"
-      mkfs.xfs -f $2
+      echo "mkfs.xfs -f ${2}"
+      mkfs.xfs -f ${2}
     ;;
     jfs)
-      echo "mkfs.xfs -f $2"
-      mkfs.jfs -f $2
+      echo "mkfs.xfs -f ${2}"
+      mkfs.jfs -f ${2}
     ;;
     luks)
-      echo "$txtcreateluksdevice"
-      echo "cryptsetup luksFormat $2"
-      cryptsetup luksFormat $2
+      echo "${txtcreateluksdevice}"
+      echo "cryptsetup luksFormat ${2}"
+      cryptsetup luksFormat ${2}
       if [ ! "$?" = "0" ]; then
         pressanykey
         return 1
       fi
       pressanykey
       echo ""
-      echo "$txtopenluksdevice"
-      echo "cryptsetup luksOpen $2 $1"
-      cryptsetup luksOpen $2 $1
+      echo "${txtopenluksdevice}"
+      echo "cryptsetup luksOpen ${2} ${1}"
+      cryptsetup luksOpen ${2} ${1}
       if [ ! "$?" = "0" ]; then
         pressanykey
         return 1
@@ -665,44 +665,44 @@ formatdevice(){
       options=()
       options+=("normal" "")
       options+=("fast" "")
-      sel=$(whiptail --backtitle "$apptitle" --title "$txtformatdevice" --menu "Wipe device ?" --cancel-button="$txtignore" 0 0 0 \
+      sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtformatdevice}" --menu "Wipe device ?" --cancel-button="${txtignore}" 0 0 0 \
         "${options[@]}" \
         3>&1 1>&2 2>&3)
       if [ "$?" = "0" ]; then
-        case $sel in
+        case ${sel} in
           normal)
-            echo "dd if=/dev/zero of=/dev/mapper/$1"
-            dd if=/dev/zero of=/dev/mapper/$1 & PID=$! &>/dev/null
+            echo "dd if=/dev/zero of=/dev/mapper/${1}"
+            dd if=/dev/zero of=/dev/mapper/${1} & PID=$! &>/dev/null
           ;;
           fast)
-            echo "dd if=/dev/zero of=/dev/mapper/$1 bs=60M"
-            dd if=/dev/zero of=/dev/mapper/$1 bs=60M & PID=$! &>/dev/null
+            echo "dd if=/dev/zero of=/dev/mapper/${1} bs=60M"
+            dd if=/dev/zero of=/dev/mapper/${1} bs=60M & PID=$! &>/dev/null
           ;;
         esac
         clear
         sleep 1
-        while kill -USR1 $PID &>/dev/null
+        while kill -USR1 ${PID} &>/dev/null
         do
           sleep 1
         done
       fi
       echo ""
       pressanykey
-      formatdevice $1 /dev/mapper/$1 noluks
-      if [ "$1" = "root" ]; then
-        realrootdev=$rootdev
-        rootdev=/dev/mapper/$1
+      formatdevice ${1} /dev/mapper/${1} noluks
+      if [ "${1}" = "root" ]; then
+        realrootdev=${rootdev}
+        rootdev=/dev/mapper/${1}
         luksroot=1
-        luksrootuuid=$(cryptsetup luksUUID $2)
+        luksrootuuid=$(cryptsetup luksUUID ${2})
       else
-        case $1 in
-          home) homedev=/dev/mapper/$1 ;;
+        case ${1} in
+          home) homedev=/dev/mapper/${1} ;;
         esac
         luksdrive=1
-        crypttab="\n$1    UUID=$(cryptsetup luksUUID $2)    none"
+        crypttab="\n${1}    UUID=$(cryptsetup luksUUID ${2})    none"
       fi
       echo ""
-      echo "$txtluksdevicecreated"
+      echo "${txtluksdevicecreated}"
     ;;
   esac
   echo ""
@@ -711,21 +711,21 @@ formatdevice(){
 
 mountparts(){
   clear
-  echo "mount $rootdev /mnt"
-  mount $rootdev /mnt
+  echo "mount ${rootdev} /mnt"
+  mount ${rootdev} /mnt
   echo "mkdir /mnt/{boot,home}"
   mkdir /mnt/{boot,home} 2>/dev/null
-  if [ ! "$bootdev" = "" ]; then
-    echo "mount $bootdev /mnt/boot"
-    mount $bootdev /mnt/boot
+  if [ ! "${bootdev}" = "" ]; then
+    echo "mount ${bootdev} /mnt/boot"
+    mount ${bootdev} /mnt/boot
   fi
-  if [ ! "$swapdev" = "" ]; then
-    echo "swapon $swapdev"
-    swapon $swapdev
+  if [ ! "${swapdev}" = "" ]; then
+    echo "swapon ${swapdev}"
+    swapon ${swapdev}
   fi
-  if [ ! "$homedev" = "" ]; then
-    echo "mount $homedev /mnt/home"
-    mount $homedev /mnt/home
+  if [ ! "${homedev}" = "" ]; then
+    echo "mount ${homedev} /mnt/home"
+    mount ${homedev} /mnt/home
   fi
   pressanykey
   installmenu
@@ -736,34 +736,34 @@ mountparts(){
 
 # --------------------------------------------------------
 installmenu(){
-  if [ "$1" = "" ]; then
-    nextitem="$txtinstallarchlinux"
+  if [ "${1}" = "" ]; then
+    nextitem="${txtinstallarchlinux}"
   else
-    nextitem=$1
+    nextitem=${1}
   fi
   options=()
-  options+=("$txteditmirrorlist" "($txtoptional)")
-  options+=("$txtinstallarchlinux" "pacstrap base")
-  options+=("$txtconfigarchlinux" "")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtinstallmenu" --menu "" --cancel-button "$txtunmount" --default-item "$nextitem" 0 0 0 \
+  options+=("${txteditmirrorlist}" "(${txtoptional})")
+  options+=("${txtinstallarchlinux}" "pacstrap base")
+  options+=("${txtconfigarchlinux}" "")
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtunmount}" --default-item "${nextitem}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    case $sel in
-      "$txteditmirrorlist")
-        $EDITOR /etc/pacman.d/mirrorlist
-        nextitem="$txtinstallarchlinux"
+    case ${sel} in
+      "${txteditmirrorlist}")
+        ${EDITOR} /etc/pacman.d/mirrorlist
+        nextitem="${txtinstallarchlinux}"
       ;;
-      "$txtinstallarchlinux")
+      "${txtinstallarchlinux}")
         installbase
-        nextitem="$txtconfigarchlinux"
+        nextitem="${txtconfigarchlinux}"
       ;;
-      "$txtconfigarchlinux")
+      "${txtconfigarchlinux}")
         archmenu
-        nextitem="$txtconfigarchlinux"
+        nextitem="${txtconfigarchlinux}"
       ;;
     esac
-    installmenu "$nextitem"
+    installmenu "${nextitem}"
   else
     unmountdevices
   fi
@@ -780,9 +780,9 @@ unmountdevices(){
   clear
   echo "umount -R /mnt"
   umount -R /mnt
-  if [ ! "$swapdev" = "" ]; then
-    echo "swapoff $swapdev"
-    swapoff $swapdev
+  if [ ! "${swapdev}" = "" ]; then
+    echo "swapoff ${swapdev}"
+    swapoff ${swapdev}
   fi
   pressanykey
 }
@@ -792,110 +792,110 @@ unmountdevices(){
 
 # --------------------------------------------------------
 archmenu(){
-  if [ "$1" = "" ]; then
+  if [ "${1}" = "" ]; then
     nextitem="."
   else
-    nextitem=$1
+    nextitem=${1}
   fi
   options=()
-  options+=("$txtsethostname" "/etc/hostname")
-  options+=("$txtsetkeymap" "/etc/vconsole.conf")
-  options+=("$txtsetfont" "/etc/vconsole.conf ($txtoptional)")
-  options+=("$txtsetlocale" "/etc/locale.conf, /etc/locale.gen")
-  options+=("$txtsettime" "/etc/localtime")
-  options+=("$txtsetrootpassword" "")
+  options+=("${txtsethostname}" "/etc/hostname")
+  options+=("${txtsetkeymap}" "/etc/vconsole.conf")
+  options+=("${txtsetfont}" "/etc/vconsole.conf (${txtoptional})")
+  options+=("${txtsetlocale}" "/etc/locale.conf, /etc/locale.gen")
+  options+=("${txtsettime}" "/etc/localtime")
+  options+=("${txtsetrootpassword}" "")
   options+=("${txtgenerate//%1/fstab}" "")
-  if [ "$luksdrive" = "1" ]; then
+  if [ "${luksdrive}" = "1" ]; then
     options+=("${txtgenerate//%1/crypttab}" "")
   fi
-  if [ "$luksroot" = "1" ]; then
+  if [ "${luksroot}" = "1" ]; then
     options+=("${txtgenerate//%1/mkinitcpio.conf-luks}" "(encrypt hooks)")
   fi
-  if [ "$isnvme" = "1" ]; then
+  if [ "${isnvme}" = "1" ]; then
     options+=("${txtgenerate//%1/mkinitcpio.conf-nvme}" "(nvme module)")
   fi
-  options+=("${txtedit//%1/fstab}" "($txtoptional)")
-  options+=("${txtedit//%1/crypttab}" "($txtoptional)")
-  options+=("${txtedit//%1/mkinitcpio.conf}" "($txtoptional)")
-  options+=("${txtedit//%1/mirrorlist}" "($txtoptional)")
-  options+=("$txtbootloader" "")
+  options+=("${txtedit//%1/fstab}" "(${txtoptional})")
+  options+=("${txtedit//%1/crypttab}" "(${txtoptional})")
+  options+=("${txtedit//%1/mkinitcpio.conf}" "(${txtoptional})")
+  options+=("${txtedit//%1/mirrorlist}" "(${txtoptional})")
+  options+=("${txtbootloader}" "")
   options+=("${txtenable//%1/dhcpcd}" "systemctl enable dhcpcd")
-  options+=("archdi" "$txtarchdidesc")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtarchinstallmenu" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
+  options+=("archdi" "${txtarchdidesc}")
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtarchinstallmenu}" --menu "" --cancel-button "${txtback}" --default-item "${nextitem}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    case $sel in
-      "$txtsethostname")
+    case ${sel} in
+      "${txtsethostname}")
         archsethostname
-        nextitem="$txtsetkeymap"
+        nextitem="${txtsetkeymap}"
       ;;
-      "$txtsetkeymap")
+      "${txtsetkeymap}")
         archsetkeymap
-        nextitem="$txtsetlocale"
+        nextitem="${txtsetlocale}"
       ;;
-      "$txtsetfont")
+      "${txtsetfont}")
         archsetfont
-        nextitem="$txtsetlocale"
+        nextitem="${txtsetlocale}"
       ;;
-      "$txtsetlocale")
+      "${txtsetlocale}")
         archsetlocale
-        nextitem="$txtsettime"
+        nextitem="${txtsettime}"
       ;;
-      "$txtsettime")
+      "${txtsettime}")
         archsettime
-        nextitem="$txtsetrootpassword"
+        nextitem="${txtsetrootpassword}"
       ;;
-      "$txtsetrootpassword")
+      "${txtsetrootpassword}")
         archsetrootpassword
         nextitem="${txtgenerate//%1/fstab}"
       ;;
       "${txtgenerate//%1/fstab}")
         archgenfstabmenu
-        if [ "$luksdrive" = "1" ]; then
+        if [ "${luksdrive}" = "1" ]; then
           nextitem="${txtgenerate//%1/crypttab}"
         else
-          if [ "$luksroot" = "1" ]; then
+          if [ "${luksroot}" = "1" ]; then
             nextitem="${txtgenerate//%1/mkinitcpio.conf-luks}"
           else
-            if [ "$isnvme" = "1" ]; then
+            if [ "${isnvme}" = "1" ]; then
               nextitem="${txtgenerate//%1/mkinitcpio.conf-nvme}"
             else
-              nextitem="$txtbootloader"
+              nextitem="${txtbootloader}"
             fi
           fi
         fi
       ;;
       "${txtgenerate//%1/crypttab}")
         archgencrypttab
-        if [ "$luksroot" = "1" ]; then
+        if [ "${luksroot}" = "1" ]; then
           nextitem="${txtgenerate//%1/mkinitcpio.conf-luks}"
         else
-          if [ "$isnvme" = "1" ]; then
+          if [ "${isnvme}" = "1" ]; then
             nextitem="${txtgenerate//%1/mkinitcpio.conf-nvme}"
           else
-            nextitem="$txtbootloader"
+            nextitem="${txtbootloader}"
           fi
         fi
       ;;
       "${txtgenerate//%1/mkinitcpio.conf-luks}")
         archgenmkinitcpioluks
-        if [ "$isnvme" = "1" ]; then
+        if [ "${isnvme}" = "1" ]; then
           nextitem="${txtgenerate//%1/mkinitcpio.conf-nvme}"
         else
-          nextitem="$txtbootloader"
+          nextitem="${txtbootloader}"
         fi
       ;;
       "${txtgenerate//%1/mkinitcpio.conf-nvme}")
         archgenmkinitcpionvme
-        nextitem="$txtbootloader"
+        nextitem="${txtbootloader}"
       ;;
       "${txtedit//%1/fstab}")
-        $EDITOR /mnt/etc/fstab
+        ${EDITOR} /mnt/etc/fstab
         nextitem="${txtedit//%1/fstab}"
       ;;
       "${txtedit//%1/crypttab}")
-        $EDITOR /mnt/etc/crypttab
+        ${EDITOR} /mnt/etc/crypttab
         nextitem="${txtedit//%1/crypttab}"
       ;;
       "${txtedit//%1/mkinitcpio.conf}")
@@ -903,10 +903,10 @@ archmenu(){
         nextitem="${txtedit//%1/mkinitcpio.conf}"
       ;;
       "${txtedit//%1/mirrorlist}")
-        $EDITOR /mnt/etc/pacman.d/mirrorlist
+        ${EDITOR} /mnt/etc/pacman.d/mirrorlist
         nextitem="${txtedit//%1/mirrorlist}"
       ;;
-      "$txtbootloader")
+      "${txtbootloader}")
         archbootloadermenu
         nextitem="${txtenable//%1/dhcpcd}"
       ;;
@@ -919,26 +919,26 @@ archmenu(){
         nextitem="archdi"
       ;;
     esac
-    archmenu "$nextitem"
+    archmenu "${nextitem}"
   fi
 }
 
 archchroot(){
   echo "arch-chroot /mnt /root"
-  cp $0 /mnt/root
-  chmod 755 /mnt/root/$(basename "$0")
-  arch-chroot /mnt /root/$(basename "$0") --chroot $1 $2
-  rm /mnt/root/$(basename "$0")
+  cp ${0} /mnt/root
+  chmod 755 /mnt/root/$(basename "${0}")
+  arch-chroot /mnt /root/$(basename "${0}") --chroot ${1} ${2}
+  rm /mnt/root/$(basename "${0}")
   echo "exit"
 }
 
 
 archsethostname(){
-  hostname=$(whiptail --backtitle "$apptitle" --title "$txtsethostname" --inputbox "" 0 0 "archlinux" 3>&1 1>&2 2>&3)
+  hostname=$(${dialogexe} --backtitle "${apptitle}" --title "${txtsethostname}" --inputbox "" 0 0 "archlinux" 3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
-    echo "echo \"$hostname\" > /mnt/etc/hostname"
-    echo "$hostname" > /mnt/etc/hostname
+    echo "echo \"${hostname}\" > /mnt/etc/hostname"
+    echo "${hostname}" > /mnt/etc/hostname
     pressanykey
   fi
 }
@@ -946,43 +946,43 @@ archsethostname(){
 archsetkeymap(){
   #items=$(localectl list-keymaps)
   #options=()
-  #for item in $items; do
-  #  options+=("$item" "")
+  #for item in ${items}; do
+  #  options+=("${item}" "")
   #done
   items=$(find /usr/share/kbd/keymaps/ -type f -printf "%f\n" | sort -V)
   options=()
   defsel=""
-  for item in $items; do
-    if [ "${item%%.*}" == "$keymap" ]; then
+  for item in ${items}; do
+    if [ "${item%%.*}" == "${keymap}" ]; then
       defsel="${item%%.*}"
     fi
     options+=("${item%%.*}" "")
   done
-  keymap=$(whiptail --backtitle "$apptitle" --title "$txtsetkeymap" --menu "" --default-item "$defsel" 0 0 0 \
+  keymap=$(${dialogexe} --backtitle "${apptitle}" --title "${txtsetkeymap}" --menu "" --default-item "${defsel}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
-    echo "echo \"KEYMAP=$keymap\" > /mnt/etc/vconsole.conf"
-    echo "KEYMAP=$keymap" > /mnt/etc/vconsole.conf
+    echo "echo \"KEYMAP=${keymap}\" > /mnt/etc/vconsole.conf"
+    echo "KEYMAP=${keymap}" > /mnt/etc/vconsole.conf
     pressanykey
   fi
 }
 
 archsetfont(){
   items=$(find /usr/share/kbd/consolefonts/*.psfu.gz -printf "%f\n")
-  
+
   options=()
-  for item in $items; do
+  for item in ${items}; do
     options+=("${item%%.*}" "")
   done
-  vcfont=$(whiptail --backtitle "$apptitle" --title "$txtsetfont ($txtoptional)" --menu "" 0 0 0 \
+  vcfont=$(${dialogexe} --backtitle "${apptitle}" --title "${txtsetfont} (${txtoptional})" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
-    echo "echo \"FONT=$vcfont\" >> /mnt/etc/vconsole.conf"
-    echo "FONT=$vcfont" >> /mnt/etc/vconsole.conf
+    echo "echo \"FONT=${vcfont}\" >> /mnt/etc/vconsole.conf"
+    echo "FONT=${vcfont}" >> /mnt/etc/vconsole.conf
     pressanykey
   fi
 }
@@ -991,23 +991,23 @@ archsetlocale(){
   items=$(ls /usr/share/i18n/locales)
   options=()
   defsel=""
-  for item in $items; do
-    if [ "$defsel" == "" ]&&[ "${keymap::2}" == "${item::2}" ]; then
-      defsel="$item"
+  for item in ${items}; do
+    if [ "${defsel}" == "" ]&&[ "${keymap::2}" == "${item::2}" ]; then
+      defsel="${item}"
     fi
-    options+=("$item" "")
+    options+=("${item}" "")
   done
-  locale=$(whiptail --backtitle "$apptitle" --title "$txtsetlocale" --menu "" --default-item "$defsel" 0 0 0 \
+  locale=$(${dialogexe} --backtitle "${apptitle}" --title "${txtsetlocale}" --menu "" --default-item "${defsel}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
-    echo "echo \"LANG=$locale.UTF-8\" > /mnt/etc/locale.conf"
-    echo "LANG=$locale.UTF-8" > /mnt/etc/locale.conf
+    echo "echo \"LANG=${locale}.UTF-8\" > /mnt/etc/locale.conf"
+    echo "LANG=${locale}.UTF-8" > /mnt/etc/locale.conf
     echo "echo \"LC_COLLATE=C\" >> /mnt/etc/locale.conf"
     echo "LC_COLLATE=C" >> /mnt/etc/locale.conf
-    echo "sed -i '/"$locale".UTF-8/s/^#//g' /mnt/etc/locale.gen"
-    sed -i '/'$locale'.UTF-8/s/^#//g' /mnt/etc/locale.gen
+    echo "sed -i '/"${locale}".UTF-8/s/^#//g' /mnt/etc/locale.gen"
+    sed -i '/'${locale}'.UTF-8/s/^#//g' /mnt/etc/locale.gen
     archchroot setlocale
     pressanykey
   fi
@@ -1019,48 +1019,48 @@ archsetlocalechroot(){
 }
 
 archsettime(){
-  items=$(ls -l /mnt/usr/share/zoneinfo/ | grep '^d' | gawk -F':[0-9]* ' '/:/{print $2}')
+  items=$(ls -l /mnt/usr/share/zoneinfo/ | grep '^d' | gawk -F':[0-9]* ' '/:/{print ${2}}')
   options=()
-  for item in $items; do
-    options+=("$item" "")
+  for item in ${items}; do
+    options+=("${item}" "")
   done
 
-  timezone=$(whiptail --backtitle "$apptitle" --title "$txtsettime" --menu "" 0 0 0 \
+  timezone=$(${dialogexe} --backtitle "${apptitle}" --title "${txtsettime}" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ ! "$?" = "0" ]; then
     return 1
   fi
-  
-  
-  items=$(ls /mnt/usr/share/zoneinfo/$timezone/)
+
+
+  items=$(ls /mnt/usr/share/zoneinfo/${timezone}/)
   options=()
-  for item in $items; do
-    options+=("$item" "")
+  for item in ${items}; do
+    options+=("${item}" "")
   done
 
-  timezone=$timezone/$(whiptail --backtitle "$apptitle" --title "$txtsettime" --menu "" 0 0 0 \
+  timezone=${timezone}/$(${dialogexe} --backtitle "${apptitle}" --title "${txtsettime}" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ ! "$?" = "0" ]; then
     return 1
   fi
-  
+
   clear
-  echo "ln -sf /mnt/usr/share/zoneinfo/$timezone /mnt/etc/localtime"
-  ln -sf /usr/share/zoneinfo/$timezone /mnt/etc/localtime
+  echo "ln -sf /mnt/usr/share/zoneinfo/${timezone} /mnt/etc/localtime"
+  ln -sf /usr/share/zoneinfo/${timezone} /mnt/etc/localtime
   pressanykey
-  
-  if (whiptail --backtitle "$apptitle" --title "$txtsettime" --yesno "$txtuseutcclock" 0 0) then
+
+  if (${dialogexe} --backtitle "${apptitle}" --title "${txtsettime}" --yesno "${txtuseutcclock}" 0 0) then
     clear
     archchroot settimeutc
   else
     clear
     archchroot settimelocal
   fi
-  
+
   pressanykey
-  
+
 }
 archsettimeutcchroot(){
   echo "hwclock --systohc --utc"
@@ -1090,11 +1090,11 @@ archgenfstabmenu(){
   options+=("LABEL" "genfstab -L")
   options+=("PARTUUID" "genfstab -t PARTUUID")
   options+=("PARTLABEL" "genfstab -t PARTLABEL")
-  sel=$(whiptail --backtitle "$apptitle" --title "${txtgenerate//%1/fstab}" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtgenerate//%1/fstab}" --menu "" --cancel-button "${txtback}" --default-item "${nextitem}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    case $sel in
+    case ${sel} in
       "UUID")
         clear
         echo "genfstab -U -p /mnt > /mnt/etc/fstab"
@@ -1122,8 +1122,8 @@ archgenfstabmenu(){
 
 archgencrypttab(){
   clear
-  echo "echo -e \"$crypttab\" >> /mnt/etc/crypttab"
-  echo -e "$crypttab" >> /mnt/etc/crypttab
+  echo "echo -e \"${crypttab}\" >> /mnt/etc/crypttab"
+  echo -e "${crypttab}" >> /mnt/etc/crypttab
   pressanykey
 }
 
@@ -1143,8 +1143,8 @@ archgenmkinitcpionvme(){
 }
 
 archeditmkinitcpio(){
-  $EDITOR /mnt/etc/mkinitcpio.conf
-  if (whiptail --backtitle "$apptitle" --title "${txtedit//%1/mkinitcpio.conf}" --yesno "${txtgenerate//%1/mkinitcpio} ?" 0 0) then
+  ${EDITOR} /mnt/etc/mkinitcpio.conf
+  if (${dialogexe} --backtitle "${apptitle}" --title "${txtedit//%1/mkinitcpio.conf}" --yesno "${txtgenerate//%1/mkinitcpio} ?" 0 0) then
     clear
     archchroot genmkinitcpio
     pressanykey
@@ -1160,18 +1160,18 @@ archgenmkinitcpiochroot(){
 archbootloadermenu(){
   options=()
   options+=("grub" "")
-  if [ "$efimode" == "1" ]; then
+  if [ "${efimode}" == "1" ]; then
     options+=("systemd-boot" "")
     options+=("refind" "")
   fi
-  if [ "$efimode" != "2" ]; then
+  if [ "${efimode}" != "2" ]; then
     options+=("syslinux" "")
   fi
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloadermenu" --menu "" --cancel-button "$txtback" 0 0 0 \
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtbootloadermenu}" --menu "" --cancel-button "${txtback}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    case $sel in
+    case ${sel} in
       "grub") archbootloadergrubmenu;;
       "systemd-boot")archbootloadersystemdbmenu;;
       "refind") archbootloaderrefindmenu;;
@@ -1182,27 +1182,27 @@ archbootloadermenu(){
 
 
 archbootloadergrubmenu(){
-  if [ "$1" = "" ]; then
+  if [ "${1}" = "" ]; then
     nextblitem="."
   else
-    nextblitem=$1
+    nextblitem=${1}
   fi
   options=()
   options+=("${txtinstall//%1/grub}" "pacstrap grub (efibootmgr), grub-mkconfig")
-  options+=("${txtedit//%1/grub}" "($txtoptional)")
+  options+=("${txtedit//%1/grub}" "(${txtoptional})")
   options+=("${txtinstall//%1/bootloader}" "grub-install")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloadergrubmenu" --menu "" --cancel-button "$txtback" --default-item "$nextblitem" 0 0 0 \
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtbootloadergrubmenu}" --menu "" --cancel-button "${txtback}" --default-item "${nextblitem}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    case $sel in
+    case ${sel} in
       "${txtinstall//%1/grub}")
         archgrubinstall
         nextblitem="${txtinstall//%1/bootloader}"
       ;;
       "${txtedit//%1/grub}")
-        $EDITOR /mnt/etc/default/grub
-        if (whiptail --backtitle "$apptitle" --title "${txtedit//%1/grub}" --yesno "$txtrungrubmakeconfig" 0 0) then
+        ${EDITOR} /mnt/etc/default/grub
+        if (${dialogexe} --backtitle "${apptitle}" --title "${txtedit//%1/grub}" --yesno "${txtrungrubmakeconfig}" 0 0) then
           clear
           archchroot grubinstall
           pressanykey
@@ -1214,7 +1214,7 @@ archbootloadergrubmenu(){
         nextblitem="${txtinstall//%1/bootloader}"
       ;;
     esac
-    archbootloadergrubmenu "$nextblitem"
+    archbootloadergrubmenu "${nextblitem}"
   fi
 }
 
@@ -1223,17 +1223,17 @@ archgrubinstall(){
   echo "pacstrap /mnt grub"
   pacstrap /mnt grub
   pressanykey
-  
-  if [ "$eficomputer" == "1" ]; then
-    if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
-      if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" 0 0) then
+
+  if [ "${eficomputer}" == "1" ]; then
+    if [ "${efimode}" == "1" ]||[ "${efimode}" == "2" ]; then
+      if (${dialogexe} --backtitle "${apptitle}" --title "${txtinstall//%1/efibootmgr}" --yesno "${txtefibootmgr}" 0 0) then
         clear
         echo "pacstrap /mnt efibootmgr"
         pacstrap /mnt efibootmgr
         pressanykey
       fi
     else
-      if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" --defaultno 0 0) then
+      if (${dialogexe} --backtitle "${apptitle}" --title "${txtinstall//%1/efibootmgr}" --yesno "${txtefibootmgr}" --defaultno 0 0) then
         clear
         echo "pacstrap /mnt efibootmgr"
         pacstrap /mnt efibootmgr
@@ -1241,16 +1241,16 @@ archgrubinstall(){
       fi
     fi
   fi
-  
-  if [ "$luksroot" = "1" ]; then
-    if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "$txtgrubluksdetected" 0 0) then
+
+  if [ "${luksroot}" = "1" ]; then
+    if (${dialogexe} --backtitle "${apptitle}" --title "${txtinstall//%1/grub}" --yesno "${txtgrubluksdetected}" 0 0) then
       clear
-      echo "sed -i /GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\\\"cryptdevice=/dev/disk/by-uuid/$luksrootuuid:root\\\" /mnt/etc/default/grub"
-      sed -i /GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\"cryptdevice=/dev/disk/by-uuid/$luksrootuuid:root\" /mnt/etc/default/grub
+      echo "sed -i /GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\\\"cryptdevice=/dev/disk/by-uuid/${luksrootuuid}:root\\\" /mnt/etc/default/grub"
+      sed -i /GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\"cryptdevice=/dev/disk/by-uuid/${luksrootuuid}:root\" /mnt/etc/default/grub
       pressanykey
     fi
   fi
-  
+
   clear
   archchroot grubinstall
   pressanykey
@@ -1266,20 +1266,20 @@ archgrubinstallchroot(){
 archgrubinstallbootloader(){
   items=$(lsblk -d -p -n -l -o NAME -e 7,11)
   options=()
-  for item in $items; do
-    options+=("$item" "")
+  for item in ${items}; do
+    options+=("${item}" "")
   done
-  device=$(whiptail --backtitle "$apptitle" --title "${txtinstall//%1/bootloader}" --menu "" 0 0 0 \
+  device=$(${dialogexe} --backtitle "${apptitle}" --title "${txtinstall//%1/bootloader}" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    if [ "$eficomputer" == "1" ]; then
+    if [ "${eficomputer}" == "1" ]; then
       options=()
-      if [ "$efimode" = "1" ]; then
+      if [ "${efimode}" = "1" ]; then
         options+=("EFI" "")
         options+=("BIOS" "")
         options+=("BIOS+EFI" "")
-      elif [ "$efimode" = "2" ]; then
+      elif [ "${efimode}" = "2" ]; then
         options+=("BIOS+EFI" "")
         options+=("BIOS" "")
         options+=("EFI" "")
@@ -1288,38 +1288,38 @@ archgrubinstallbootloader(){
         options+=("EFI" "")
         options+=("BIOS+EFI" "")
       fi
-      sel=$(whiptail --backtitle "$apptitle" --title "${txtinstall//%1/bootloader}" --menu "" --cancel-button "$txtback" 0 0 0 \
+      sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtinstall//%1/bootloader}" --menu "" --cancel-button "${txtback}" 0 0 0 \
         "${options[@]}" \
         3>&1 1>&2 2>&3)
       if [ "$?" = "0" ]; then
         clear
-        case $sel in
-          "BIOS") archchroot grubbootloaderinstall $device;;
-          "EFI") archchroot grubbootloaderefiinstall $device;;
-          "BIOS+EFI") archchroot grubbootloaderefiusbinstall $device;;
+        case ${sel} in
+          "BIOS") archchroot grubbootloaderinstall ${device};;
+          "EFI") archchroot grubbootloaderefiinstall ${device};;
+          "BIOS+EFI") archchroot grubbootloaderefiusbinstall ${device};;
         esac
         pressanykey
       fi
     else
       clear
-      archchroot grubbootloaderinstall $device
+      archchroot grubbootloaderinstall ${device}
       pressanykey
     fi
   fi
 }
 archgrubinstallbootloaderchroot(){
-  if [ ! "$1" = "none" ]; then
-    echo "grub-install --target=i386-pc --recheck $1"
-    grub-install --target=i386-pc --recheck $1
+  if [ ! "${1}" = "none" ]; then
+    echo "grub-install --target=i386-pc --recheck ${1}"
+    grub-install --target=i386-pc --recheck ${1}
   fi
   exit
 }
 archgrubinstallbootloaderefichroot(){
-  if [ ! "$1" = "none" ]; then
-    echo "grub-install --target=x86_64-efi --efi-directory=/boot --recheck $1"
-    grub-install --target=x86_64-efi --efi-directory=/boot --recheck $1
+  if [ ! "${1}" = "none" ]; then
+    echo "grub-install --target=x86_64-efi --efi-directory=/boot --recheck ${1}"
+    grub-install --target=x86_64-efi --efi-directory=/boot --recheck ${1}
     isvbox=$(lspci | grep "VirtualBox G")
-    if [ "$isvbox" ]; then
+    if [ "${isvbox}" ]; then
       echo "VirtualBox detected, creating startup.nsh..."
       echo "\EFI\arch\grubx64.efi" > /boot/startup.nsh
     fi
@@ -1327,13 +1327,13 @@ archgrubinstallbootloaderefichroot(){
   exit
 }
 archgrubinstallbootloaderefiusbchroot(){
-  if [ ! "$1" = "none" ]; then
-    echo "grub-install --target=i386-pc --recheck $1"
-    grub-install --target=i386-pc --recheck $1
-    echo "grub-install --target=x86_64-efi --efi-directory=/boot --removable --recheck $1"
-    grub-install --target=x86_64-efi --efi-directory=/boot --removable --recheck $1
+  if [ ! "${1}" = "none" ]; then
+    echo "grub-install --target=i386-pc --recheck ${1}"
+    grub-install --target=i386-pc --recheck ${1}
+    echo "grub-install --target=x86_64-efi --efi-directory=/boot --removable --recheck ${1}"
+    grub-install --target=x86_64-efi --efi-directory=/boot --removable --recheck ${1}
     isvbox=$(lspci | grep "VirtualBox G")
-    if [ "$isvbox" ]; then
+    if [ "${isvbox}" ]; then
       echo "VirtualBox detected, creating startup.nsh..."
       echo "\EFI\arch\grubx64.efi" > /boot/startup.nsh
     fi
@@ -1343,26 +1343,26 @@ archgrubinstallbootloaderefiusbchroot(){
 
 
 archbootloadersyslinuxbmenu(){
-  if [ "$1" = "" ]; then
+  if [ "${1}" = "" ]; then
     nextblitem="."
   else
-    nextblitem=$1
+    nextblitem=${1}
   fi
   options=()
   options+=("${txtinstall//%1/syslinux}" "pacstrap syslinux (gptfdisk,mtools)")
-  options+=("${txtedit//%1/syslinux}" "($txtoptional)")
+  options+=("${txtedit//%1/syslinux}" "(${txtoptional})")
   options+=("${txtinstall//%1/bootloader}" "syslinux-install_update")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloadersyslinuxmenu" --menu "" --cancel-button "$txtback" --default-item "$nextblitem" 0 0 0 \
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtbootloadersyslinuxmenu}" --menu "" --cancel-button "${txtback}" --default-item "${nextblitem}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    case $sel in
+    case ${sel} in
       "${txtinstall//%1/syslinux}")
         archsyslinuxinstall
         nextblitem="${txtinstall//%1/bootloader}"
       ;;
       "${txtedit//%1/syslinux}")
-        $EDITOR /mnt/boot/syslinux/syslinux.cfg
+        ${EDITOR} /mnt/boot/syslinux/syslinux.cfg
         nextblitem="${txtinstall//%1/bootloader}"
       ;;
       "${txtinstall//%1/bootloader}")
@@ -1370,70 +1370,70 @@ archbootloadersyslinuxbmenu(){
         nextblitem="${txtinstall//%1/bootloader}"
       ;;
     esac
-    archbootloadersyslinuxbmenu "$nextblitem"
+    archbootloadersyslinuxbmenu "${nextblitem}"
   fi
 }
 archsyslinuxinstall(){
   clear
-  
-  if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
-    echo "$txtsyslinuxaddefibootmgr"
-    additionalpkg=$additionalpkg"efibootmgr "
+
+  if [ "${efimode}" == "1" ]||[ "${efimode}" == "2" ]; then
+    echo "${txtsyslinuxaddefibootmgr}"
+    additionalpkg=${additionalpkg}"efibootmgr "
   fi
-  
-  if [ "$isnvme" = "1" ]; then
+
+  if [ "${isnvme}" = "1" ]; then
     if [ "$(parted ${realrootdev::(-2)} print|grep gpt)" != "" ]; then
-      echo "$txtsyslinuxaddgptfdisk"
-      additionalpkg=$additionalpkg"gptfdisk "
+      echo "${txtsyslinuxaddgptfdisk}"
+      additionalpkg=${additionalpkg}"gptfdisk "
     fi
   else
     if [ "$(parted ${realrootdev::8} print|grep gpt)" != "" ]; then
-      echo "$txtsyslinuxaddgptfdisk"
-      additionalpkg=$additionalpkg"gptfdisk "
-    fi
-  fi
-  
-  if [ "$bootdev" != "" ]; then
-    if [ "$(parted $bootdev print|grep fat)" != "" ]; then
-      echo "$txtsyslinuxaddmtools"
-      additionalpkg=$additionalpkg"mtools "
+      echo "${txtsyslinuxaddgptfdisk}"
+      additionalpkg=${additionalpkg}"gptfdisk "
     fi
   fi
 
-  echo "pacstrap /mnt syslinux $additionalpkg"
-  pacstrap /mnt syslinux $additionalpkg
+  if [ "${bootdev}" != "" ]; then
+    if [ "$(parted ${bootdev} print|grep fat)" != "" ]; then
+      echo "${txtsyslinuxaddmtools}"
+      additionalpkg=${additionalpkg}"mtools "
+    fi
+  fi
+
+  echo "pacstrap /mnt syslinux ${additionalpkg}"
+  pacstrap /mnt syslinux ${additionalpkg}
   pressanykey
 
   clear
   echo "Updating /boot/syslinux/syslinux.cfg"
-  if [ "$luksroot" = "1" ]; then
-    echo "sed -i \"/APPEND\ root=/c\    APPEND root=/dev/mapper/root cryptdevice=$realrootdev:root rw\" /mnt/boot/syslinux/syslinux.cfg"
-    sed -i "/APPEND\ root=/c\    APPEND root=/dev/mapper/root cryptdevice=$realrootdev:root\ rw" /mnt/boot/syslinux/syslinux.cfg
+  if [ "${luksroot}" = "1" ]; then
+    echo "sed -i \"/APPEND\ root=/c\    APPEND root=/dev/mapper/root cryptdevice=${realrootdev}:root rw\" /mnt/boot/syslinux/syslinux.cfg"
+    sed -i "/APPEND\ root=/c\    APPEND root=/dev/mapper/root cryptdevice=${realrootdev}:root\ rw" /mnt/boot/syslinux/syslinux.cfg
   else
-    echo "sed -i \"/APPEND\ root=/c\    APPEND root=$rootdev rw\" /mnt/boot/syslinux/syslinux.cfg"
-    sed -i "/APPEND\ root=/c\    APPEND root=$rootdev\ rw" /mnt/boot/syslinux/syslinux.cfg
+    echo "sed -i \"/APPEND\ root=/c\    APPEND root=${rootdev} rw\" /mnt/boot/syslinux/syslinux.cfg"
+    sed -i "/APPEND\ root=/c\    APPEND root=${rootdev}\ rw" /mnt/boot/syslinux/syslinux.cfg
   fi
-  
+
   pressanykey
 }
 archsyslinuxinstallbootloader(){
   clear
-  if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
-    archchroot syslinuxbootloaderefiinstall $bootdev
+  if [ "${efimode}" == "1" ]||[ "${efimode}" == "2" ]; then
+    archchroot syslinuxbootloaderefiinstall ${bootdev}
   else
-    archchroot syslinuxbootloaderinstall $bootdev
+    archchroot syslinuxbootloaderinstall ${bootdev}
   fi
   pressanykey
 }
 archsyslinuxinstallbootloaderchroot(){
-  if [ ! "$1" = "none" ]; then
+  if [ ! "${1}" = "none" ]; then
     echo "syslinux-install_update -i -a -m"
     syslinux-install_update -i -a -m
   fi
   exit
 }
 archsyslinuxinstallbootloaderefichroot(){
-  if [ ! "$1" = "none" ]; then
+  if [ ! "${1}" = "none" ]; then
     echo "cp -r /usr/lib/syslinux/efi64/* /boot/syslinux"
     cp -r /usr/lib/syslinux/efi64/* /boot/syslinux
     if [ "${1::8}" == "/dev/nvm" ]; then
@@ -1444,7 +1444,7 @@ archsyslinuxinstallbootloaderefichroot(){
       efibootmgr --create --disk ${1::8} --part ${1:(-1)} --loader /syslinux/syslinux.efi --label "Syslinux" --verbose
     fi
     isvbox=$(lspci | grep "VirtualBox G")
-    if [ "$isvbox" ]; then
+    if [ "${isvbox}" ]; then
       echo "VirtualBox detected, creating startup.nsh..."
       echo "\syslinux\syslinux.efi" > /boot/startup.nsh
     fi
@@ -1454,84 +1454,84 @@ archsyslinuxinstallbootloaderefichroot(){
 
 
 archbootloadersystemdbmenu(){
-  if [ "$1" = "" ]; then
+  if [ "${1}" = "" ]; then
     nextblitem="."
   else
-    nextblitem=$1
+    nextblitem=${1}
   fi
   options=()
   options+=("${txtinstall//%1/systemd-boot}" "bootctl install")
-  options+=("${txtedit//%1/loader.conf}" "($txtoptional)")
-  options+=("${txtedit//%1/entries}" "($txtoptional)")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloadersystemdmenu" --menu "" --cancel-button "$txtback" --default-item "$nextblitem" 0 0 0 \
+  options+=("${txtedit//%1/loader.conf}" "(${txtoptional})")
+  options+=("${txtedit//%1/entries}" "(${txtoptional})")
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtbootloadersystemdmenu}" --menu "" --cancel-button "${txtback}" --default-item "${nextblitem}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    case $sel in
+    case ${sel} in
       "${txtinstall//%1/systemd-boot}")
         archsystemdinstall
         nextblitem="${txtinstall//%1/loader.conf}"
       ;;
       "${txtedit//%1/loader.conf}")
-        $EDITOR /mnt/boot/loader/loader.conf
+        ${EDITOR} /mnt/boot/loader/loader.conf
         nextblitem="${txtedit//%1/entries}"
       ;;
       "${txtedit//%1/entries}")
-        $EDITOR /mnt/boot/loader/entries/*
+        ${EDITOR} /mnt/boot/loader/entries/*
         nextblitem="${txtedit//%1/entries}"
       ;;
     esac
-    archbootloadersystemdbmenu "$nextblitem"
+    archbootloadersystemdbmenu "${nextblitem}"
   fi
 }
 archsystemdinstall(){
   clear
-  archchroot systemdbootloaderinstall $realrootdev
-  
-  partuuid=$(blkid -s PARTUUID -o value $realrootdev)
-  parttype=$(blkid -s TYPE -o value $rootdev)
-  
+  archchroot systemdbootloaderinstall ${realrootdev}
+
+  partuuid=$(blkid -s PARTUUID -o value ${realrootdev})
+  parttype=$(blkid -s TYPE -o value ${rootdev})
+
   echo "cp /mnt/usr/share/systemd/bootctl/arch.conf /mnt/boot/loader/entries"
   echo "echo \"timeout 2\" >> /mnt/boot/loader/loader.conf"
   echo "cp /mnt/usr/share/systemd/bootctl/loader.conf /mnt/boot/loader"
-  if [ "$luksroot" = "1" ]; then
-    cryptuuid=$(blkid -s UUID -o value $realrootdev)
+  if [ "${luksroot}" = "1" ]; then
+    cryptuuid=$(blkid -s UUID -o value ${realrootdev})
     echo "sed -i \"s/PARTUUID=XXXX/\\/dev\\/mapper\\/root/\" /mnt/boot/loader/entries/arch.conf"
-    echo "sed -i \"s/XXXX/$parttype/\" /mnt/boot/loader/entries/arch.conf"
-    echo "sed -i \"s/root=/cryptdevice=UUID=$cryptuuid:root root=/\" /mnt/boot/loader/entries/arch.conf"
+    echo "sed -i \"s/XXXX/${parttype}/\" /mnt/boot/loader/entries/arch.conf"
+    echo "sed -i \"s/root=/cryptdevice=UUID=${cryptuuid}:root root=/\" /mnt/boot/loader/entries/arch.conf"
   else
-    echo "sed -i \"s/PARTUUID=XXXX/PARTUUID=$partuuid/\" /mnt/boot/loader/entries/arch.conf"
-    echo "sed -i \"s/XXXX/$parttype/\" /mnt/boot/loader/entries/arch.conf"
+    echo "sed -i \"s/PARTUUID=XXXX/PARTUUID=${partuuid}/\" /mnt/boot/loader/entries/arch.conf"
+    echo "sed -i \"s/XXXX/${parttype}/\" /mnt/boot/loader/entries/arch.conf"
   fi
   echo "cp /mnt/boot/loader/entries/arch.conf /mnt/boot/loader/entries/arch-fallback.conf"
   echo "sed -i \"s/Arch Linux/Arch Linux Fallback/\" /mnt/boot/loader/entries/arch-fallback.conf"
   echo "sed -i \"s/initramfs-linux/initramfs-linux-fallback/\" /mnt/boot/loader/entries/arch-fallback.conf"
-  
+
   cp /mnt/usr/share/systemd/bootctl/loader.conf /mnt/boot/loader
   echo "timeout 2" >> /mnt/boot/loader/loader.conf
   cp /mnt/usr/share/systemd/bootctl/arch.conf /mnt/boot/loader/entries
-  
-  
-  if [ "$luksroot" = "1" ]; then
+
+
+  if [ "${luksroot}" = "1" ]; then
     sed -i "s/PARTUUID=XXXX/\/dev\/mapper\/root/" /mnt/boot/loader/entries/arch.conf
-    sed -i "s/XXXX/$parttype/" /mnt/boot/loader/entries/arch.conf
-    sed -i "s/root=/cryptdevice=UUID=$cryptuuid:root root=/" /mnt/boot/loader/entries/arch.conf
+    sed -i "s/XXXX/${parttype}/" /mnt/boot/loader/entries/arch.conf
+    sed -i "s/root=/cryptdevice=UUID=${cryptuuid}:root root=/" /mnt/boot/loader/entries/arch.conf
   else
-    sed -i "s/PARTUUID=XXXX/PARTUUID=$partuuid/" /mnt/boot/loader/entries/arch.conf
-    sed -i "s/XXXX/$parttype/" /mnt/boot/loader/entries/arch.conf
+    sed -i "s/PARTUUID=XXXX/PARTUUID=${partuuid}/" /mnt/boot/loader/entries/arch.conf
+    sed -i "s/XXXX/${parttype}/" /mnt/boot/loader/entries/arch.conf
   fi
-  
+
   cp /mnt/boot/loader/entries/arch.conf /mnt/boot/loader/entries/arch-fallback.conf
   sed -i "s/Arch Linux/Arch Linux Fallback/" /mnt/boot/loader/entries/arch-fallback.conf
   sed -i "s/initramfs-linux/initramfs-linux-fallback/" /mnt/boot/loader/entries/arch-fallback.conf
-  
+
   pressanykey
 }
 archsystemdinstallchroot(){
   echo "bootctl --path=/boot install"
   bootctl --path=/boot install
   isvbox=$(lspci | grep "VirtualBox G")
-  if [ "$isvbox" ]; then
+  if [ "${isvbox}" ]; then
     echo "VirtualBox detected, creating startup.nsh..."
     echo "\EFI\systemd\systemd-bootx64.efi" > /boot/startup.nsh
   fi
@@ -1539,47 +1539,47 @@ archsystemdinstallchroot(){
 
 
 archbootloaderrefindmenu(){
-  if [ "$1" = "" ]; then
+  if [ "${1}" = "" ]; then
     nextblitem="."
   else
-    nextblitem=$1
+    nextblitem=${1}
   fi
   options=()
   options+=("${txtinstall//%1/refind}" "pacstrap refind-efi")
-  options+=("${txtedit//%1/refind_linux.conf}" "($txtoptional)")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtbootloaderrefindmenu" --menu "" --cancel-button "$txtback" --default-item "$nextblitem" 0 0 0 \
+  options+=("${txtedit//%1/refind_linux.conf}" "(${txtoptional})")
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtbootloaderrefindmenu}" --menu "" --cancel-button "${txtback}" --default-item "${nextblitem}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    case $sel in
+    case ${sel} in
       "${txtinstall//%1/refind}")
         archrefindinstall
         nextblitem="${txtedit//%1/refind_linux.conf}"
       ;;
       "${txtedit//%1/refind_linux.conf}")
-        $EDITOR /mnt/boot/refind_linux.conf
+        ${EDITOR} /mnt/boot/refind_linux.conf
         nextblitem="${txtedit//%1/refind_linux.conf}"
       ;;
     esac
-    archbootloaderrefindmenu "$nextblitem"
+    archbootloaderrefindmenu "${nextblitem}"
   fi
 
 }
 archrefindinstall(){
   clear
-  
+
   echo "pacstrap /mnt refind-efi"
-  echo "archchroot refindbootloaderinstall $realrootdev"
-  echo "echo \"\\\"Arch Linux         \\\" \\\"root=UUID=$rootuuid rw add_efi_memmap\\\"\" > /mnt/boot/refind_linux.conf"
-  echo "echo \"\\\"Arch Linux Fallback\\\" \\\"root=UUID=$rootuuid rw add_efi_memmap initrd=/initramfs-linux-fallback.img\\\"\" >> /mnt/boot/refind_linux.conf"
-  echo "echo \"\\\"Arch Linux Terminal\\\" \\\"root=UUID=$rootuuid rw add_efi_memmap systemd.unit=multi-user.target\\\"\" >> /mnt/boot/refind_linux.conf"
-  
+  echo "archchroot refindbootloaderinstall ${realrootdev}"
+  echo "echo \"\\\"Arch Linux         \\\" \\\"root=UUID=${rootuuid} rw add_efi_memmap\\\"\" > /mnt/boot/refind_linux.conf"
+  echo "echo \"\\\"Arch Linux Fallback\\\" \\\"root=UUID=${rootuuid} rw add_efi_memmap initrd=/initramfs-linux-fallback.img\\\"\" >> /mnt/boot/refind_linux.conf"
+  echo "echo \"\\\"Arch Linux Terminal\\\" \\\"root=UUID=${rootuuid} rw add_efi_memmap systemd.unit=multi-user.target\\\"\" >> /mnt/boot/refind_linux.conf"
+
   pacstrap /mnt refind-efi
-  archchroot refindbootloaderinstall $realrootdev
-  rootuuid=$(blkid -s UUID -o value $realrootdev)
-  echo "\"Arch Linux         \" \"root=UUID=$rootuuid rw add_efi_memmap\"" > /mnt/boot/refind_linux.conf
-  echo "\"Arch Linux Fallback\" \"root=UUID=$rootuuid rw add_efi_memmap initrd=/initramfs-linux-fallback.img\"" >> /mnt/boot/refind_linux.conf
-  echo "\"Arch Linux Terminal\" \"root=UUID=$rootuuid rw add_efi_memmap systemd.unit=multi-user.target\"" >> /mnt/boot/refind_linux.conf
+  archchroot refindbootloaderinstall ${realrootdev}
+  rootuuid=$(blkid -s UUID -o value ${realrootdev})
+  echo "\"Arch Linux         \" \"root=UUID=${rootuuid} rw add_efi_memmap\"" > /mnt/boot/refind_linux.conf
+  echo "\"Arch Linux Fallback\" \"root=UUID=${rootuuid} rw add_efi_memmap initrd=/initramfs-linux-fallback.img\"" >> /mnt/boot/refind_linux.conf
+  echo "\"Arch Linux Terminal\" \"root=UUID=${rootuuid} rw add_efi_memmap systemd.unit=multi-user.target\"" >> /mnt/boot/refind_linux.conf
   pressanykey
 }
 archrefindinstallchroot(){
@@ -1587,7 +1587,7 @@ archrefindinstallchroot(){
   echo "refind-install"
   refind-install
   isvbox=$(lspci | grep "VirtualBox G")
-  if [ "$isvbox" ]; then
+  if [ "${isvbox}" ]; then
     echo "VirtualBox detected, creating startup.nsh..."
     echo "\EFI\refind\refind_x64.efi" > /boot/startup.nsh
   fi
@@ -1595,7 +1595,7 @@ archrefindinstallchroot(){
 
 
 archenabledhcpcd(){
-  if (whiptail --backtitle "$apptitle" --title "${txtenable//%1/dhcpcd}" --yesno "${txtenable//%1/dhcpcd} ?" 0 0) then
+  if (${dialogexe} --backtitle "${apptitle}" --title "${txtenable//%1/dhcpcd}" --yesno "${txtenable//%1/dhcpcd} ?" 0 0) then
     clear
     archchroot enabledhcpcd
     pressanykey
@@ -1609,24 +1609,24 @@ archenabledhcpcdchroot(){
 
 installarchdi(){
   txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
-  if(whiptail --backtitle "$apptitle" --title "archdi" --yesno "$txtinstallarchdi" 0 0) then
+  if(${dialogexe} --backtitle "${apptitle}" --title "archdi" --yesno "${txtinstallarchdi}" 0 0) then
     clear
     echo "pacstrap /mnt wget libnewt"
     pacstrap /mnt wget libnewt
   fi
   if [ "$?" = "0" ]; then
     options=()
-    options+=("$txtarchdiinstallandlaunch" "")
-    options+=("$txtarchdilaunch" "")
-    options+=("$txtarchdiinstall" "")
-    sel=$(whiptail --backtitle "$apptitle" --title "$txtarchdimenu" --menu "" --cancel-button "$txtback" 0 0 0 \
+    options+=("${txtarchdiinstallandlaunch}" "")
+    options+=("${txtarchdilaunch}" "")
+    options+=("${txtarchdiinstall}" "")
+    sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtarchdimenu}" --menu "" --cancel-button "${txtback}" 0 0 0 \
       "${options[@]}" \
       3>&1 1>&2 2>&3)
     if [ "$?" = "0" ]; then
-      case $sel in
-        "$txtarchdiinstallandlaunch") archchroot archdiinstallandlaunch;;
-        "$txtarchdilaunch") archchroot archdilaunch;;
-        "$txtarchdiinstall")
+      case ${sel} in
+        "${txtarchdiinstallandlaunch}") archchroot archdiinstallandlaunch;;
+        "${txtarchdilaunch}") archchroot archdilaunch;;
+        "${txtarchdiinstall}")
           clear
           archchroot archdiinstall
           pressanykey
@@ -1641,11 +1641,11 @@ archdidownload(){
   options=()
   options+=("sourceforge.net" "recommended")
   options+=("github.com" "")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtselectserver" --menu "" --cancel-button "$txtback" 0 0 0 \
+  sel=$(${dialogexe} --backtitle "${apptitle}" --title "${txtselectserver}" --menu "" --cancel-button "${txtback}" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
-    case $sel in
+    case ${sel} in
       "sourceforge.net")
         archdiurl=archdi.sourceforge.net/archdi
       ;;
@@ -1654,8 +1654,8 @@ archdidownload(){
       ;;
     esac
   fi
-  echo "curl -L $archdiurl >archdi"
-  curl -L $archdiurl >archdi
+  echo "curl -L ${archdiurl} >archdi"
+  curl -L ${archdiurl} >archdi
 }
 archdiinstallandlaunchchroot(){
   cd
@@ -1683,20 +1683,20 @@ archdiinstallchroot(){
 
 # --------------------------------------------------------
 pressanykey(){
-  read -n1 -p "$txtpressanykey"
+  read -n1 -p "${txtpressanykey}"
 }
 
 loadstrings(){
-  
+
   locale=en_US.UTF-8
   #font=
-  
+
   txtexit="Exit"
   txtback="Back"
   txtignore="Ignore"
-  
+
   txtselectserver="Select source server :"
-  
+
   txtmainmenu="Main Menu"
   txtlanguage="Language"
   txtsetkeymap="Set Keyboard Layout"
@@ -1736,9 +1736,9 @@ loadstrings(){
   txtluksdevicecreated="luks device created !"
 
   txtinstallmenu="Install Menu"
-  
+
   txtarchinstallmenu="Arch Install Menu"
-  
+
   txteditmirrorlist="Edit mirrorlist"
   txtinstallarchlinux="Install Arch Linux"
   txtconfigarchlinux="Config Arch Linux"
@@ -1748,27 +1748,27 @@ loadstrings(){
   txtsetlocale="Set Locale"
   txtsettime="Set Time"
   txtsetrootpassword="Set root password"
-  
+
   txtuseutcclock="Use UTC hardware clock ?"
-  
+
   txtbootloader="Bootloader"
   txtbootloadermenu="Choose your bootloader"
-  
+
   txtefibootmgr="efibootmgr is required for EFI computers."
-  
+
   txtbootloadergrubmenu="Grub Install Menu"
   txtrungrubmakeconfig="Run grub-mkconfig ?"
   txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
-  
+
   txtbootloadersyslinuxmenu="Syslinux Install Menu"
   txtsyslinuxaddefibootmgr="EFI install require efibootmgr"
   txtsyslinuxaddgptfdisk="GPT disk require gptfdisk"
   txtsyslinuxaddmtools="FAT boot part require mtools"
-  
+
   txtbootloadersystemdmenu="Systemd-boot Install Menu"
-  
+
   txtbootloaderrefindmenu="rEFInd Install Menu"
-  
+
   txtoptional="Optional"
   txtrecommandeasyinst="Recommanded for easy install"
   txtset="Set %1"
@@ -1776,9 +1776,9 @@ loadstrings(){
   txtedit="Edit %1"
   txtinstall="Install %1"
   txtenable="Enable %1"
-  
+
   txtpressanykey="Press any key to continue."
-  
+
   txtarchdidesc="Full desktop install script"
   txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
   txtarchdiinstallandlaunch="Install and run archdi"
@@ -1792,7 +1792,7 @@ loadstrings(){
 
 # --------------------------------------------------------
 while (( "$#" )); do
-  case $1 in
+  case ${1} in
     --help)
       echo "archfi"
       echo "------"
@@ -1803,7 +1803,7 @@ while (( "$#" )); do
     ;;
     -sf | --skip-font) skipfont=1;;
     -t | --test) baseurl="https://raw.githubusercontent"
-                baseurl="$baseurl.com/""$2/archfi/$3";;
+                baseurl="${baseurl}.com/""${2}/archfi/${3}";;
     -efi0) efimode=0;;
     -efi1)
       eficomputer=1
@@ -1814,14 +1814,14 @@ while (( "$#" )); do
       efimode=2
     ;;
     --chroot) chroot=1
-              command=$2
-              args=$3;;
+              command=${2}
+              args=${3};;
   esac
   shift
 done
 
-if [ "$chroot" = "1" ]; then
-  case $command in
+if [ "${chroot}" = "1" ]; then
+  case ${command} in
     'setrootpassword') archsetrootpasswordchroot;;
     'setlocale') archsetlocalechroot;;
     'settimeutc') archsettimeutcchroot;;
@@ -1829,13 +1829,13 @@ if [ "$chroot" = "1" ]; then
     'genmkinitcpio') archgenmkinitcpiochroot;;
     'enabledhcpcd') archenabledhcpcdchroot;;
     'grubinstall') archgrubinstallchroot;;
-    'grubbootloaderinstall') archgrubinstallbootloaderchroot $args;;
-    'grubbootloaderefiinstall') archgrubinstallbootloaderefichroot $args;;
-    'grubbootloaderefiusbinstall') archgrubinstallbootloaderefiusbchroot $args;;
-    'syslinuxbootloaderinstall') archsyslinuxinstallbootloaderchroot $args;;
-    'syslinuxbootloaderefiinstall') archsyslinuxinstallbootloaderefichroot $args;;
-    'systemdbootloaderinstall') archsystemdinstallchroot $args;;
-    'refindbootloaderinstall') archrefindinstallchroot $args;;
+    'grubbootloaderinstall') archgrubinstallbootloaderchroot ${args};;
+    'grubbootloaderefiinstall') archgrubinstallbootloaderefichroot ${args};;
+    'grubbootloaderefiusbinstall') archgrubinstallbootloaderefiusbchroot ${args};;
+    'syslinuxbootloaderinstall') archsyslinuxinstallbootloaderchroot ${args};;
+    'syslinuxbootloaderefiinstall') archsyslinuxinstallbootloaderefichroot ${args};;
+    'systemdbootloaderinstall') archsystemdinstallchroot ${args};;
+    'refindbootloaderinstall') archrefindinstallchroot ${args};;
     'archdiinstallandlaunch') archdiinstallandlaunchchroot;;
     'archdiinstall') archdiinstallchroot;;
     'archdilaunch') archdilaunchchroot;;
@@ -1844,12 +1844,12 @@ else
   pacman -S --needed arch-install-scripts wget libnewt
   dmesg |grep efi: > /dev/null
   if [ "$?" == "1" ]; then
-    if [ "$eficomputer" != "1" ]; then
+    if [ "${eficomputer}" != "1" ]; then
       eficomputer=0
     fi
   else
     eficomputer=1
-    if [ "$efimode" == "" ]; then
+    if [ "${efimode}" == "" ]; then
       efimode=1
     fi
   fi
