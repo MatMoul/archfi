@@ -234,7 +234,7 @@ diskpartautodos(){
       echo -e "n\np\n\n\n+512M\na\nw" | fdisk ${device}
       sleep 1
       echo "${txtautopartcreate//%1/swap}"
-      swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print ${2} }')
+      swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
       swapsize=$((${swapsize}/1000))"M"
       echo -e "n\np\n\n\n+${swapsize}\nt\n\n82\nw" | fdisk ${device}
       sleep 1
@@ -276,7 +276,7 @@ diskpartautogpt(){
       echo "${txtautopartcreate//%1/boot}"
       sgdisk ${device} -n=2:0:+512M
       echo "${txtautopartcreate//%1/swap}"
-      swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print ${2} }')
+      swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
       swapsize=$((${swapsize}/1000))"M"
       sgdisk ${device} -n=3:0:+${swapsize} -t=3:8200
       echo "${txtautopartcreate//%1/root}"
@@ -314,7 +314,7 @@ diskpartautoefi(){
       echo "${txtautopartcreate//%1/EFI boot}"
       sgdisk ${device} -n=1:0:+1024M -t=1:ef00
       echo "${txtautopartcreate//%1/swap}"
-      swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print ${2} }')
+      swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
       swapsize=$((${swapsize}/1000))"M"
       sgdisk ${device} -n=3:0:+${swapsize} -t=3:8200
       echo "${txtautopartcreate//%1/root}"
@@ -949,14 +949,16 @@ archsethostname(){
 }
 
 archgenetchosts(){
-  echo "echo \"127.0.0.1        localhost.localdomain         localhost"
-  echo "      ::1              localhost.localdomain         localhost"
-  echo "      127.0.1.1        ${hostname}.localdomain       ${hostname}\" > /mnt/etc/hosts"
-  cat << EOF > /mnt/etc/hosts
-127.0.0.1      localhost.localdomain           localhost
-::1            localhost.localdomain           localhost
-127.0.1.1      ${hostname}.localdomain         ${hostname}
+  echo -e "echo \"127.0.0.1\t\tlocalhost.localdomain\t\tlocalhost"
+  echo -e "      ::1\t\tlocalhost.localdomain\t\tlocalhost"
+  echo -e "      127.0.1.1\t\t${hostname}.localdomain\t\t${hostname}\" > /mnt/etc/hosts"
+  read -r -d '' hostsfile << EOF
+127.0.0.1\\tlocalhost.localdomain\\tlocalhost
+::1\\t\\tlocalhost.localdomain\\tlocalhost
+127.0.1.1\\t${hostname}.localdomain\\t${hostname}
 EOF
+  printf "%b\n" ${hostsfile} > /mnt/etc/hosts
+  unset hostsfile
   pressanykey
 }
 
@@ -1036,7 +1038,7 @@ archsetlocalechroot(){
 }
 
 archsettime(){
-  items=$(ls -l /mnt/usr/share/zoneinfo/ | grep '^d' | gawk -F':[0-9]* ' '/:/{print ${2}}')
+  items=$(ls -l /mnt/usr/share/zoneinfo/ | grep '^d' | gawk -F':[0-9]* ' '/:/{print $2}')
   options=()
   for item in ${items}; do
     options+=("${item}" "")
