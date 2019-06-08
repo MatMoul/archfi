@@ -804,6 +804,7 @@ archmenu(){
   options+=("${txtsetlocale}" "/etc/locale.conf, /etc/locale.gen")
   options+=("${txtsettime}" "/etc/localtime")
   options+=("${txtsetrootpassword}" "")
+  options+=("${txtgenerate//%1/hosts}" "(${txtoptional})")
   options+=("${txtgenerate//%1/fstab}" "")
   if [ "${luksdrive}" = "1" ]; then
     options+=("${txtgenerate//%1/crypttab}" "")
@@ -848,6 +849,10 @@ archmenu(){
       ;;
       "${txtsetrootpassword}")
         archsetrootpassword
+        nextitem="${txtgenerate//%1/fstab}"
+      ;;
+      "${txtgenerate//%1/hosts}")
+        archgenetchosts
         nextitem="${txtgenerate//%1/fstab}"
       ;;
       "${txtgenerate//%1/fstab}")
@@ -941,6 +946,18 @@ archsethostname(){
     echo "${hostname}" > /mnt/etc/hostname
     pressanykey
   fi
+}
+
+archgenetchosts(){
+  echo "echo \"127.0.0.1        localhost.localdomain         localhost"
+  echo "      ::1              localhost.localdomain         localhost"
+  echo "      127.0.1.1        ${hostname}.localdomain       ${hostname}\" > /mnt/etc/hosts"
+  cat << EOF > /mnt/etc/hosts
+127.0.0.1      localhost.localdomain           localhost
+::1            localhost.localdomain           localhost
+127.0.1.1      ${hostname}.localdomain         ${hostname}
+EOF
+  pressanykey
 }
 
 archsetkeymap(){
