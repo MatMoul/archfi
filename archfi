@@ -241,6 +241,8 @@ diskpartautodos(){
       echo "${txtautopartcreate//%1/root}"
       echo -e "n\np\n\n\n\nw" | fdisk $device
       sleep 1
+      echo "partprobe..."
+      partprobe -s ${device} | grep -v '/dev/sr0'
       echo ""
       pressanykey
       if [ "${device::8}" == "/dev/nvm" ]; then
@@ -282,6 +284,8 @@ diskpartautogpt(){
       echo "${txtautopartcreate//%1/root}"
       sgdisk $device -n=4:0:0
       echo ""
+      echo "partprobe..."
+      partprobe -s ${device} | grep -v '/dev/sr0'
       pressanykey
       if [ "${device::8}" == "/dev/nvm" ]; then
         bootdev=$device"p2"
@@ -320,6 +324,8 @@ diskpartautoefi(){
       echo "${txtautopartcreate//%1/root}"
       sgdisk $device -n=4:0:0
       echo ""
+      echo "partprobe..."
+      partprobe -s ${device} | grep -v '/dev/sr0'
       pressanykey
       if [ "${device::8}" == "/dev/nvm" ]; then
         bootdev=$device"p1"
@@ -358,6 +364,8 @@ diskpartautoefiusb(){
       echo "$txthybridpartcreate"
       echo -e "r\nh\n3\nN\n\nY\nN\nw\nY\n" | gdisk $device
       echo ""
+      echo "partprobe..."
+      partprobe -s ${device} | grep -v '/dev/sr0'
       pressanykey
       if [ "${device::8}" == "/dev/nvm" ]; then
         bootdev=$device"p1"
@@ -385,6 +393,7 @@ diskpartcfdisk(){
   if [ "$?" = "0" ]; then
     clear
     cfdisk $device
+    partprobe ${device}
   fi
 }
 
@@ -400,6 +409,7 @@ diskpartcgdisk(){
   if [ "$?" = "0" ]; then
     clear
     cgdisk $device
+    partprobe ${device}
   fi
 }
 # --------------------------------------------------------
@@ -971,7 +981,7 @@ archsetkeymap(){
 
 archsetfont(){
   items=$(find /usr/share/kbd/consolefonts/*.psfu.gz -printf "%f\n")
-  
+
   options=()
   for item in $items; do
     options+=("${item%%.*}" "")
@@ -1031,8 +1041,8 @@ archsettime(){
   if [ ! "$?" = "0" ]; then
     return 1
   fi
-  
-  
+
+
   items=$(ls /mnt/usr/share/zoneinfo/$timezone/)
   options=()
   for item in $items; do
@@ -1045,12 +1055,12 @@ archsettime(){
   if [ ! "$?" = "0" ]; then
     return 1
   fi
-  
+
   clear
   echo "ln -sf /mnt/usr/share/zoneinfo/$timezone /mnt/etc/localtime"
   ln -sf /usr/share/zoneinfo/$timezone /mnt/etc/localtime
   pressanykey
-  
+
   if (whiptail --backtitle "$apptitle" --title "$txtsettime" --yesno "$txtuseutcclock" 0 0) then
     clear
     archchroot settimeutc
@@ -1058,9 +1068,9 @@ archsettime(){
     clear
     archchroot settimelocal
   fi
-  
+
   pressanykey
-  
+
 }
 archsettimeutcchroot(){
   echo "hwclock --systohc --utc"
@@ -1223,7 +1233,7 @@ archgrubinstall(){
   echo "pacstrap /mnt grub"
   pacstrap /mnt grub
   pressanykey
-  
+
   if [ "$eficomputer" == "1" ]; then
     if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
       if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/efibootmgr}" --yesno "$txtefibootmgr" 0 0) then
@@ -1241,7 +1251,7 @@ archgrubinstall(){
       fi
     fi
   fi
-  
+
   if [ "$luksroot" = "1" ]; then
     if (whiptail --backtitle "$apptitle" --title "${txtinstall//%1/grub}" --yesno "$txtgrubluksdetected" 0 0) then
       clear
@@ -1250,7 +1260,7 @@ archgrubinstall(){
       pressanykey
     fi
   fi
-  
+
   clear
   archchroot grubinstall
   pressanykey
@@ -1375,12 +1385,12 @@ archbootloadersyslinuxbmenu(){
 }
 archsyslinuxinstall(){
   clear
-  
+
   if [ "$efimode" == "1" ]||[ "$efimode" == "2" ]; then
     echo "$txtsyslinuxaddefibootmgr"
     additionalpkg=$additionalpkg"efibootmgr "
   fi
-  
+
   if [ "$isnvme" = "1" ]; then
     if [ "$(parted ${realrootdev::(-2)} print|grep gpt)" != "" ]; then
       echo "$txtsyslinuxaddgptfdisk"
@@ -1392,7 +1402,7 @@ archsyslinuxinstall(){
       additionalpkg=$additionalpkg"gptfdisk "
     fi
   fi
-  
+
   if [ "$bootdev" != "" ]; then
     if [ "$(parted $bootdev print|grep fat)" != "" ]; then
       echo "$txtsyslinuxaddmtools"
@@ -1413,7 +1423,7 @@ archsyslinuxinstall(){
     echo "sed -i \"/APPEND\ root=/c\    APPEND root=$rootdev rw\" /mnt/boot/syslinux/syslinux.cfg"
     sed -i "/APPEND\ root=/c\    APPEND root=$rootdev\ rw" /mnt/boot/syslinux/syslinux.cfg
   fi
-  
+
   pressanykey
 }
 archsyslinuxinstallbootloader(){
@@ -1487,10 +1497,10 @@ archbootloadersystemdbmenu(){
 archsystemdinstall(){
   clear
   archchroot systemdbootloaderinstall $realrootdev
-  
+
   partuuid=$(blkid -s PARTUUID -o value $realrootdev)
   parttype=$(blkid -s TYPE -o value $rootdev)
-  
+
   echo "cp /mnt/usr/share/systemd/bootctl/arch.conf /mnt/boot/loader/entries"
   echo "echo \"timeout 2\" >> /mnt/boot/loader/loader.conf"
   echo "cp /mnt/usr/share/systemd/bootctl/loader.conf /mnt/boot/loader"
@@ -1506,12 +1516,12 @@ archsystemdinstall(){
   echo "cp /mnt/boot/loader/entries/arch.conf /mnt/boot/loader/entries/arch-fallback.conf"
   echo "sed -i \"s/Arch Linux/Arch Linux Fallback/\" /mnt/boot/loader/entries/arch-fallback.conf"
   echo "sed -i \"s/initramfs-linux/initramfs-linux-fallback/\" /mnt/boot/loader/entries/arch-fallback.conf"
-  
+
   cp /mnt/usr/share/systemd/bootctl/loader.conf /mnt/boot/loader
   echo "timeout 2" >> /mnt/boot/loader/loader.conf
   cp /mnt/usr/share/systemd/bootctl/arch.conf /mnt/boot/loader/entries
-  
-  
+
+
   if [ "$luksroot" = "1" ]; then
     sed -i "s/PARTUUID=XXXX/\/dev\/mapper\/root/" /mnt/boot/loader/entries/arch.conf
     sed -i "s/XXXX/$parttype/" /mnt/boot/loader/entries/arch.conf
@@ -1520,11 +1530,11 @@ archsystemdinstall(){
     sed -i "s/PARTUUID=XXXX/PARTUUID=$partuuid/" /mnt/boot/loader/entries/arch.conf
     sed -i "s/XXXX/$parttype/" /mnt/boot/loader/entries/arch.conf
   fi
-  
+
   cp /mnt/boot/loader/entries/arch.conf /mnt/boot/loader/entries/arch-fallback.conf
   sed -i "s/Arch Linux/Arch Linux Fallback/" /mnt/boot/loader/entries/arch-fallback.conf
   sed -i "s/initramfs-linux/initramfs-linux-fallback/" /mnt/boot/loader/entries/arch-fallback.conf
-  
+
   pressanykey
 }
 archsystemdinstallchroot(){
@@ -1567,13 +1577,13 @@ archbootloaderrefindmenu(){
 }
 archrefindinstall(){
   clear
-  
+
   echo "pacstrap /mnt refind-efi"
   echo "archchroot refindbootloaderinstall $realrootdev"
   echo "echo \"\\\"Arch Linux         \\\" \\\"root=UUID=$rootuuid rw add_efi_memmap\\\"\" > /mnt/boot/refind_linux.conf"
   echo "echo \"\\\"Arch Linux Fallback\\\" \\\"root=UUID=$rootuuid rw add_efi_memmap initrd=/initramfs-linux-fallback.img\\\"\" >> /mnt/boot/refind_linux.conf"
   echo "echo \"\\\"Arch Linux Terminal\\\" \\\"root=UUID=$rootuuid rw add_efi_memmap systemd.unit=multi-user.target\\\"\" >> /mnt/boot/refind_linux.conf"
-  
+
   pacstrap /mnt refind-efi
   archchroot refindbootloaderinstall $realrootdev
   rootuuid=$(blkid -s UUID -o value $realrootdev)
@@ -1687,16 +1697,16 @@ pressanykey(){
 }
 
 loadstrings(){
-  
+
   locale=en_US.UTF-8
   #font=
-  
+
   txtexit="Exit"
   txtback="Back"
   txtignore="Ignore"
-  
+
   txtselectserver="Select source server :"
-  
+
   txtmainmenu="Main Menu"
   txtlanguage="Language"
   txtsetkeymap="Set Keyboard Layout"
@@ -1736,9 +1746,9 @@ loadstrings(){
   txtluksdevicecreated="luks device created !"
 
   txtinstallmenu="Install Menu"
-  
+
   txtarchinstallmenu="Arch Install Menu"
-  
+
   txteditmirrorlist="Edit mirrorlist"
   txtinstallarchlinux="Install Arch Linux"
   txtconfigarchlinux="Config Arch Linux"
@@ -1748,27 +1758,27 @@ loadstrings(){
   txtsetlocale="Set Locale"
   txtsettime="Set Time"
   txtsetrootpassword="Set root password"
-  
+
   txtuseutcclock="Use UTC hardware clock ?"
-  
+
   txtbootloader="Bootloader"
   txtbootloadermenu="Choose your bootloader"
-  
+
   txtefibootmgr="efibootmgr is required for EFI computers."
-  
+
   txtbootloadergrubmenu="Grub Install Menu"
   txtrungrubmakeconfig="Run grub-mkconfig ?"
   txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
-  
+
   txtbootloadersyslinuxmenu="Syslinux Install Menu"
   txtsyslinuxaddefibootmgr="EFI install require efibootmgr"
   txtsyslinuxaddgptfdisk="GPT disk require gptfdisk"
   txtsyslinuxaddmtools="FAT boot part require mtools"
-  
+
   txtbootloadersystemdmenu="Systemd-boot Install Menu"
-  
+
   txtbootloaderrefindmenu="rEFInd Install Menu"
-  
+
   txtoptional="Optional"
   txtrecommandeasyinst="Recommanded for easy install"
   txtset="Set %1"
@@ -1776,9 +1786,9 @@ loadstrings(){
   txtedit="Edit %1"
   txtinstall="Install %1"
   txtenable="Enable %1"
-  
+
   txtpressanykey="Press any key to continue."
-  
+
   txtarchdidesc="Full desktop install script"
   txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
   txtarchdiinstallandlaunch="Install and run archdi"
