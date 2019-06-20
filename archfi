@@ -592,6 +592,7 @@ formatdevice(){
   options+=("ext3" "")
   options+=("ext2" "")
   options+=("xfs" "")
+  options+=("f2fs" "")
   options+=("jfs" "")
   if [ ! "${3}" = "noluks" ]; then
     options+=("luks" "encrypted")
@@ -639,6 +640,10 @@ formatdevice(){
     xfs)
       echo "mkfs.xfs -f ${2}"
       mkfs.xfs -f ${2}
+    ;;
+    f2fs)
+      echo "mkfs.f2fs $2"
+      mkfs.f2fs $2
     ;;
     jfs)
       echo "mkfs.xfs -f ${2}"
