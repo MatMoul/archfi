@@ -44,7 +44,7 @@ txtformatdevices="Cihazları biçimlendir"
 txtformatdevice="Cihazı biçimlendir"
 txtmount="Bağla"
 txtunmount="Bağı ayır"
-txtmountdesc="Bölümleri bağlayıp edip kuruluma devam edin"
+txtmountdesc="Bölümleri bağlayıp kuruluma devam edin"
 
 txtformatdeviceconfirm="Uyarı, seçilen cihazlardaki tüm veriler silinecektir! \n Cihazları biçimlendir?"
 
