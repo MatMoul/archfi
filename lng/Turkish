@@ -7,88 +7,88 @@
 
 
 locale=tr_TR.UTF-8
-font=LatArCyrHeb-16
+#font=
 
 
 txtexit="Çıkış"
-txtback="Geri Dön"
-txtignore="Boşver"
+txtback="Geri"
+txtignore="Yoksay"
 
-txtselectserver="Kaynak sunucuyu seç :"
+txtselectserver="Kaynak için bir yansı sunucu seç:"
 
 txtmainmenu="Ana Menü"
 txtlanguage="Dil"
-txtsetkeymap="Klavye Düzenini Belirle"
-txteditor="Editör"
-txtdiskpartmenu="Disk Bölümleme"
-txtselectpartsmenu="Bölümleri seç ve yükle"
+txtsetkeymap="Klavye düzenini seç"
+txteditor="Düzenleyici"
+txtdiskpartmenu="Disk bölümleme"
+txtselectpartsmenu="Bölümleri seç"
 txthelp="Yardım"
 txtchangelog="Değişiklikler"
-txtreboot="Yeniden Başlat"
+txtreboot="Yeniden başlat"
 
-txtautoparts="Otomatik Bölümleme"
-txteditparts="Bölümleri Düzenle"
+txtautoparts="Otomatik bölümle"
+txteditparts="Bölümleri düzenle"
 
-txtautopartsconfirm="Seçilen Cihaz : %1\n\nBütün verileriniz silenecek! \n\nDevam ?"
+txtautopartsconfirm="Seçilen cihaz: %1\n\nTüm verileriniz silenecek! \n\nDevam?"
 
-txtautopartclear="Bütün Bölümlerdiki Verileri Temizle"
-txtautopartcreate="%1 Bölüm Oluştur"
-txthybridpartcreate="Karışık MBR Belirle"
-txtautopartsettype="%1 Bölüm Tipini Belirle"
+txtautopartclear="Tüm bölüm verilerini temizle"
+txtautopartcreate="%1 bölümü oluştur"
+txthybridpartcreate="Karma MBR oluştur"
+txtautopartsettype="Bölüm türünü %1 olarak ayarla"
 
-txtselectdevice="%1 Cihazı Seç :"
-txtselecteddevices="Seçilen Cihazlar :"
+txtselectdevice="%1 bölümü seç:"
+txtselecteddevices="Seçilen bölümler:"
 
-txtformatmountmenu="Format ve Mount"
-txtformatdevices="Cihazları Biçimlendir"
-txtformatdevice="Cihazı Biçimlendir"
-txtmount="Mount"
-txtunmount="Unmount"
-txtmountdesc="Yükle veya Ayarlar"
+txtformatmountmenu="Biçimlendir ve bağla"
+txtformatdevices="Cihazları biçimlendir"
+txtformatdevice="Cihazı biçimlendir"
+txtmount="Bağla"
+txtunmount="Bağı ayır"
+txtmountdesc="Bölümleri bağlayıp edip kuruluma devam edin"
 
-txtformatdeviceconfirm="Uyarı,Seçilen cihazlarınızdaki tüm veriler silinecektir! \n Cihazları Biçimlendir ?"
+txtformatdeviceconfirm="Uyarı, seçilen cihazlardaki tüm veriler silinecektir! \n Cihazları biçimlendir?"
 
-txtselectpartformat="Seçilen Bölüm için biçimlendir %1 :"
-txtformatingpart="Bölüm biçimlendiriliyor %1 "
-txtcreateluksdevice="luks cihazı oluştur :"
-txtopenluksdevice="luks cihazı aç :"
-txtluksdevicecreated="luks cihazları oluşturuldu !"
+txtselectpartformat="%1 sürücüsü için bölüm biçimini seç:"
+txtformatingpart="%1 bölümünü biçimlendir"
+txtcreateluksdevice="LUKS sürücüsü oluştur:"
+txtopenluksdevice="LUKS sürücüsü aç:"
+txtluksdevicecreated="LUKS sürücüsü oluşturuldu!"
 
-txtinstallmenu="Yükleme Menüsü"
+txtinstallmenu="Kurulum Menüsü"
 
-txtarchinstallmenu="Arch Yükleme Menüsü"
-txtrungrubmakeconfig="grub-mkconfig çalıştır ?"
+txtarchinstallmenu="Arch Kurulum Menüsü"
+txtrungrubmakeconfig="grub-mkconfig çalıştır?"
 
-txteditmirrorlist="Kaynak listesini Düzenlen"
-txtinstallarchlinux="Arch Linux Yükle"
+txteditmirrorlist="Sunucu yansı listesini düzenle"
+txtinstallarchlinux="Arch Linux Kur"
 txtconfigarchlinux="Arch Linux Ayalar"
 
-txtsethostname="Bilgisayar Adını Belirle"
-txtsetfont="Yazı Tipini BelirleSet Font"
-txtsetlocale="Lokasyonu Belirle"
-txtsettime="Zamanı Belirle"
-txtsetrootpassword="root şifresini belirle "
+txtsethostname="Bilgisayar adını gir"
+txtsetfont="Yazı tipini seç"
+txtsetlocale="Konum seç"
+txtsettime="Zamanı seç"
+txtsetrootpassword="Kök parolasını belirle"
 
-txtuseutcclock="UTC donanım saatini  kullan ?"
+txtuseutcclock="UTC donanım saatini  kullan?"
 
 txtoptional="İsteğe Bağlı"
 txtrecommandeasyinst="Önerilen kolay kurulum"
 txtset="%1 Belirle"
 txtgenerate="%1 Oluştur"
 txtedit="%1 Düzenle"
-txtinstall="%1 Yükle"
-txtenable="%1 Aktif Et"
+txtinstall="%1 Kur"
+txtenable="%1 Etkinleştir"
 
-txtgrubluksdetected="Root bölümü şifrelendi!\n\ cryptdevice= ve GRUB_CMDLINE_LINUX içerisine /etc/default/grub ekle?"
+txtgrubluksdetected="Kök bölümü şifrelendi!\n\ cryptdevice= ve GRUB_CMDLINE_LINUX içerisine /etc/default/grub ekle?"
 
 
 txtpressanykey="Devam etmek için bir tuşa basın.."
 
-txtinstallosprober="Multi-boot istiyorsanız os-prober bunun için başarılı bir çözümdür.\n os-prober yükle ?"
+txtinstallosprober="Multi-boot istiyorsanız os-prober bunun için başarılı bir çözümdür.\n os-prober yükle?"
 txtefibootmgr="efibootmgr UEFI bilgisayar için gereklidir."
 
-txtarchdidesc="Tam Masaüstü kurulum script'i yükle"
-txtinstallarchdi="Arch Linux Masaüstü Kurulum (archdi) çalışma ortamınızı kurmanız için kullanabileceğiniz ikinci script.\n\nBu script'i çalıştırabilir yada kurabilirsiniz.Bir sonraki menüde seçin.\n\nArch Linux Masaüstü Kurulumu iki bağımlılıkları gerektirir :  wget ve libnewt.\n\npacstrap wget libnewt ?"
-txtarchdiinstallandlaunch="archdi Yükle ve Çalıştır"
-txtarchdiinstall="archdi Yükle"
-txtarchdilaunch="archdi Çalıştır"
+txtarchdidesc="Masaüstü kurulum betiği yükle"
+txtinstallarchdi="Arch Linux Masaüstü Kurulum (archdi) çalışma ortamınızı kurmanız için kullanabileceğiniz ikinci betik.\n\nBu betiği çalıştırabilir yada kurabilirsiniz. Bir sonraki menüden seçin.\n\nArch Linux Masaüstü Kurulumu iki bağımlılık gerektirir :  wget ve libnewt.\n\npacstrap wget libnewt ?"
+txtarchdiinstallandlaunch="Archdi Kur ve Çalıştır"
+txtarchdiinstall="Archdi Kur"
+txtarchdilaunch="Archdi Çalıştır"
