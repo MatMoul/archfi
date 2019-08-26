@@ -78,6 +78,7 @@ mainmenu(){
 
 chooselanguage(){
   options=()
+  options+=("Brazilian" "(By MaxWilliamJF)")
   options+=("Dutch" "(By bowero)")
   options+=("English" "(By MatMoul)")
   options+=("French" "(By MatMoul)")
@@ -85,7 +86,7 @@ chooselanguage(){
   options+=("Italian" "(By thegoldgoat)")
   options+=("Hungarian" "(By KardiWeb)")
   options+=("Polish" "(By dawidd6)")
-  options+=("Portuguese" "(By MaxWilliamJF)")
+  options+=("Portuguese" "(By hugok)")
   options+=("Russian" "(By Anonymous_Prodject)")
   options+=("Spanish" "(By Mystogab)")
   options+=("Turkish" "(By c0b41)")
