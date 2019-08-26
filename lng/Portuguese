@@ -1,29 +1,29 @@
 # Arch Linux Fast Install (archfi)
 # --------------------------------
 # project    : https://github.com/MatMoul/archfi
-# language   : Português
-# translator : MaxWilliamJF (maxwilljf@gmail.com)
-# notes      : Version 0.1
+# language   : Portuguese
+# translator : hugok (hugokarvalho@gmail.com)
+# notes      : Versão 0.1
 
 
-locale=pt_BR.UTF-8
-font=Lat2-Terminus16
 
+locale=pt_PT.UTF-8
+font=Lat0-16
 
 txtexit="Sair"
 txtback="Voltar"
 txtignore="Ignorar"
 
-txtselectserver="Escolha um servidor de origem :"
+txtselectserver="Selecionar servidor de origem :"
 
 txtmainmenu="Menu Principal"
-txtlanguage="Linguagem"
-txtsetkeymap="Definir Layout do Teclado"
+txtlanguage="Idioma"
+txtsetkeymap="Definir esquema de teclado"
 txteditor="Editor"
 txtdiskpartmenu="Partições de Disco"
 txtselectpartsmenu="Selecionar Partições e Instalar"
 txthelp="Ajuda"
-txtchangelog="Registro de Alterações"
+txtchangelog="Registo de Alterações"
 txtreboot="Reiniciar"
 
 txtautoparts="Particionar Automaticamente"
@@ -44,32 +44,47 @@ txtformatdevices="Formatar Dispositivos"
 txtformatdevice="Formatar Dispositivo"
 txtmount="Montar"
 txtunmount="Desmontar"
-txtmountdesc="Instalar e Configurar"
+txtmountdesc="Instalar ou Configurar"
 
-txtformatdeviceconfirm="Aviso, todos os dados nas partições selecionadas serão apagados ! \nFormatar partições ?"
+txtformatdeviceconfirm="Aviso, todos os dados nas partições selecionadas serão apagados ! \nFormatar dispositivos ?"
 
-txtselectpartformat="Defina o tipo de partição para %1 :"
-txtformatingpart="Formatando partição %1 como"
-txtcreateluksdevice="LUKS - Criar dispositivo :"
-txtopenluksdevice="LUKS - Abrir dispositivo :"
-txtluksdevicecreated="LUKS - Dispositivo criado !"
+txtselectpartformat="Selecionar o formato da partição para %1 :"
+txtformatingpart="A Formatar partição %1 como"
+txtcreateluksdevice="Criar dispositivo luks :"
+txtopenluksdevice="Abrir dispositivo luks :"
+txtluksdevicecreated="dispositivo luks criado !"
 
 txtinstallmenu="Menu de Instalação"
 
 txtarchinstallmenu="Menu de Instalação do Arch"
-txtrungrubmakeconfig="Executar grub-mkconfig ?"
 
-txteditmirrorlist="Editar mirrorlist"
-txtinstallarchlinux="Instalar Arch Linux"
-txtconfigarchlinux="Configurar Arch Linux"
+txteditmirrorlist="Editar lista de espelhos"
+txtinstallarchlinux="Instalar o Arch Linux"
+txtconfigarchlinux="Configurar o Arch Linux"
 
-txtsethostname="Definir nome do computador"
-txtsetfont="Definir fonte"
-txtsetlocale="Definir local"
+txtsethostname="Definir o nome do computador"
+txtsetfont="Definir tipo de letra"
+txtsetlocale="Definir Localização"
 txtsettime="Definir hora"
-txtsetrootpassword="Definir senha de root"
+txtsetrootpassword="Definir palavra-passe de root"
 
 txtuseutcclock="Utilizar relógio de hardware UTC ?"
+
+txtbootloader="Carregador de arranque"
+txtbootloadermenu="Escolha o seu carregador de arranque"
+
+txtefibootmgr="efibootmgr é necessário para computadores com EFI."
+
+txtbootloadergrubmenu="Menu de instalação Grub"
+txtrungrubmakeconfig="Executar o grub-mkconfig ?"
+txtgrubluksdetected="Partição root encriptada !\n\nAdicionar cryptdevice= a GRUB_CMDLINE_LINUX em /etc/default/grub ?"
+
+txtbootloadersyslinuxmenu="Menu de instalação Syslinux"
+txtsyslinuxaddefibootmgr="A instalação da EFI requer o efibootmgr"
+txtsyslinuxaddgptfdisk="O disco GPT requer o gptfdisk"
+txtsyslinuxaddmtools="Parte do arranque FAT requer mtools"
+
+txtbootloaderrefindmenu="Menu de instalação rEFInd"
 
 txtoptional="Opcional"
 txtrecommandeasyinst="Recomendado para fácil instalação"
@@ -77,18 +92,12 @@ txtset="Definir %1"
 txtgenerate="Gerar %1"
 txtedit="Editar %1"
 txtinstall="Instalar %1"
-txtenable="Habilitar %1"
-
-txtgrubluksdetected="Partição root encriptada !\n\nAdicionar cryptdevice= a GRUB_CMDLINE_LINUX em /etc/default/grub ?"
-
+txtenable="Ativar %1"
 
 txtpressanykey="Pressione qualquer tecla para continuar."
 
-txtinstallosprober="os-prober é uma boa opção caso você queira usar boot múltiplo.\nInstalar os-prober ?"
-txtefibootmgr="efibootmgr é necessário para sistemas EFI."
-
-txtarchdidesc="Instalação completa de estação de trabalho"
-txtinstallarchdi="Arch Linux Desktop Install (archdi) é um segundo script que pode ajudar você a instalar uma estação de trabalho completa.\n\nVocê pode executar o script ou instalá-lo. Escolha no próximo menu.\n\nArch Linux Desktop Install possui duas dependências : wget e libnewt.\n\npacstrap wget libnewt ?"
-txtarchdiinstallandlaunch="Instalar e Executar archdi"
-txtarchdiinstall="Instalar archdi"
-txtarchdilaunch="Executar archdi"
+txtarchdidesc="Instalação completa do ambiente de trabalho"
+txtinstallarchdi="Arch Linux Desktop Install (archdi) é um segundo script que pode ajudar-te a instalar uma estação de trabalho completa.\n\nVocê pode executar o script ou instalá-lo. Escolha no próximo menu.\n\nO Arch Linux Desktop Install possui duas dependências : wget e libnewt.\n\npacstrap wget libnewt ?"
+txtarchdiinstallandlaunch="Instalar e executar o archdi"
+txtarchdiinstall="Instalar o archdi"
+txtarchdilaunch="Executar o archdi"
