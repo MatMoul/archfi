@@ -7,7 +7,7 @@
 
 
 locale=tr_TR.UTF-8
-#font=
+font=LatArCyrHeb-16
 
 
 txtexit="Çıkış"
