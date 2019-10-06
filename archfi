@@ -1603,6 +1603,10 @@ archrefindinstallchroot(){
 archenabledhcpcd(){
   if (whiptail --backtitle "${apptitle}" --title "${txtenable//%1/dhcpcd}" --yesno "${txtenable//%1/dhcpcd} ?" 0 0) then
     clear
+    
+    echo "pacstrap /mnt dhcpcd"
+    
+    pacstrap /mnt dhcpcd
     archchroot enabledhcpcd
     pressanykey
   fi
