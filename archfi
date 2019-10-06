@@ -749,7 +749,7 @@ installmenu(){
   fi
   options=()
   options+=("${txteditmirrorlist}" "(${txtoptional})")
-  options+=("${txtinstallarchlinux}" "pacstrap base")
+  options+=("${txtinstallarchlinux}" "pacstrap base linux")
   options+=("${txtconfigarchlinux}" "")
   sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtunmount}" --default-item "${nextitem}" 0 0 0 \
     "${options[@]}" \
@@ -777,8 +777,8 @@ installmenu(){
 
 installbase(){
   clear
-  echo "pacstrap /mnt base"
-  pacstrap /mnt base
+  echo "pacstrap /mnt base linux"
+  pacstrap /mnt base linux
   pressanykey
 }
 
