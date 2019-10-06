@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2019.08.27.23.48.19 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2019.10.06.21.58.07 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 skipfont="0"
 
@@ -749,7 +749,7 @@ installmenu(){
   fi
   options=()
   options+=("${txteditmirrorlist}" "(${txtoptional})")
-  options+=("${txtinstallarchlinux}" "pacstrap base")
+  options+=("${txtinstallarchlinux}" "pacstrap base linux")
   options+=("${txtconfigarchlinux}" "")
   sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtunmount}" --default-item "${nextitem}" 0 0 0 \
     "${options[@]}" \
@@ -777,8 +777,8 @@ installmenu(){
 
 installbase(){
   clear
-  echo "pacstrap /mnt base"
-  pacstrap /mnt base
+  echo "pacstrap /mnt base linux"
+  pacstrap /mnt base linux
   pressanykey
 }
 
@@ -1603,6 +1603,10 @@ archrefindinstallchroot(){
 archenabledhcpcd(){
   if (whiptail --backtitle "${apptitle}" --title "${txtenable//%1/dhcpcd}" --yesno "${txtenable//%1/dhcpcd} ?" 0 0) then
     clear
+    
+    echo "pacstrap /mnt dhcpcd"
+    
+    pacstrap /mnt dhcpcd
     archchroot enabledhcpcd
     pressanykey
   fi
