@@ -1,0 +1,103 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : https://github.com/MatMoul/archfi
+# language   : Norwegian
+# translator : mrboen94 (pseudo, name or e-mail.)
+# notes      : misc text...
+
+
+
+locale=en_US.UTF-8
+#font=
+
+txtexit="Avslutt"
+txtback="Tilbake"
+txtignore="Ignorer"
+
+txtselectserver="Velg kilde server :"
+
+txtmainmenu="Hovedmeny"
+txtlanguage="Språk"
+txtsetkeymap="Sett tastaturlayout"
+txteditor="Teksteditor"
+txtdiskpartmenu="Disk Partisjoner"
+txtselectpartsmenu="Velg Partisjoner og installer"
+txthelp="Hjelp"
+txtchangelog="Endringslogg"
+txtreboot="Restart"
+
+txtautoparts="Auto Partisjonering"
+txteditparts="Endre Partisjoner"
+
+txtautopartsconfirm="Valgt Enhet : %1\n\nAlle data vil bli slettet ! \n\nFortsett ?"
+
+txtautopartclear="Fjern all partisjoneringsdata"
+txtautopartcreate="Sett %1 partisjon"
+txthybridpartcreate="Sett hybrid MBR"
+txtautopartsettype="Sett %1 partition type"
+
+txtselectdevice="Velg %1 Enhet :"
+txtselecteddevices="Velg Enheter :"
+
+txtformatmountmenu="Formater og Monter"
+txtformatdevices="Formater Enheter"
+txtformatdevice="Format Device"
+txtmount="Monter"
+txtunmount="Avmonter"
+txtmountdesc="Installer eller Konfigurer"
+
+txtformatdeviceconfirm="Advarsel, all data på de Valgte Enhetene vil bli Slettet ! \nFortsett Formatering ?"
+
+txtselectpartformat="Velg Partisjonsformat for %1 :"
+txtformatingpart="Formaterer partisjon %1 som"
+txtcreateluksdevice="Lag en luks Enhet :"
+txtopenluksdevice="Åpne luks Enhet :"
+txtluksdevicecreated="luks Enhet oprettet !"
+
+txtinstallmenu="Installeringsmeny"
+
+txtarchinstallmenu="Arch Installeringsmeny"
+
+txteditmirrorlist="Rediger Speillisten"
+txtinstallarchlinux="Installer Arch Linux"
+txtconfigarchlinux="Configurer Arch Linux"
+
+txtsethostname="Sett datamaskinnavn"
+txtsetfont="Sett Font"
+txtsetlocale="Sett Locale"
+txtsettime="Sett Tid"
+txtsetrootpassword="Sett root passord"
+
+txtuseutcclock="Bruk UTC Maskinvare klokke ?"
+
+txtbootloader="Bootloader"
+txtbootloadermenu="Velg din bootloader"
+
+txtefibootmgr="efibootmgr er nødvendig for EFI datamaskiner."
+
+txtbootloadergrubmenu="Grub Installerings Meny"
+txtrungrubmakeconfig="Kjør grub-mkconfig ?"
+txtgrubluksdetected="Kryptert root partisjon !\n\nLegg cryptdevice= til GRUB_CMDLINE_LINUX i /etc/default/grub ?"
+
+txtbootloadersyslinuxmenu="Syslinux Installerings Meny"
+txtsyslinuxaddefibootmgr="EFI installasjon trenger efibootmgr"
+txtsyslinuxaddgptfdisk="GPT disk trenger gptfdisk"
+txtsyslinuxaddmtools="FAT boot partisjon trenger mtools"
+
+txtbootloaderrefindmenu="rEFInd Installerings Meny"
+
+txtoptional="Valgfritt"
+txtrecommandeasyinst="Anbefalt for enkel installering"
+txtset="Sett %1"
+txtgenerate="Generer %1"
+txtedit="Endre %1"
+txtinstall="Installer %1"
+txtenable="Skru på %1"
+
+txtpressanykey="Trykk en tast for å fortsette."
+
+txtarchdidesc="Fult installerings-script"
+txtinstallarchdi="Arch Linux Desktop Install (archdi) er et annet script som kan hjelpe deg å installere en full arbeidsstasjon.\n\nDu kan bare kjøre scriptet eller installere det. Velg i den neste menyen.\n\nArch Linux Desktop Install som to avhengigheter : wget og libnewt.\n\npacstrap wget libnewt ?"
+txtarchdiinstallandlaunch="Installer og kjør archdi"
+txtarchdiinstall="Installer archdi"
+txtarchdilaunch="Kjør archdi"
