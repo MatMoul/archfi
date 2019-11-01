@@ -163,6 +163,25 @@ rebootpc(){
 
 
 # --------------------------------------------------------
+selectdisk(){
+    items=$(lsblk -d -p -n -l -o NAME,SIZE -e 7,11)
+    options=()
+    IFS_ORIG=$IFS
+    IFS=$'\n'
+    for item in ${items}
+    do  
+        options+=("${item}" "")
+    done
+    IFS=$IFS_ORIG
+    result=$(whiptail --backtitle "${APPTITLE}" --title "${1}" --menu "" 0 0 0 "${options[@]}" 3>&1 1>&2 2>&3)
+    if [ "$?" != "0" ]
+    then
+        return 1
+    fi
+    echo ${result%%\ *}
+    return 0    
+}
+
 diskpartmenu(){
   if [ "${1}" = "" ]; then
     nextitem="."
@@ -217,14 +236,7 @@ diskpartmenu(){
 
 
 diskpartautodos(){
-  items=$(lsblk -d -p -n -l -o NAME -e 7,11)
-  options=()
-  for item in ${items}; do
-    options+=("${item}" "")
-  done
-  device=$(whiptail --backtitle "${apptitle}" --title "${txtautoparts} (dos)" --menu "" 0 0 0 \
-    "${options[@]}" \
-    3>&1 1>&2 2>&3)
+    device=$(selectdisk "${txtautoparts} (dos)")
   if [ "$?" = "0" ]; then
     if (whiptail --backtitle "${apptitle}" --title "${txtautoparts} (dos)" --yesno "${txtautopartsconfirm//%1/${device}}" --defaultno 0 0) then
       clear
@@ -259,14 +271,7 @@ diskpartautodos(){
 }
 
 diskpartautogpt(){
-  items=$(lsblk -d -p -n -l -o NAME -e 7,11)
-  options=()
-  for item in ${items}; do
-    options+=("${item}" "")
-  done
-  device=$(whiptail --backtitle "${apptitle}" --title "${txtautoparts} (gpt)" --menu "" 0 0 0 \
-    "${options[@]}" \
-    3>&1 1>&2 2>&3)
+    device=$(selectdisk "${txtautoparts} (gpt)")
   if [ "$?" = "0" ]; then
     if (whiptail --backtitle "${apptitle}" --title "${txtautoparts} (gpt)" --yesno "${txtautopartsconfirm//%1/${device}}" --defaultno 0 0) then
       clear
@@ -299,14 +304,7 @@ diskpartautogpt(){
 }
 
 diskpartautoefi(){
-  items=$(lsblk -d -p -n -l -o NAME -e 7,11)
-  options=()
-  for item in ${items}; do
-    options+=("${item}" "")
-  done
-  device=$(whiptail --backtitle "${apptitle}" --title "${txtautoparts} (gpt,efi)" --menu "" 0 0 0 \
-    "${options[@]}" \
-    3>&1 1>&2 2>&3)
+    device=$(selectdisk "${txtautoparts} (gpt,efi)")
   if [ "$?" = "0" ]; then
     if (whiptail --backtitle "${apptitle}" --title "${txtautoparts} (gpt,efi)" --yesno "${txtautopartsconfirm//%1/${device}}" --defaultno 0 0) then
       clear
@@ -337,14 +335,7 @@ diskpartautoefi(){
 }
 
 diskpartautoefiusb(){
-  items=$(lsblk -d -p -n -l -o NAME -e 7,11)
-  options=()
-  for item in ${items}; do
-    options+=("${item}" "")
-  done
-  device=$(whiptail --backtitle "${apptitle}" --title "${txtautoparts} (gpt,efi)" --menu "" 0 0 0 \
-    "${options[@]}" \
-    3>&1 1>&2 2>&3)
+    device=$(selectdisk "${txtautoparts} (gpt,efi)")  
   if [ "$?" = "0" ]; then
     if (whiptail --backtitle "${apptitle}" --title "${txtautoparts} (gpt,efi)" --yesno "${txtautopartsconfirm//%1/${device}}" --defaultno 0 0) then
       clear
@@ -375,14 +366,7 @@ diskpartautoefiusb(){
 }
 
 diskpartcfdisk(){
-  items=$(lsblk -d -p -n -l -o NAME -e 7,11)
-  options=()
-  for item in ${items}; do
-    options+=("${item}" "")
-  done
-  device=$(whiptail --backtitle "${apptitle}" --title "${txteditparts} (cfdisk)" --menu "" 0 0 0 \
-    "${options[@]}" \
-    3>&1 1>&2 2>&3)
+    device=$( selectdisk "${txteditparts} (cfdisk)" )
   if [ "$?" = "0" ]; then
     clear
     cfdisk ${device}
@@ -390,14 +374,7 @@ diskpartcfdisk(){
 }
 
 diskpartcgdisk(){
-  items=$(lsblk -d -p -n -l -o NAME -e 7,11)
-  options=()
-  for item in ${items}; do
-    options+=("${item}" "")
-  done
-  device=$(whiptail --backtitle "${apptitle}" --title "${txteditparts} (cfdisk)" --menu "" 0 0 0 \
-    "${options[@]}" \
-    3>&1 1>&2 2>&3)
+    device=$( selectdisk "${txteditparts} (cgdisk)" )
   if [ "$?" = "0" ]; then
     clear
     cgdisk ${device}
@@ -1270,14 +1247,7 @@ archgrubinstallchroot(){
 }
 
 archgrubinstallbootloader(){
-  items=$(lsblk -d -p -n -l -o NAME -e 7,11)
-  options=()
-  for item in ${items}; do
-    options+=("${item}" "")
-  done
-  device=$(whiptail --backtitle "${apptitle}" --title "${txtinstall//%1/bootloader}" --menu "" 0 0 0 \
-    "${options[@]}" \
-    3>&1 1>&2 2>&3)
+    device=$( selectdisk "${txtinstall//%1/bootloader}" )  
   if [ "$?" = "0" ]; then
     if [ "${eficomputer}" == "1" ]; then
       options=()
