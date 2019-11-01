@@ -726,7 +726,8 @@ installmenu(){
   fi
   options=()
   options+=("${txteditmirrorlist}" "(${txtoptional})")
-  options+=("${txtinstallarchlinux}" "pacstrap base linux")
+  options+=("${txtinstallarchlinux}" "pacstrap base kernel")
+  options+=("${txtinstallfirmware}" "(${txtoptional}) pacstrap linux-firmware")
   options+=("${txtconfigarchlinux}" "")
   sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtunmount}" --default-item "${nextitem}" 0 0 0 \
     "${options[@]}" \
@@ -738,7 +739,12 @@ installmenu(){
         nextitem="${txtinstallarchlinux}"
       ;;
       "${txtinstallarchlinux}")
-        installbase
+        if(installbase) then
+          nextitem="${txtinstallfirmware}"
+        fi
+      ;;
+      "${txtinstallfirmware}")
+        installfirmware
         nextitem="${txtconfigarchlinux}"
       ;;
       "${txtconfigarchlinux}")
@@ -754,8 +760,29 @@ installmenu(){
 
 installbase(){
   clear
-  echo "pacstrap /mnt base linux"
-  pacstrap /mnt base linux
+  pkgs="base"
+  options=()
+  options+=("linux" "")
+  options+=("linux-lts" "")
+  options+=("linux-zen" "")
+  options+=("linux-hardened" "")
+  sel=$(whiptail --backtitle "${apptitle}" --title "Kernel" --menu "" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ "$?" = "0" ]; then
+    pkgs+=" ${sel}"
+  else
+    return 1
+  fi
+  echo "pacstrap /mnt ${pkgs}"
+  pacstrap /mnt ${pkgs}
+  pressanykey
+}
+
+installfirmware(){
+  clear
+  echo "pacstrap /mnt linux-firmware"
+  pacstrap /mnt linux-firmware
   pressanykey
 }
 
@@ -1721,6 +1748,7 @@ loadstrings(){
 
   txteditmirrorlist="Edit mirrorlist"
   txtinstallarchlinux="Install Arch Linux"
+  txtinstallfirmware="Install Firmware"
   txtconfigarchlinux="Config Arch Linux"
 
   txtsethostname="Set Computer Name"
