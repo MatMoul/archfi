@@ -60,6 +60,7 @@ txtarchinstallmenu="Menu Installation Arch Linux"
 
 txteditmirrorlist="Éditer mirrorlist"
 txtinstallarchlinux="Installer Arch Linux"
+txtinstallfirmware="Installer les firmwares"
 txtconfigarchlinux="Configurer Arch Linux"
 
 txtsethostname="Définir le nom de l'ordinateur"
