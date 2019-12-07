@@ -1742,6 +1742,7 @@ loadstrings(){
   txtarchinstallmenu="Arch Install Menu"
 
   txtselectmirrorsbycountry="Select mirrors by country"
+  txtselectcountry="Select country"
   txteditmirrorlist="Edit mirrorlist"
   txtinstallarchlinux="Install Arch Linux"
   txtconfigarchlinux="Config Arch Linux"
