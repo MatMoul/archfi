@@ -758,7 +758,7 @@ installmenu(){
 }
 
 selectmirrorsbycountry() {
-    if [[ -f /etc/pacman.d/mirrorlist.backup ]]; then
+    if [[ ! -f /etc/pacman.d/mirrorlist.backup ]]; then
         cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
     fi    
     items=$( sed -n "/^##.*/N; {s/^## \(.*\)\nServer.*/\1/p}" < /etc/pacman.d/mirrorlist.backup | sort -u )
