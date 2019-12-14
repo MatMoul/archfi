@@ -44,7 +44,7 @@ txtformatdevices="Formatar Dispositivos"
 txtformatdevice="Formatar Dispositivo"
 txtmount="Montar"
 txtunmount="Desmontar"
-txtmountdesc="Instalar e Configurar"
+txtmountdesc="Instalar ou Configurar"
 
 txtformatdeviceconfirm="Aviso, todos os dados nas partições selecionadas serão apagados ! \nFormatar partições ?"
 
