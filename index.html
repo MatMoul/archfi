@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2019.12.15.00.04.07 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2020.01.11.03.53.30 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 skipfont="0"
 
@@ -105,7 +105,7 @@ chooselanguage(){
     fi
     font=
     if [ "$(cat /etc/locale.gen | grep ""#${locale}"")" != "" ]; then
-      sed -i "/${locale}/s/^#//g" /etc/locale.gen
+      sed -i "/#${locale}/s/^#//g" /etc/locale.gen
       locale-gen
     fi
     export LANG=${locale}
@@ -565,13 +565,13 @@ formatswapdevice(){
 formatdevice(){
   options=()
   options+=("btrfs" "")
-  options+=("reiserfs" "")
   options+=("ext4" "")
   options+=("ext3" "")
   options+=("ext2" "")
   options+=("xfs" "")
   options+=("f2fs" "")
   options+=("jfs" "")
+  options+=("reiserfs" "")
   if [ ! "${3}" = "noluks" ]; then
     options+=("luks" "encrypted")
   fi
@@ -599,10 +599,6 @@ formatdevice(){
         umount /mnt
       fi
     ;;
-    reiserfs)
-      echo "mkfs.reiserfs -f ${2}"
-      mkfs.reiserfs -f ${2}
-    ;;
     ext4)
       echo "mkfs.ext4 ${2}"
       mkfs.ext4 ${2}
@@ -626,6 +622,10 @@ formatdevice(){
     jfs)
       echo "mkfs.xfs -f ${2}"
       mkfs.jfs -f ${2}
+    ;;
+    reiserfs)
+      echo "mkfs.reiserfs -f ${2}"
+      mkfs.reiserfs -f ${2}
     ;;
     luks)
       echo "${txtcreateluksdevice}"
@@ -727,8 +727,7 @@ installmenu(){
   options=()
   options+=("${txtselectmirrorsbycountry}" "(${txtoptional})")
   options+=("${txteditmirrorlist}" "(${txtoptional})")
-  options+=("${txtinstallarchlinux}" "pacstrap base kernel")
-  options+=("${txtinstallfirmware}" "(${txtoptional}) pacstrap linux-firmware")
+  options+=("${txtinstallarchlinux}" "pacstrap base kernel firmwares")
   options+=("${txtconfigarchlinux}" "")
   sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtunmount}" --default-item "${nextitem}" 0 0 0 \
     "${options[@]}" \
@@ -745,12 +744,8 @@ installmenu(){
       ;;
       "${txtinstallarchlinux}")
         if(installbase) then
-          nextitem="${txtinstallfirmware}"
+          nextitem="${txtconfigarchlinux}"
         fi
-      ;;
-      "${txtinstallfirmware}")
-        installfirmware
-        nextitem="${txtconfigarchlinux}"
       ;;
       "${txtconfigarchlinux}")
         archmenu
@@ -798,15 +793,19 @@ installbase(){
   else
     return 1
   fi
+  options=()
+  options+=("linux-firmware" "(${txtoptional})" on)
+  sel=$(whiptail --backtitle "${apptitle}" --title "Firmwares" --checklist "" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ ! "$?" = "0" ]; then
+    return 1
+  fi
+  for itm in $sel; do
+    pkgs="$pkgs $(echo $itm | sed 's/"//g')"
+  done
   echo "pacstrap /mnt ${pkgs}"
   pacstrap /mnt ${pkgs}
-  pressanykey
-}
-
-installfirmware(){
-  clear
-  echo "pacstrap /mnt linux-firmware"
-  pacstrap /mnt linux-firmware
   pressanykey
 }
 
@@ -1040,8 +1039,8 @@ archsetlocale(){
     echo "LANG=${locale}.UTF-8" > /mnt/etc/locale.conf
     echo "echo \"LC_COLLATE=C\" >> /mnt/etc/locale.conf"
     echo "LC_COLLATE=C" >> /mnt/etc/locale.conf
-    echo "sed -i '/"${locale}".UTF-8/s/^#//g' /mnt/etc/locale.gen"
-    sed -i '/'${locale}'.UTF-8/s/^#//g' /mnt/etc/locale.gen
+    echo "sed -i '/#${locale}.UTF-8/s/^#//g' /mnt/etc/locale.gen"
+    sed -i '/#'${locale}'.UTF-8/s/^#//g' /mnt/etc/locale.gen
     archchroot setlocale
     pressanykey
   fi
@@ -1830,14 +1829,18 @@ while (( "$#" )); do
     --help)
       echo "archfi"
       echo "------"
-      echo "-sf | --skip-font                  Skip setfont from language files"
-      echo "-efiX                              -efi0 : disable EFI, -efi1 efi inst, -efi2 efi hybrid inst"
-      echo "-t | --test ghusername ghbranch    Test language files"
+      echo "-sf | --skip-font                 Skip setfont from language files"
+      echo "-efiX                             -efi0 : disable EFI, -efi1 efi inst, -efi2 efi hybrid inst"
+      echo "-t | --test ghusername ghbranch   Test archfi script and language"
       exit 0
     ;;
     -sf | --skip-font) skipfont=1;;
-    -t | --test) baseurl="https://raw.githubusercontent"
-                baseurl="${baseurl}.com/""${2}/archfi/${3}";;
+    -t | --test)
+      wget -O archfi https://raw.githubusercontent.com/${2}/archfi/${3}/archfi
+      sh archfi -tt ${2} ${3}
+      exit 0
+    ;;
+    -tt) baseurl="https://raw.githubusercontent.com/${2}/archfi/${3}";;
     -efi0) efimode=0;;
     -efi1)
       eficomputer=1
