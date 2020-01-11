@@ -727,8 +727,7 @@ installmenu(){
   options=()
   options+=("${txtselectmirrorsbycountry}" "(${txtoptional})")
   options+=("${txteditmirrorlist}" "(${txtoptional})")
-  options+=("${txtinstallarchlinux}" "pacstrap base kernel")
-  options+=("${txtinstallfirmware}" "(${txtoptional}) pacstrap linux-firmware")
+  options+=("${txtinstallarchlinux}" "pacstrap base kernel firmwares")
   options+=("${txtconfigarchlinux}" "")
   sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtunmount}" --default-item "${nextitem}" 0 0 0 \
     "${options[@]}" \
@@ -745,12 +744,8 @@ installmenu(){
       ;;
       "${txtinstallarchlinux}")
         if(installbase) then
-          nextitem="${txtinstallfirmware}"
+          nextitem="${txtconfigarchlinux}"
         fi
-      ;;
-      "${txtinstallfirmware}")
-        installfirmware
-        nextitem="${txtconfigarchlinux}"
       ;;
       "${txtconfigarchlinux}")
         archmenu
@@ -798,15 +793,19 @@ installbase(){
   else
     return 1
   fi
+  options=()
+  options+=("linux-firmware" "(${txtoptional})" on)
+  sel=$(whiptail --backtitle "${apptitle}" --title "Firmwares" --checklist "" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ ! "$?" = "0" ]; then
+    return 1
+  fi
+  for itm in $sel; do
+    pkgs="$pkgs $(echo $itm | sed 's/"//g')"
+  done
   echo "pacstrap /mnt ${pkgs}"
   pacstrap /mnt ${pkgs}
-  pressanykey
-}
-
-installfirmware(){
-  clear
-  echo "pacstrap /mnt linux-firmware"
-  pacstrap /mnt linux-firmware
   pressanykey
 }
 
