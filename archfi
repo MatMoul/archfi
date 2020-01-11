@@ -565,13 +565,13 @@ formatswapdevice(){
 formatdevice(){
   options=()
   options+=("btrfs" "")
-  options+=("reiserfs" "")
   options+=("ext4" "")
   options+=("ext3" "")
   options+=("ext2" "")
   options+=("xfs" "")
   options+=("f2fs" "")
   options+=("jfs" "")
+  options+=("reiserfs" "")
   if [ ! "${3}" = "noluks" ]; then
     options+=("luks" "encrypted")
   fi
@@ -599,10 +599,6 @@ formatdevice(){
         umount /mnt
       fi
     ;;
-    reiserfs)
-      echo "mkfs.reiserfs -f ${2}"
-      mkfs.reiserfs -f ${2}
-    ;;
     ext4)
       echo "mkfs.ext4 ${2}"
       mkfs.ext4 ${2}
@@ -626,6 +622,10 @@ formatdevice(){
     jfs)
       echo "mkfs.xfs -f ${2}"
       mkfs.jfs -f ${2}
+    ;;
+    reiserfs)
+      echo "mkfs.reiserfs -f ${2}"
+      mkfs.reiserfs -f ${2}
     ;;
     luks)
       echo "${txtcreateluksdevice}"
