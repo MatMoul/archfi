@@ -1830,14 +1830,18 @@ while (( "$#" )); do
     --help)
       echo "archfi"
       echo "------"
-      echo "-sf | --skip-font                  Skip setfont from language files"
-      echo "-efiX                              -efi0 : disable EFI, -efi1 efi inst, -efi2 efi hybrid inst"
-      echo "-t | --test ghusername ghbranch    Test language files"
+      echo "-sf | --skip-font                 Skip setfont from language files"
+      echo "-efiX                             -efi0 : disable EFI, -efi1 efi inst, -efi2 efi hybrid inst"
+      echo "-t | --test ghusername ghbranch   Test archfi script and language"
       exit 0
     ;;
     -sf | --skip-font) skipfont=1;;
-    -t | --test) baseurl="https://raw.githubusercontent"
-                baseurl="${baseurl}.com/""${2}/archfi/${3}";;
+    -t | --test)
+      wget -O archfi https://raw.githubusercontent.com/${2}/archfi/${3}/archfi
+      sh archfi -tt ${2} ${3}
+      exit 0
+    ;;
+    -tt) baseurl="https://raw.githubusercontent.com/${2}/archfi/${3}";;
     -efi0) efimode=0;;
     -efi1)
       eficomputer=1
