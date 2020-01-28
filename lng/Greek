@@ -53,7 +53,7 @@ txtcreateluksdevice="Δημιουργία συσκευής luks:"
 txtopenluksdevice="Άνοιγμα συσκευής luks:"
 txtluksdevicecreated="Η συσκευή luks δημιουργήθηκε!"
 
-txtinstallmenu="Μενού εγκατάστασηας"
+txtinstallmenu="Μενού εγκατάστασης"
 
 txtarchinstallmenu="Μενού εγκατάστασης Arch"
 
@@ -97,7 +97,7 @@ txtenable="Ενεργοποίηση %1"
 txtpressanykey="Πιέστε οποιοδήποτε πλήκτρο για να συνεχίσετε."
 
 txtarchdidesc="Script εγκατάστασης ολοκληρωμένης επιφάνειας εργασίας"
-txtinstallarchdi="Το Arch Linux Desktop Install (archdi) είναι ένα δεύτερο script το οποίο βοηθάει στην εγκατάσταση ενός ολοκληρωμένου σταθμού εργασίας.\n\nΜπορείτε να το εκτελέσετε ή και να το εγκαταστήσετε. Επιλέξτε στο επόμενο μενού.\n\nΤο Arch Linux Desktop Install έχει δύο εξαρτήσεις: το wget και το libnewt.\n\nΝα γίνει εγκατάσταση με: "pacstrap wget libnewt";"
+txtinstallarchdi="Το Arch Linux Desktop Install (archdi) είναι ένα δεύτερο script το οποίο βοηθάει στην εγκατάσταση ενός ολοκληρωμένου σταθμού εργασίας.\n\nΜπορείτε να το εκτελέσετε ή και να το εγκαταστήσετε. Επιλέξτε στο επόμενο μενού.\n\nΤο Arch Linux Desktop Install έχει δύο εξαρτήσεις: το wget και το libnewt.\n\nΝα γίνει εγκατάσταση με: 'pacstrap wget libnewt';"
 txtarchdiinstallandlaunch="Εγκατάσταση και εκτέλεση archdi"
 txtarchdiinstall="Εγκατάσταση archdi"
 txtarchdilaunch="Εκτέλεση archdi"
