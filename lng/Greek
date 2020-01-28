@@ -28,15 +28,15 @@ txtreboot="Επανεκκίνηση"
 txtautoparts="Αυτόματη διαμόρφωση δίσκου"
 txteditparts="Επεξεργασία διαμερισμάτων"
 
-txtautopartsconfirm="Επιλεγμένη συσκευή : %1\n\nΌλα τα δεδομένα θα διαγραφούν! \n\nΣυνέχεια;"
+txtautopartsconfirm="Επιλεγμένος δίσκος: %1\n\nΌλα τα δεδομένα θα διαγραφούν! \n\nΣυνέχεια;"
 
 txtautopartclear="Καθαρισμός όλων των δεδομένων διαμερισμάτων."
 txtautopartcreate="Δημιουργήθηκε διαμέρισμα %1."
 txthybridpartcreate="Ορίστηκε υβριδικό MBR."
 txtautopartsettype="Ορίστηκε τύπο διαμερίσματος %1."
 
-txtselectdevice="Επιλέξτε συσκευή %1:"
-txtselecteddevices="Επιλεγμένες συσκευές:"
+txtselectdevice="Επιλέξτε διαμέρισμα %1:"
+txtselecteddevices="Επιλεγμένα διαμερίσματα:"
 
 txtformatmountmenu="Μορφοποίηση και σύνδεση"
 txtformatdevices="Μορφοποίηση διαμερισμάτων"
@@ -57,6 +57,7 @@ txtinstallmenu="Μενού εγκατάστασης"
 
 txtarchinstallmenu="Μενού εγκατάστασης Arch"
 
+txtselectmirrorsbycountry="Επιλογή καθρεπτών βάσει χώρας"
 txteditmirrorlist="Επεξεργασία λίστας καθρεπτών"
 txtinstallarchlinux="Εγκατάσταση Arch Linux"
 txtinstallfirmware="Εγκατάσταση Firmware"
