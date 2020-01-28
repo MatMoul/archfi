@@ -7,7 +7,7 @@
 
 
 locale=el_GR.UTF-8
-#font=gr928-8x16-thin.psfu
+font=gr928-9x16
 
 txtexit="Έξοδος"
 txtback="Πίσω"
