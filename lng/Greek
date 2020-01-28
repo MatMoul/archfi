@@ -1,6 +1,6 @@
 # Arch Linux Fast Install (archfi)
 # --------------------------------
-# project    : https://github.com/quelotic/archfi
+# project    : https://github.com/MatMoul/archfi
 # language   : Greek
 # translator : quelotic
 # notes      : v.1.0
@@ -67,7 +67,7 @@ txtsethostname="Ορίστε όνομα υπολογιστή"
 txtsetfont="Ορίστε γραμματοσειρά"
 txtsetlocale="Ορίστε περιοχή"
 txtsettime="Ορίστε την ώρα"
-txtsetrootpassword="Ορίστε κωδικό διαχειρηστή (root)"
+txtsetrootpassword="Ορίστε κωδικό διαχειριστή (root)"
 
 txtuseutcclock="Χρήση υλικού ρολοϊού UTC;"
 
@@ -90,7 +90,7 @@ txtbootloaderrefindmenu="Μενού εγκατάστασης rEFInd"
 txtoptional="Προαιρετικό"
 txtrecommandeasyinst="Προτείνεται για εύκολη εγκατάσταση"
 txtset="Ορίστε %1"
-txtgenerate="Δημιουργείστε %1"
+txtgenerate="Δημιουργήστε %1"
 txtedit="Επεξεργαστείτε %1"
 txtinstall="Εγκατάσταση %1"
 txtenable="Ενεργοποίηση %1"
