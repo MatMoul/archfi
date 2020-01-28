@@ -30,10 +30,10 @@ txteditparts="Επεξεργασία διαμερισμάτων"
 
 txtautopartsconfirm="Επιλεγμένη συσκευή : %1\n\nΌλα τα δεδομένα θα διαγραφούν! \n\nΣυνέχεια;"
 
-txtautopartclear="Καθαρισμός όλων των δεδομένων διαμερισμάτων"
-txtautopartcreate="Δημιουργήστε το διαμέρισμα %1"
-txthybridpartcreate="Ορίστε υβριδικό MBR"
-txtautopartsettype="Ορίστε τύπο διαμερίσματος %1"
+txtautopartclear="Καθαρισμός όλων των δεδομένων διαμερισμάτων."
+txtautopartcreate="Δημιουργήθηκε διαμέρισμα %1."
+txthybridpartcreate="Ορίστηκε υβριδικό MBR."
+txtautopartsettype="Ορίστηκε τύπο διαμερίσματος %1."
 
 txtselectdevice="Επιλέξτε συσκευή %1:"
 txtselecteddevices="Επιλεγμένες συσκευές:"
