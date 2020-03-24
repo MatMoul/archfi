@@ -1,0 +1,104 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : https://github.com/MatMoul/archfi
+# language   : Greek
+# translator : quelotic
+# notes      : v.1.0
+
+
+locale=el_GR.UTF-8
+font=gr928-9x16
+
+txtexit="Έξοδος"
+txtback="Πίσω"
+txtignore="Αγνοήστε"
+
+txtselectserver="Επιλέξτε διακομιστή:"
+
+txtmainmenu="Βασικό μενού"
+txtlanguage="Γλώσσα"
+txtsetkeymap="Διάταξη πληκτρολογίου"
+txteditor="Επεξεργαστής κειμένου"
+txtdiskpartmenu="Διαμόρφωση δίσκου"
+txtselectpartsmenu="Επιλογή διαμερισμάτων και εγκατάσταση"
+txthelp="Βοήθεια"
+txtchangelog="Αρχείο καταγραφής αλλαγών"
+txtreboot="Επανεκκίνηση"
+
+txtautoparts="Αυτόματη διαμόρφωση δίσκου"
+txteditparts="Επεξεργασία διαμερισμάτων"
+
+txtautopartsconfirm="Επιλεγμένος δίσκος: %1\n\nΌλα τα δεδομένα θα διαγραφούν! \n\nΣυνέχεια;"
+
+txtautopartclear="Καθαρισμός όλων των δεδομένων διαμερισμάτων."
+txtautopartcreate="Δημιουργήθηκε διαμέρισμα %1."
+txthybridpartcreate="Ορίστηκε υβριδικό MBR."
+txtautopartsettype="Ορίστηκε τύπο διαμερίσματος %1."
+
+txtselectdevice="Επιλέξτε διαμέρισμα %1:"
+txtselecteddevices="Επιλεγμένα διαμερίσματα:"
+
+txtformatmountmenu="Μορφοποίηση και σύνδεση"
+txtformatdevices="Μορφοποίηση διαμερισμάτων"
+txtformatdevice="Μορφοποίηση διαμερίσματος"
+txtmount="Mount"
+txtunmount="Unmount"
+txtmountdesc="Σύνδεση διαμερισμάτων και εκκίνηση εγκατάστασης"
+
+txtformatdeviceconfirm="Προσοχή, όλα τα δεδομένα στα επιλεγμένα διαμερίσματα θα διαγραφούν! \nΜορφοποίηση διαμερίσματος;"
+
+txtselectpartformat="Επιλέξτε διαμέρισμα προς διαμόρφωση ως %1:"
+txtformatingpart="Διαμόρφωση διαμερίσματος %1 ως"
+txtcreateluksdevice="Δημιουργία διαμερίσματος luks:"
+txtopenluksdevice="Άνοιγμα διαμερίσματος luks:"
+txtluksdevicecreated="Το διαμέρισμα luks δημιουργήθηκε!"
+
+txtinstallmenu="Μενού εγκατάστασης"
+
+txtarchinstallmenu="Μενού εγκατάστασης Arch"
+
+txtselectmirrorsbycountry="Επιλογή καθρεπτών βάσει χώρας"
+txteditmirrorlist="Επεξεργασία λίστας καθρεπτών"
+txtinstallarchlinux="Εγκατάσταση Arch Linux"
+txtinstallfirmware="Εγκατάσταση Firmware"
+txtconfigarchlinux="Παραμετροποίηση Arch Linux"
+
+txtsethostname="Ορίστε όνομα υπολογιστή"
+txtsetfont="Ορίστε γραμματοσειρά"
+txtsetlocale="Ορίστε περιοχή"
+txtsettime="Ορίστε την ώρα"
+txtsetrootpassword="Ορίστε κωδικό διαχειριστή (root)"
+
+txtuseutcclock="Χρήση υλικού ρολοϊού UTC;"
+
+txtbootloader="Bootloader"
+txtbootloadermenu="Επιλέξτε τον bootloader"
+
+txtefibootmgr="Το πακέτο efibootmgr απαιτείται για υπολογιστές EFI."
+
+txtbootloadergrubmenu="Μενού εγκατάστασης Grub"
+txtrungrubmakeconfig="Εκτέλεση grub-mkconfig;"
+txtgrubluksdetected="Κρυπτογραφημένο διαμέρισμα root!\n\nΝα γίνει πρόσθεση του cryptdevice= στο GRUB_CMDLINE_LINUX στο /etc/default/grub;"
+
+txtbootloadersyslinuxmenu="Μενού εγκατάστασης Syslinux"
+txtsyslinuxaddefibootmgr="Το πακέτο efibootmgr απαιτείται για υπολογιστές EFI."
+txtsyslinuxaddgptfdisk="Το πακέτο gtpfdisk απαιτείται για δίσκο GPT"
+txtsyslinuxaddmtools="To πακέτο mtools απαιτείται για διαμόρφωση εκκίνησης από FAT"
+
+txtbootloaderrefindmenu="Μενού εγκατάστασης rEFInd"
+
+txtoptional="Προαιρετικό"
+txtrecommandeasyinst="Προτείνεται για εύκολη εγκατάσταση"
+txtset="Ορίστε %1"
+txtgenerate="Δημιουργήστε %1"
+txtedit="Επεξεργαστείτε %1"
+txtinstall="Εγκατάσταση %1"
+txtenable="Ενεργοποίηση %1"
+
+txtpressanykey="Πιέστε οποιοδήποτε πλήκτρο για να συνεχίσετε."
+
+txtarchdidesc="Script εγκατάστασης ολοκληρωμένης επιφάνειας εργασίας"
+txtinstallarchdi="Το Arch Linux Desktop Install (archdi) είναι ένα δεύτερο script το οποίο βοηθάει στην εγκατάσταση ενός ολοκληρωμένου σταθμού εργασίας.\n\nΜπορείτε να το εκτελέσετε ή και να το εγκαταστήσετε. Επιλέξτε στο επόμενο μενού.\n\nΤο Arch Linux Desktop Install έχει δύο εξαρτήσεις: το wget και το libnewt.\n\nΝα γίνει εγκατάσταση με: 'pacstrap wget libnewt';"
+txtarchdiinstallandlaunch="Εγκατάσταση και εκτέλεση archdi"
+txtarchdiinstall="Εγκατάσταση archdi"
+txtarchdilaunch="Εκτέλεση archdi"
