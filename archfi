@@ -15,6 +15,7 @@
 apptitle="Arch Linux Fast Install (archfi) - Version: 2020.03.09.20.29.12 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 skipfont="0"
+fspkgs=""
 
 
 # --------------------------------------------------------
@@ -488,6 +489,7 @@ mountmenu(){
 
 formatdevices(){
   if (whiptail --backtitle "${apptitle}" --title "${txtformatdevices}" --yesno "${txtformatdeviceconfirm}" --defaultno 0 0) then
+    fspkgs=""
     if [ ! "${bootdev}" = "" ]; then
       formatbootdevice boot ${bootdev}
     fi
@@ -534,6 +536,7 @@ formatbootdevice(){
       mkfs.ext4 ${2}
     ;;
     fat32)
+      fspkgs="${fspkgs[@]} dosfstools"
       echo "mkfs.fat ${2}"
       mkfs.fat ${2}
     ;;
@@ -587,6 +590,7 @@ formatdevice(){
   echo "----------------------------------------------"
   case ${sel} in
     btrfs)
+      fspkgs="${fspkgs[@]} btrfs-progs"
       echo "mkfs.btrfs -f ${2}"
       mkfs.btrfs -f ${2}
       if [ "${1}" = "root" ]; then
@@ -613,18 +617,22 @@ formatdevice(){
       mkfs.ext2 ${2}
     ;;
     xfs)
+      fspkgs="${fspkgs[@]} xfsprogs"
       echo "mkfs.xfs -f ${2}"
       mkfs.xfs -f ${2}
     ;;
     f2fs)
+      fspkgs="${fspkgs[@]} f2fs-tools"
       echo "mkfs.f2fs $2"
       mkfs.f2fs $2
     ;;
     jfs)
+      fspkgs="${fspkgs[@]} jfsutils"
       echo "mkfs.xfs -f ${2}"
       mkfs.jfs -f ${2}
     ;;
     reiserfs)
+      fspkgs="${fspkgs[@]} reiserfsprogs"
       echo "mkfs.reiserfs -f ${2}"
       mkfs.reiserfs -f ${2}
     ;;
@@ -728,7 +736,7 @@ installmenu(){
   options=()
   options+=("${txtselectmirrorsbycountry}" "(${txtoptional})")
   options+=("${txteditmirrorlist}" "(${txtoptional})")
-  options+=("${txtinstallarchlinux}" "pacstrap base kernel firmwares")
+  options+=("${txtinstallarchlinux}" "pacstrap")
   options+=("${txtconfigarchlinux}" "")
   sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtunmount}" --default-item "${nextitem}" 0 0 0 \
     "${options[@]}" \
@@ -779,14 +787,13 @@ selectmirrorsbycountry() {
 }
 
 installbase(){
-  clear
-  pkgs="base"
+  pkgs=${basepkgs}
   options=()
   options+=("linux" "")
   options+=("linux-lts" "")
   options+=("linux-zen" "")
   options+=("linux-hardened" "")
-  sel=$(whiptail --backtitle "${apptitle}" --title "Kernel" --menu "" 0 0 0 \
+  sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallarchlinuxkernel}" --menu "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
@@ -794,9 +801,10 @@ installbase(){
   else
     return 1
   fi
+  
   options=()
   options+=("linux-firmware" "(${txtoptional})" on)
-  sel=$(whiptail --backtitle "${apptitle}" --title "Firmwares" --checklist "" 0 0 0 \
+  sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallarchlinuxfirmwares}" --checklist "" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
   if [ ! "$?" = "0" ]; then
@@ -805,6 +813,49 @@ installbase(){
   for itm in $sel; do
     pkgs="$pkgs $(echo $itm | sed 's/"//g')"
   done
+
+  options=()
+  if [[ "${fspkgs}" == *"dosfstools"* ]]; then
+    options+=("dosfstools" "" on)
+  else
+    options+=("dosfstools" "" off)
+  fi
+  if [[ "${fspkgs}" == *"btrfs-progs"* ]]; then
+    options+=("btrfs-progs" "" on)
+  else
+    options+=("btrfs-progs" "" off)
+  fi
+  if [[ "${fspkgs}" == *"xfsprogs"* ]]; then
+    options+=("xfsprogs" "" on)
+  else
+    options+=("xfsprogs" "" off)
+  fi
+  if [[ "${fspkgs}" == *"f2fs-tools"* ]]; then
+    options+=("f2fs-tools" "" on)
+  else
+    options+=("f2fs-tools" "" off)
+  fi
+  if [[ "${fspkgs}" == *"jfsutils"* ]]; then
+    options+=("jfsutils" "" on)
+  else
+    options+=("jfsutils" "" off)
+  fi
+  if [[ "${fspkgs}" == *"reiserfsprogs"* ]]; then
+    options+=("reiserfsprogs" "" on)
+  else
+    options+=("reiserfsprogs" "" off)
+  fi
+  sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallarchlinuxfilesystems}" --checklist "" 0 0 0 \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)
+  if [ ! "$?" = "0" ]; then
+    return 1
+  fi
+  for itm in $sel; do
+    pkgs="$pkgs $(echo $itm | sed 's/"//g')"
+  done
+  
+  clear
   echo "pacstrap /mnt ${pkgs}"
   pacstrap /mnt ${pkgs}
   pressanykey
@@ -1774,7 +1825,9 @@ loadstrings(){
   txtselectcountry="Select country"
   txteditmirrorlist="Edit mirrorlist"
   txtinstallarchlinux="Install Arch Linux"
-  txtinstallfirmware="Install Firmware"
+  txtinstallarchlinuxkernel="Kernel"
+  txtinstallarchlinuxfirmwares="Firmwares"
+  txtinstallarchlinuxfilesystems="File Systems"
   txtconfigarchlinux="Config Arch Linux"
 
   txtsethostname="Set Computer Name"
