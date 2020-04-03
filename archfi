@@ -1165,7 +1165,11 @@ archsetrootpassword(){
 }
 archsetrootpasswordchroot(){
 	echo "passwd root"
-	passwd root
+	passed=1
+	while [[ ${passed} != 0 ]]; do
+		passwd root
+		passed=$?
+	done
 	exit
 }
 
