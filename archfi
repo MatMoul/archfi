@@ -904,7 +904,7 @@ archmenu(){
 	options+=("${txtedit//%1/mkinitcpio.conf}" "(${txtoptional})")
 	options+=("${txtedit//%1/mirrorlist}" "(${txtoptional})")
 	options+=("${txtbootloader}" "")
-	options+=("${txtenable//%1/dhcpcd}" "systemctl enable dhcpcd")
+	options+=("${txtextrasmenu}" "")
 	options+=("archdi" "${txtarchdidesc}")
 	sel=$(whiptail --backtitle "${apptitle}" --title "${txtarchinstallmenu}" --menu "" --cancel-button "${txtback}" --default-item "${nextitem}" 0 0 0 \
 		"${options[@]}" \
@@ -993,10 +993,10 @@ archmenu(){
 			;;
 			"${txtbootloader}")
 				archbootloadermenu
-				nextitem="${txtenable//%1/dhcpcd}"
+				nextitem="${txtextrasmenu}"
 			;;
-			"${txtenable//%1/dhcpcd}")
-				archenabledhcpcd
+			"${txtextrasmenu}")
+				archextrasmenu
 				nextitem="archdi"
 			;;
 			"archdi")
@@ -1676,16 +1676,29 @@ archrefindinstallchroot(){
 }
 
 
-archenabledhcpcd(){
-	if (whiptail --backtitle "${apptitle}" --title "${txtenable//%1/dhcpcd}" --yesno "${txtenable//%1/dhcpcd} ?" 0 0) then
-		clear
-		
-		echo "pacstrap /mnt dhcpcd"
-		
-		pacstrap /mnt dhcpcd
-		archchroot enabledhcpcd
-		pressanykey
+archextrasmenu(){
+	pkgs=""
+	options=()
+	options+=("nano" "" on)
+	options+=("vim" "" on)
+	options+=("dhcpcd" "" on)
+	options+=("dialog" "" on)
+	sel=$(whiptail --backtitle "${apptitle}" --title "${txtextrasmenu}" --checklist "" 0 0 0 \
+		"${options[@]}" \
+		3>&1 1>&2 2>&3)
+	if [ ! "$?" = "0" ]; then
+		return 1
 	fi
+	for itm in $sel; do
+		pkgs="$pkgs $(echo $itm | sed 's/"//g')"
+	done
+	clear
+	echo "pacstrap /mnt ${pkgs}"
+	pacstrap /mnt ${pkgs}
+	if [[ "${pkgs}" == *"dhcpcd"* ]]; then
+		archchroot enabledhcpcd
+	fi
+	pressanykey
 }
 archenabledhcpcdchroot(){
 	echo "systemctl enable dhcpcd"
@@ -1859,6 +1872,8 @@ loadstrings(){
 	txtbootloadersystemdmenu="Systemd-boot Install Menu"
 
 	txtbootloaderrefindmenu="rEFInd Install Menu"
+	
+	txtextrasmenu="Extras"
 
 	txtoptional="Optional"
 	txtrecommandeasyinst="Recommanded for easy install"
