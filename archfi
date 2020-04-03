@@ -1136,13 +1136,33 @@ archsettime(){
 	ln -sf /usr/share/zoneinfo/${timezone} /mnt/etc/localtime
 	pressanykey
 
-	if (whiptail --backtitle "${apptitle}" --title "${txtsettime}" --yesno "${txtuseutcclock}" 0 0) then
-		clear
-		archchroot settimeutc
-	else
-		clear
-		archchroot settimelocal
+	options=()
+	options+=("UTC" "")
+	options+=("Local" "")
+	sel=$(whiptail --backtitle "${apptitle}" --title "${txtsettime}" --menu "${txthwclock}" 0 0 0 \
+		"${options[@]}" \
+		3>&1 1>&2 2>&3)
+	if [ ! "$?" = "0" ]; then
+		return 1
 	fi
+	
+	clear
+	case ${sel} in
+		"${txthwclockutc}")
+			archchroot settimeutc
+		;;
+		"${txthwclocklocal}")
+			archchroot settimelocal
+		;;
+	esac
+	
+#	if (whiptail --backtitle "${apptitle}" --title "${txtsettime}" --yesno "${txtuseutcclock}" 0 0) then
+#		clear
+#		archchroot settimeutc
+#	else
+#		clear
+#		archchroot settimelocal
+#	fi
 
 	pressanykey
 
@@ -1853,7 +1873,9 @@ loadstrings(){
 	txtsettime="Set Time"
 	txtsetrootpassword="Set root password"
 
-	txtuseutcclock="Use UTC hardware clock ?"
+	txthwclock="Hardware clock :"
+	txthwclockutc="UTC"
+	txthwclocklocal="Local"
 
 	txtbootloader="Bootloader"
 	txtbootloadermenu="Choose your bootloader"
