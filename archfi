@@ -79,6 +79,7 @@ mainmenu(){
 
 chooselanguage(){
 	options=()
+	options+=("Arabic" "(By Mohammad Alawadi)")
 	options+=("Brazilian" "(By MaxWilliamJF)")
 	options+=("Dutch" "(By bowero)")
 	options+=("English" "(By MatMoul)")

@@ -9,8 +9,8 @@
 # root@mohdalawadi.com
 
 
-locale=en_US.UTF-8
-#font=
+locale=ar_SA.UTF-8
+font=LatArCyrHeb-14
 
 txtexit="خروج"
 txtback="رجوع"
