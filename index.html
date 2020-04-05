@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2020.04.05.05.40.08 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2020.04.05.23.08.12 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 skipfont="0"
 fspkgs=""
@@ -847,6 +847,8 @@ installbase(){
 	else
 		options+=("reiserfsprogs" "" off)
 	fi
+	options+=("lvm2" "" off)
+	options+=("dmraid" "" off)
 	sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallarchlinuxfilesystems}" --checklist "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
