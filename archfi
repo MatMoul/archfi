@@ -88,6 +88,7 @@ chooselanguage(){
 	options+=("Greek" "(By quelotic)")
 	options+=("Italian" "(By thegoldgoat)")
 	options+=("Hungarian" "(By KardiWeb)")
+	options+=("Norwegian" "(By mrboen94)")
 	options+=("Polish" "(By dawidd6)")
 	options+=("Portuguese" "(By hugok)")
 	options+=("Russian" "(By Anonymous_Prodject)")

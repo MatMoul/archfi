@@ -7,4 +7,4 @@
 * **Preserve identation on empty line**
 * **Test your changes**
 
-- [X] I've read these rules before submitting my PR.
+- [ ] I've read these rules before submitting my PR.
