@@ -65,6 +65,7 @@ txtinstallarchlinux="Install Arch Linux"
 txtinstallarchlinuxkernel="Kernel"
 txtinstallarchlinuxfirmwares="Firmwares"
 txtinstallarchlinuxfilesystems="File Systems"
+txtinstallarchlinuxcustompackagelist="Custom Package List"
 txtconfigarchlinux="Config Arch Linux"
 
 txtsethostname="Set Computer Name"

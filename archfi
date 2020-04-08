@@ -867,7 +867,7 @@ installbase(){
 		while read pkg; do
 			options+=("${pkg}" "" on)
 		done < /tmp/archfi-custom-package-list
-		sel=$(whiptail --backtitle "${apptitle}" --title "Custom Package List" --checklist "" 0 0 0 \
+		sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallarchlinuxcustompackagelist}" --checklist "" 0 0 0 \
 			"${options[@]}" \
 			3>&1 1>&2 2>&3)
 		if [ ! "$?" = "0" ]; then
@@ -1887,6 +1887,7 @@ loadstrings(){
 	txtinstallarchlinuxkernel="Kernel"
 	txtinstallarchlinuxfirmwares="Firmwares"
 	txtinstallarchlinuxfilesystems="File Systems"
+	txtinstallarchlinuxcustompackagelist="Custom Package List"
 	txtconfigarchlinux="Config Arch Linux"
 
 	txtsethostname="Set Computer Name"
