@@ -12,8 +12,9 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2020.04.05.23.08.12 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2020.04.08.04.32.18 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
+cpl=0
 skipfont="0"
 fspkgs=""
 
@@ -858,6 +859,24 @@ installbase(){
 	for itm in $sel; do
 		pkgs="$pkgs $(echo $itm | sed 's/"//g')"
 	done
+	
+	if [[ ${cpl} == 1 ]]; then
+		sed -i '/^\s*$/d' /tmp/archfi-custom-package-list
+		sed -i '/^#/ d' /tmp/archfi-custom-package-list
+		options=()
+		while read pkg; do
+			options+=("${pkg}" "" on)
+		done < /tmp/archfi-custom-package-list
+		sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallarchlinuxcustompackagelist}" --checklist "" 0 0 0 \
+			"${options[@]}" \
+			3>&1 1>&2 2>&3)
+		if [ ! "$?" = "0" ]; then
+			return 1
+		fi
+		for itm in $sel; do
+			pkgs="$pkgs $(echo $itm | sed 's/"//g')"
+		done
+	fi
 	
 	clear
 	echo "pacstrap /mnt ${pkgs}"
@@ -1868,6 +1887,7 @@ loadstrings(){
 	txtinstallarchlinuxkernel="Kernel"
 	txtinstallarchlinuxfirmwares="Firmwares"
 	txtinstallarchlinuxfilesystems="File Systems"
+	txtinstallarchlinuxcustompackagelist="Custom Package List"
 	txtconfigarchlinux="Config Arch Linux"
 
 	txtsethostname="Set Computer Name"
@@ -1927,10 +1947,19 @@ while (( "$#" )); do
 		--help)
 			echo "archfi"
 			echo "------"
+			echo "-cpl | --custom-package-list url  Set custom package list url"     
 			echo "-sf | --skip-font                 Skip setfont from language files"
 			echo "-efiX                             -efi0 : disable EFI, -efi1 efi inst, -efi2 efi hybrid inst"
 			echo "-t | --test ghusername ghbranch   Test archfi script and language"
 			exit 0
+		;;
+		-cpl | --custom-package-list)
+			curl -L ${2} > /tmp/archfi-custom-package-list
+			if [[ "$?" != "0" ]]; then
+				echo "Error downloading custom package list"
+				exit 0
+			fi
+			cpl=1
 		;;
 		-sf | --skip-font) skipfont=1;;
 		-t | --test)
