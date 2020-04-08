@@ -9,5 +9,5 @@
 # Some packages :
 neofetch
 nmon
-lsusb
+lshw
 # base-devel
