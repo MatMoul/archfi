@@ -34,10 +34,10 @@ txtautopartsconfirm="選択されたデバイス : %1\n\n全てのデータは�
 txtautopartclear="パーティションの全てのデータ"
 txtautopartcreate="パーティション %1 を作成"
 txthybridpartcreate="Set hybrid MBR"
-txtautopartsettype="Set %1 partition type"
+txtautopartsettype="パーティションタイプ %1 を設定"
 
 txtselectdevice="Select %1 device :"
-txtselecteddevices="Selected devices :"
+txtselecteddevices="選択されたデバイス :"
 
 txtformatmountmenu="フォーマットとマウント"
 txtformatdevices="デバイスをフォーマット"
@@ -46,7 +46,7 @@ txtmount="マウント"
 txtunmount="アンマウント"
 txtmountdesc="インストールか設定"
 
-txtformatdeviceconfirm="Warning, all data on selected devices will be erased ! \nFormat devices ?"
+txtformatdeviceconfirm="警告！ 選択された全てのデバイスのデータは削除されます。! \nデバイスをフォーマットしますか?"
 
 txtselectpartformat="Select partition format for %1 :"
 txtformatingpart="Formatting partition %1 as"
@@ -78,28 +78,28 @@ txthwclock="ハードウェアクロック :"
 txthwclockutc="UTC"
 txthwclocklocal="ローカル"
 
-txtbootloader="Bootloader"
-txtbootloadermenu="Choose your bootloader"
+txtbootloader="ブートローダー"
+txtbootloadermenu="ブートローダーを選択して下さい"
 
 txtefibootmgr="efibootmgr is required for EFI computers."
 
-txtbootloadergrubmenu="Grub Install Menu"
+txtbootloadergrubmenu="Grub インストールメニュー"
 txtrungrubmakeconfig="Run grub-mkconfig ?"
-txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
+txtgrubluksdetected="rootパーティションが暗号化されました !\n\n /etc/default/grubのGRUB_CMDLINE_LINUXに cryptdevice= を追加しますか？"
 
-txtbootloadersyslinuxmenu="Syslinux Install Menu"
-txtsyslinuxaddefibootmgr="EFI install require efibootmgr"
-txtsyslinuxaddgptfdisk="GPT disk require gptfdisk"
-txtsyslinuxaddmtools="FAT boot part require mtools"
+txtbootloadersyslinuxmenu="Syslinux インストールメニュー"
+txtsyslinuxaddefibootmgr="EFIのインストールにはefibootmgrが必要です"
+txtsyslinuxaddgptfdisk="GPTディスクにはgptfdiskが必要です"
+txtsyslinuxaddmtools="FATパーティションを利用するにはmtoolsが必要です"
 
-txtbootloadersystemdmenu="Systemd-boot Install Menu"
+txtbootloadersystemdmenu="Systemd-boot インストールメニュー"
 
-txtbootloaderrefindmenu="rEFInd Install Menu"
+txtbootloaderrefindmenu="rEFInd インストールメニュー"
 
 txtextrasmenu="Extras"
 
-txtoptional="Optional"
-txtrecommandeasyinst="Recommanded for easy install"
+txtoptional="オプション"
+txtrecommandeasyinst="簡単なインストールに推奨"
 txtset="%1をセット"
 txtgenerate="%1を生成"
 txtedit="%1を編集"
@@ -109,7 +109,10 @@ txtenable="%1を有効化"
 txtpressanykey="何かキーを押して続行します"
 
 txtarchdidesc="デスクトップ環境インストールスクリプト"
-txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
+
+txtinstallarchdi="Arch Linux Desktop Install（archdi）は、完全なインストールに役立つ2番目のスクリプトです。\n\nスクリプトを起動するか、インストールするだけです。 次のメニューで選択してください。\n\nArch Linux Desktop Install の依存関係 : wget libnewt.\n\n依存関係をインストールしますか?"
+
+
 txtarchdiinstallandlaunch="archdiをインストールして実行"
 txtarchdiinstall="archdiをインストール"
 txtarchdilaunch="archdiを実行"
