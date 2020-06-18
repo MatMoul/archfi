@@ -631,7 +631,7 @@ formatdevice(){
 		;;
 		jfs)
 			fspkgs="${fspkgs[@]} jfsutils"
-			echo "mkfs.xfs -f ${2}"
+			echo "mkfs.jfs -f ${2}"
 			mkfs.jfs -f ${2}
 		;;
 		reiserfs)
