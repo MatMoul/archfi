@@ -626,8 +626,8 @@ formatdevice(){
 		;;
 		f2fs)
 			fspkgs="${fspkgs[@]} f2fs-tools"
-			echo "mkfs.f2fs $2"
-			mkfs.f2fs $2
+			echo "mkfs.f2fs -f $2"
+			mkfs.f2fs -f $2
 		;;
 		jfs)
 			fspkgs="${fspkgs[@]} jfsutils"
