@@ -32,8 +32,13 @@ Then follow the on-screen instructions to completion.
 
 If you require extra help, visit the provided video playlist and follow my example.
 
+## More custom install
 
-## For developpers
+    sh archfi -cpl {URL of your custom package list}
+
+You can find a sample custom package list file in the samples folder.
+
+## For developers
 
 You can test your script with this command :
 

@@ -1,0 +1,106 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : https://github.com/MatMoul/archfi
+# language   : Arabic
+# translator : Mohammad Alawadi (https://twitter.com/MAlawadi6)
+# notes      : تم ترجمة السكربت لتسهيل عملية تثبيت آرتش لينكس على اخواني العرب
+# أحث كل المهتمين بلينكس وعندهم رغبة تجربة نظام آرتش لينكس بتجربة السكربت هذا اللي يسهل
+# عملية تثبيت نظام التشغيل بكل سهولة وأريحية .. لأي استفسار كلموني في تويتر أو من خلال:
+# root@mohdalawadi.com
+
+
+locale=ar_SA.UTF-8
+font=LatArCyrHeb-14
+
+txtexit="خروج"
+txtback="رجوع"
+txtignore="تجاهل"
+
+txtselectserver="حدد الخادم (السرفر) المصدر (سورس) :"
+
+txtmainmenu="القائمة الرئيسية"
+txtlanguage="اللغة"
+txtsetkeymap="تعيين تخطيط لوحة المفاتيح"
+txteditor="محرر"
+txtdiskpartmenu="أقسام القرص"
+txtselectpartsmenu="حدد أقسام القرص وثبت"
+txthelp="مساعدة"
+txtchangelog="سجل التغيير"
+txtreboot="إعادة التشغيل"
+
+txtautoparts="أقسام تلقائية"
+txteditparts="تعديل الأقسام"
+
+txtautopartsconfirm="الجهاز المحدد : %1\n\nسيتم مسح جميع البيانات ! \n\nنُكمل؟"
+
+txtautopartclear="مسح جميع بيانات القسم"
+txtautopartcreate="إنشاء %1 قسم"
+txthybridpartcreate="تعيين سجل التمهيد الرئيسي المختلط"
+txtautopartsettype="تعيين %1 نوع القسم"
+
+txtselectdevice="اختر %1 جهاز :"
+txtselecteddevices="الأجهزة المختارة :"
+
+txtformatmountmenu="شطب وتثبيت"
+txtformatdevices="حذف الأجهزة"
+txtformatdevice="حذف الجهاز"
+txtmount="تثبيت"
+txtunmount="إلغاء التثبيت"
+txtmountdesc="تثبيت أو تعديل"
+
+txtformatdeviceconfirm="تحذير ، سيتم مسح جميع البيانات الموجودة على الأجهزة المحددة ! \nشطب الأجهزة؟"
+
+txtselectpartformat="حدد قسم شطب لـ  %1 :"
+txtformatingpart="شطب قسم %1 كـ "
+txtcreateluksdevice="إنشاء جهاز luks :"
+txtopenluksdevice="فتح جهاز luks :"
+txtluksdevicecreated="تم إنشاء جهاز luks !"
+
+txtinstallmenu="قائمة التثبيت"
+
+txtarchinstallmenu="قائمة تثبيت آرتش لينكس"
+
+txteditmirrorlist="تعديل قائمة المرآة"
+txtinstallarchlinux="تثبيت آرتش لينكس"
+txtinstallfirmware="تثبيت البرامج الثابتة"
+txtconfigarchlinux="تعديل آرتش لينكس"
+
+txtsethostname="تعيين اسم الكمبيوتر"
+txtsetfont="تعيين الخط"
+txtsetlocale="ضبط اللغة"
+txtsettime="ضبط الوقت"
+txtsetrootpassword="تعيين كلمة المرور الروت"
+
+txtuseutcclock="هل تريد استخدام ساعة الأجهزة UTC؟"
+
+txtbootloader="محمل الإقلاع"
+txtbootloadermenu="اختر محمل الإقلاع"
+
+txtefibootmgr="efibootmgr مطلوب لأجهزة كمبيوتر EFI."
+
+txtbootloadergrubmenu="قائمة تثبيت Grub"
+txtrungrubmakeconfig="شغل grub-mkconfig ؟"
+txtgrubluksdetected="قسم الروت المشفر !\n\nنضيف cryptdevice= إلى GRUB_CMDLINE_LINUX في /etc/default/grub ؟"
+
+txtbootloadersyslinuxmenu="قائمة تثبيت Syslinux"
+txtsyslinuxaddefibootmgr="تثبيت EFI يتطلب efibootmgr"
+txtsyslinuxaddgptfdisk="أسطوانة GPT تتطلب gptfdisk"
+txtsyslinuxaddmtools="جزء FAT للتشغيل يتطلب mtools "
+
+txtbootloaderrefindmenu="قائمة تثبيت rEFInd"
+
+txtoptional="إختياري"
+txtrecommandeasyinst="الموصى بها لتسهيل عملية التثبيت"
+txtset="وضع %1"
+txtgenerate="إنشاء %1"
+txtedit="تعديل %1"
+txtinstall="تثبيت %1"
+txtenable="مكن %1"
+
+txtpressanykey="اضغط على أي زر للإستمرار"
+
+txtarchdidesc="النص الكامل لتثبيت سطح المكتب"
+txtinstallarchdi="Arch Linux Desktop Install (archdi) هو برنامج نصي ثاني يمكنه مساعدتك في تثبيت محطة عمل كاملة.\n\nيمكنك فقط تشغيل البرنامج النصي أو تثبيته. اختر في القائمة التالية.\n\nيحتوي Arch Linux Desktop Install على اثنين من التبعيات : wget and libnewt.\n\npacstrap wget libnewt ؟"
+txtarchdiinstallandlaunch="تثبيت وتشغيل archdi"
+txtarchdiinstall="نصب archdi"
+txtarchdilaunch="إطلاق archdi"

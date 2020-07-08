@@ -58,9 +58,14 @@ txtinstallmenu="Menu Installation"
 
 txtarchinstallmenu="Menu Installation Arch Linux"
 
+txtselectmirrorsbycountry="Mirroir par pays"
+txtselectcountry="Sélectionner pays"
 txteditmirrorlist="Éditer mirrorlist"
 txtinstallarchlinux="Installer Arch Linux"
-txtinstallfirmware="Installer les firmwares"
+txtinstallarchlinuxkernel="Noyau"
+txtinstallarchlinuxfirmwares="Firmwares"
+txtinstallarchlinuxfilesystems="Systèmes de fichier"
+txtinstallarchlinuxcustompackagelist="Liste de paquet personnel"
 txtconfigarchlinux="Configurer Arch Linux"
 
 txtsethostname="Définir le nom de l'ordinateur"
@@ -69,7 +74,9 @@ txtsetlocale="Définir Locale"
 txtsettime="Définir l'horloge"
 txtsetrootpassword="Définir le mot de passe root"
 
-txtuseutcclock="Utiliser une horloge matérielle UTC ?"
+txthwclock="Horloge matériel :"
+txthwclockutc="UTC"
+txthwclocklocal="Local"
 
 txtbootloader="Bootloader"
 txtbootloadermenu="Choisissez votre bootloader"
@@ -85,7 +92,11 @@ txtsyslinuxaddefibootmgr="Une installation EFI nécessite efibootmgr"
 txtsyslinuxaddgptfdisk="Un disque GPT nécessite gptfdisk"
 txtsyslinuxaddmtools="Un partition de boot FAT nécessite mtools"
 
+txtbootloadersystemdmenu="Menu Installation Systemd-boot"
+
 txtbootloaderrefindmenu="Menu Installation rEFInd"
+
+txtextrasmenu="Extras"
 
 txtoptional="Optionnel"
 txtrecommandeasyinst="Recommandé pour installation rapide"

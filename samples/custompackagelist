@@ -1,0 +1,13 @@
+# This file is a sample of a custom package list that is available at the pacstrap step.
+# Each line is a package but empty line and commented line is supported.
+
+# How to use :
+# Store your own file on a web server
+# Launch archfi with :
+# archfi -cpl url_of_the_file
+
+# Some packages :
+neofetch
+nmon
+lshw
+# base-devel
