@@ -58,9 +58,14 @@ txtinstallmenu="Menu de Instalação"
 
 txtarchinstallmenu="Menu de Instalação do Arch"
 
+txtselectmirrorsbycountry="Selecione espelhos por país"
+txtselectcountry="Selecione o país"
 txteditmirrorlist="Editar lista de espelhos"
 txtinstallarchlinux="Instalar o Arch Linux"
-txtinstallfirmware="Instalar o Firmware"
+txtinstallarchlinuxkernel="Kernel"
+txtinstallarchlinuxfirmwares="Firmwares"
+txtinstallarchlinuxfilesystems="Sistema de ficheiros"
+txtinstallarchlinuxcustompackagelist="Lista de pacotes personalizada"
 txtconfigarchlinux="Configurar o Arch Linux"
 
 txtsethostname="Definir o nome do computador"
