@@ -74,7 +74,9 @@ txtsetlocale="Definir Localização"
 txtsettime="Definir hora"
 txtsetrootpassword="Definir palavra-passe de root"
 
-txtuseutcclock="Utilizar relógio de hardware UTC ?"
+txthwclock="Relógio do equipamento :"
+txthwclockutc="UTC"
+txthwclocklocal="Local"
 
 txtbootloader="Carregador de arranque"
 txtbootloadermenu="Escolha o seu carregador de arranque"
@@ -90,10 +92,14 @@ txtsyslinuxaddefibootmgr="A instalação da EFI requer o efibootmgr"
 txtsyslinuxaddgptfdisk="O disco GPT requer o gptfdisk"
 txtsyslinuxaddmtools="Parte do arranque FAT requer mtools"
 
+txtbootloadersystemdmenu="Menu instalação do Systemd-boot"
+
 txtbootloaderrefindmenu="Menu de instalação rEFInd"
 
+txtextrasmenu="Extras"
+
 txtoptional="Opcional"
-txtrecommandeasyinst="Recomendado para fácil instalação"
+txtrecommandeasyinst="Recomendado para instalação fácil"
 txtset="Definir %1"
 txtgenerate="Gerar %1"
 txtedit="Editar %1"
