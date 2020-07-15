@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2020.04.08.04.48.28 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2020.07.16.00.57.38 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 cpl=0
 skipfont="0"
@@ -626,12 +626,12 @@ formatdevice(){
 		;;
 		f2fs)
 			fspkgs="${fspkgs[@]} f2fs-tools"
-			echo "mkfs.f2fs $2"
-			mkfs.f2fs $2
+			echo "mkfs.f2fs -f $2"
+			mkfs.f2fs -f $2
 		;;
 		jfs)
 			fspkgs="${fspkgs[@]} jfsutils"
-			echo "mkfs.xfs -f ${2}"
+			echo "mkfs.jfs -f ${2}"
 			mkfs.jfs -f ${2}
 		;;
 		reiserfs)
