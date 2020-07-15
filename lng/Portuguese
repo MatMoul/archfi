@@ -2,7 +2,7 @@
 # --------------------------------
 # project    : https://github.com/MatMoul/archfi
 # language   : Portuguese
-# translator : hugok (hugokarvalho@gmail.com)
+# translator : Hugo Carvalho aka hugok (hugokarvalho@gmail.com)
 # notes      : Versão 0.1
 
 
@@ -58,9 +58,14 @@ txtinstallmenu="Menu de Instalação"
 
 txtarchinstallmenu="Menu de Instalação do Arch"
 
+txtselectmirrorsbycountry="Selecione espelhos por país"
+txtselectcountry="Selecione o país"
 txteditmirrorlist="Editar lista de espelhos"
 txtinstallarchlinux="Instalar o Arch Linux"
-txtinstallfirmware="Instalar o Firmware"
+txtinstallarchlinuxkernel="Kernel"
+txtinstallarchlinuxfirmwares="Firmwares"
+txtinstallarchlinuxfilesystems="Sistema de ficheiros"
+txtinstallarchlinuxcustompackagelist="Lista de pacotes personalizada"
 txtconfigarchlinux="Configurar o Arch Linux"
 
 txtsethostname="Definir o nome do computador"
@@ -69,7 +74,9 @@ txtsetlocale="Definir Localização"
 txtsettime="Definir hora"
 txtsetrootpassword="Definir palavra-passe de root"
 
-txtuseutcclock="Utilizar relógio de hardware UTC ?"
+txthwclock="Relógio do equipamento :"
+txthwclockutc="UTC"
+txthwclocklocal="Local"
 
 txtbootloader="Carregador de arranque"
 txtbootloadermenu="Escolha o seu carregador de arranque"
@@ -85,10 +92,14 @@ txtsyslinuxaddefibootmgr="A instalação da EFI requer o efibootmgr"
 txtsyslinuxaddgptfdisk="O disco GPT requer o gptfdisk"
 txtsyslinuxaddmtools="Parte do arranque FAT requer mtools"
 
+txtbootloadersystemdmenu="Menu instalação do Systemd-boot"
+
 txtbootloaderrefindmenu="Menu de instalação rEFInd"
 
+txtextrasmenu="Extras"
+
 txtoptional="Opcional"
-txtrecommandeasyinst="Recomendado para fácil instalação"
+txtrecommandeasyinst="Recomendado para instalação fácil"
 txtset="Definir %1"
 txtgenerate="Gerar %1"
 txtedit="Editar %1"
