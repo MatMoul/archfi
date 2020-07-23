@@ -801,6 +801,7 @@ installbase(){
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
 		pkgs+=" ${sel}"
+		KERNEL_VER="${sel}"
 	else
 		return 1
 	fi
@@ -1283,8 +1284,8 @@ archeditmkinitcpio(){
 	fi
 }
 archgenmkinitcpiochroot(){
-	echo "mkinitcpio -p linux"
-	mkinitcpio -p linux
+	echo "mkinitcpio -p ${KERNEL_VER}"
+	mkinitcpio -p ${KERNEL_VER}
 	exit
 }
 
