@@ -599,11 +599,13 @@ formatdevice(){
 			if [ "${1}" = "root" ]; then
 				echo "mount ${2} /mnt"
 				echo "btrfs subvolume create /mnt/root"
-				echo "btrfs subvolume set-default /mnt/root"
+				echo "btrfs subvolume create /mnt/root/@"
+				echo "btrfs subvolume set-default /mnt/root/@"
 				echo "umount /mnt"
 				mount ${2} /mnt
 				btrfs subvolume create /mnt/root
-				btrfs subvolume set-default /mnt/root
+				btrfs subvolume create /mnt/root/@
+				btrfs subvolume set-default /mnt/root/@
 				umount /mnt
 			fi
 		;;
