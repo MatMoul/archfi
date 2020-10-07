@@ -13,7 +13,7 @@
 
 
 apptitle="Arch Linux Fast Install (archfi) - Version: 2020.07.16.00.57.38 (GPLv3)"
-baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
+baseurl=https://cdn.jsdelivr.net/gh/MatMoul/archfi@master/
 cpl=0
 skipfont="0"
 fspkgs=""
@@ -81,6 +81,7 @@ mainmenu(){
 chooselanguage(){
 	options=()
 	options+=("Arabic" "(By Mohammad Alawadi)")
+	options+=("Chinese" "")
 	options+=("Brazilian" "(By MaxWilliamJF)")
 	options+=("Dutch" "(By bowero)")
 	options+=("English" "(By MatMoul)")
@@ -1967,11 +1968,11 @@ while (( "$#" )); do
 		;;
 		-sf | --skip-font) skipfont=1;;
 		-t | --test)
-			wget -O archfi https://raw.githubusercontent.com/${2}/archfi/${3}/archfi
+			wget -O archfi https://cdn.jsdelivr.net/gh/${2}/archfi@${3}/archfi
 			sh archfi -tt ${2} ${3}
 			exit 0
 		;;
-		-tt) baseurl="https://raw.githubusercontent.com/${2}/archfi/${3}";;
+		-tt) baseurl="https://cdn.jsdelivr.net/gh/${2}/archfi@${3}/";;
 		-efi0) efimode=0;;
 		-efi1)
 			eficomputer=1
