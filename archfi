@@ -2009,7 +2009,7 @@ if [ "${chroot}" = "1" ]; then
 		'archdilaunch') archdilaunchchroot;;
 	esac
 else
-	pacman -S --needed arch-install-scripts wget libnewt
+	pacman -S --needed --noconfirm arch-install-scripts wget libnewt
 	dmesg |grep efi: > /dev/null
 	if [ "$?" == "1" ]; then
 		if [ "${eficomputer}" != "1" ]; then
