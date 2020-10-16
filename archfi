@@ -598,17 +598,16 @@ formatdevice(){
 			mkfs.btrfs -f ${2}
 			if [ "${1}" = "root" ]; then
 				echo "mount ${2} /mnt"
-				echo "btrfs subvolume create /mnt/root"
-				echo "btrfs subvolume set-default /mnt/root"
-				echo "umount /mnt"
 				mount ${2} /mnt
 				BTRFS=true
+				echo "creating BTRFS subvolumes"
 				btrfs subvolume create /mnt/Arch
 				btrfs subvolume create /mnt/Arch/root
 				btrfs subvolume create /mnt/Arch/home
 				btrfs subvolume create /mnt/Arch/Snapshots
 				btrfs subvolume create /mnt/Arch/Snapshots/root
 				btrfs subvolume create /mnt/Arch/Snapshots/home
+				echo "umount /mnt"
 				umount /mnt
 			fi
 		;;
