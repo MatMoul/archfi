@@ -13,7 +13,7 @@
 
 
 apptitle="Arch Linux Fast Install (archfi) - Version: 2020.07.16.00.57.38 (GPLv3)"
-baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
+baseurl=http://downloads.sourceforge.net/project/archfi/release/2020.07.16.00.57.38
 cpl=0
 skipfont="0"
 fspkgs=""
@@ -602,8 +602,13 @@ formatdevice(){
 				echo "btrfs subvolume set-default /mnt/root"
 				echo "umount /mnt"
 				mount ${2} /mnt
-				btrfs subvolume create /mnt/root
-				btrfs subvolume set-default /mnt/root
+				BTRFS=true
+				btrfs subvolume create /mnt/Arch
+				btrfs subvolume create /mnt/Arch/root
+				btrfs subvolume create /mnt/Arch/home
+				btrfs subvolume create /mnt/Arch/Snapshots
+				btrfs subvolume create /mnt/Arch/Snapshots/root
+				btrfs subvolume create /mnt/Arch/Snapshots/home
 				umount /mnt
 			fi
 		;;
@@ -706,8 +711,13 @@ formatdevice(){
 
 mountparts(){
 	clear
-	echo "mount ${rootdev} /mnt"
-	mount ${rootdev} /mnt
+	if [ "$BTRFS" = "true" ]; then
+		echo "mount -o subvol=Arch/root ${rootdev} /mnt"
+		mount -o subvol=Arch/root ${rootdev} /mnt
+	else
+		echo "mount ${rootdev} /mnt"
+		mount ${rootdev} /mnt
+	fi
 	echo "mkdir /mnt/{boot,home}"
 	mkdir /mnt/{boot,home} 2>/dev/null
 	if [ ! "${bootdev}" = "" ]; then
@@ -721,6 +731,10 @@ mountparts(){
 	if [ ! "${homedev}" = "" ]; then
 		echo "mount ${homedev} /mnt/home"
 		mount ${homedev} /mnt/home
+	fi
+	if [ "$BTRFS" = "true" ]; then
+		echo "mount -o subvol=Arch/home ${rootdev} /mnt/home"
+		mount -o subvol=Arch/home ${rootdev} /mnt/home
 	fi
 	pressanykey
 	installmenu
