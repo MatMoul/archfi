@@ -734,6 +734,10 @@ mountparts(){
 	if [ "$BTRFS" = "true" ]; then
 		echo "mount -o subvol=Arch/home ${rootdev} /mnt/home"
 		mount -o subvol=Arch/home ${rootdev} /mnt/home
+		echo "mkdir /mnt/Arch"
+		mkdir /mnt/Arch 2>/dev/null
+		echo "mount -o subvol=Arch ${rootdev} /mnt/Arch"
+		mount -o subvol=Arch ${rootdev} /mnt/Arch
 	fi
 	pressanykey
 	installmenu
