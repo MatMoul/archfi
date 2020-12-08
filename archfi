@@ -1963,7 +1963,7 @@ while (( "$#" )); do
 		;;
 		-sf | --skip-font) skipfont=1;;
 		-t | --test)
-			wget -O archfi https://raw.githubusercontent.com/${2}/archfi/${3}/archfi
+			curl -L https://raw.githubusercontent.com/${2}/archfi/${3}/archfi > archfi
 			sh archfi -tt ${2} ${3}
 			exit 0
 		;;
