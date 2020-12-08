@@ -1780,7 +1780,7 @@ archdidownload(){
 	txtselectserver="Select source server :"
 	txtback="Back"
 	options=()
-	options+=("sourceforge.net" "recommended")
+	options+=("sourceforge.net" " (Recommended)")
 	options+=("github.com" "")
 	sel=$(whiptail --backtitle "${apptitle}" --title "${txtselectserver}" --menu "" --cancel-button "${txtback}" 0 0 0 \
 		"${options[@]}" \
@@ -1931,7 +1931,7 @@ loadstrings(){
 	txtpressanykey="Press any key to continue."
 
 	txtarchdidesc="Full desktop install script"
-	txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
+	txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget and libnewt?"
 	txtarchdiinstallandlaunch="Install and run archdi"
 	txtarchdiinstall="Install archdi"
 	txtarchdilaunch="Launch archdi"
