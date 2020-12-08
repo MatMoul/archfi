@@ -737,7 +737,7 @@ installmenu(){
 		nextitem=${1}
 	fi
 	options=()
-	options+=("${txtselectmirrorsbycountry}" "(${txtoptional})")
+	#options+=("${txtselectmirrorsbycountry}" "(${txtoptional})")
 	options+=("${txteditmirrorlist}" "(${txtoptional})")
 	options+=("${txtinstallarchlinux}" "pacstrap")
 	options+=("${txtconfigarchlinux}" "")
