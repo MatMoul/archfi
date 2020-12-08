@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2020.11.15.20.49.10 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2020.12.08.22.06.59 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 cpl=0
 skipfont="0"
@@ -320,19 +320,19 @@ diskpartautoefi(){
 			echo "${txtautopartcreate//%1/swap}"
 			swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
 			swapsize=$((${swapsize}/1000))"M"
-			sgdisk ${device} -n=3:0:+${swapsize} -t=3:8200
+			sgdisk ${device} -n=2:0:+${swapsize} -t=2:8200
 			echo "${txtautopartcreate//%1/root}"
-			sgdisk ${device} -n=4:0:0
+			sgdisk ${device} -n=3:0:0
 			echo ""
 			pressanykey
 			if [ "${device::8}" == "/dev/nvm" ]; then
 				bootdev=${device}"p1"
-				swapdev=${device}"p3"
-				rootdev=${device}"p4"
+				swapdev=${device}"p2"
+				rootdev=${device}"p3"
 			else
 				bootdev=${device}"1"
-				swapdev=${device}"3"
-				rootdev=${device}"4"
+				swapdev=${device}"2"
+				rootdev=${device}"3"
 			fi
 			efimode="1"
 		fi
@@ -349,9 +349,9 @@ diskpartautoefiusb(){
 			echo "${txtautopartcreate//%1/EFI boot}"
 			sgdisk ${device} -n=1:0:+1024M -t=1:ef00
 			echo "${txtautopartcreate//%1/BIOS boot}"
-			sgdisk ${device} -n=3:0:+31M -t=3:ef02
+			sgdisk ${device} -n=2:0:+31M -t=2:ef02
 			echo "${txtautopartcreate//%1/root}"
-			sgdisk ${device} -n=4:0:0
+			sgdisk ${device} -n=3:0:0
 			echo "${txthybridpartcreate}"
 			echo -e "r\nh\n3\nN\n\nY\nN\nw\nY\n" | gdisk ${device}
 			echo ""
@@ -359,11 +359,11 @@ diskpartautoefiusb(){
 			if [ "${device::8}" == "/dev/nvm" ]; then
 				bootdev=${device}"p1"
 				swapdev=
-				rootdev=${device}"p4"
+				rootdev=${device}"p3"
 			else
 				bootdev=${device}"1"
 				swapdev=
-				rootdev=${device}"4"
+				rootdev=${device}"3"
 			fi
 			efimode="2"
 		fi
@@ -737,7 +737,7 @@ installmenu(){
 		nextitem=${1}
 	fi
 	options=()
-	options+=("${txtselectmirrorsbycountry}" "(${txtoptional})")
+	#options+=("${txtselectmirrorsbycountry}" "(${txtoptional})")
 	options+=("${txteditmirrorlist}" "(${txtoptional})")
 	options+=("${txtinstallarchlinux}" "pacstrap")
 	options+=("${txtconfigarchlinux}" "")
@@ -1780,7 +1780,7 @@ archdidownload(){
 	txtselectserver="Select source server :"
 	txtback="Back"
 	options=()
-	options+=("sourceforge.net" "recommended")
+	options+=("sourceforge.net" " (Recommended)")
 	options+=("github.com" "")
 	sel=$(whiptail --backtitle "${apptitle}" --title "${txtselectserver}" --menu "" --cancel-button "${txtback}" 0 0 0 \
 		"${options[@]}" \
@@ -1931,7 +1931,7 @@ loadstrings(){
 	txtpressanykey="Press any key to continue."
 
 	txtarchdidesc="Full desktop install script"
-	txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
+	txtinstallarchdi="Arch Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nArch Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget and libnewt?"
 	txtarchdiinstallandlaunch="Install and run archdi"
 	txtarchdiinstall="Install archdi"
 	txtarchdilaunch="Launch archdi"
@@ -1963,7 +1963,7 @@ while (( "$#" )); do
 		;;
 		-sf | --skip-font) skipfont=1;;
 		-t | --test)
-			wget -O archfi https://raw.githubusercontent.com/${2}/archfi/${3}/archfi
+			curl -L https://raw.githubusercontent.com/${2}/archfi/${3}/archfi > archfi
 			sh archfi -tt ${2} ${3}
 			exit 0
 		;;
