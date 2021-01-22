@@ -6,7 +6,7 @@
 # notes      : Traduzione in italiano
 
 
-locale=en_US.UTF-8
+locale=it_IT.UTF-8
 
 
 txtexit="Esci"
