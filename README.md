@@ -18,11 +18,11 @@ Then make sure you have Internet connection on the Arch iso. If you have a wirel
 
 Then download the script with from the command line:
 
-    curl -L archfi.sf.net/archfi > archfi
+    curl -LO archfi.sf.net/archfi
 
 If SourceForge is down, use this instead:
 
-    curl -L matmoul.github.io/archfi > archfi
+    curl -LO matmoul.github.io/archfi
 
 Finally, launch the script:
 
