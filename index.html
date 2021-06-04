@@ -12,7 +12,7 @@
 # referance : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2021.01.25.23.15.12 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2021.06.05.01.19.05 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 cpl=0
 skipfont="0"
@@ -1693,7 +1693,7 @@ archbootloaderrefindmenu(){
 archrefindinstall(){
 	clear
 
-	echo "pacstrap /mnt refind-efi"
+	echo "pacstrap /mnt refind"
 	echo "archchroot refindbootloaderinstall ${realrootdev}"
 	echo "echo \"\\\"Arch Linux         \\\" \\\"root=UUID=${rootuuid} rw add_efi_memmap\\\"\" > /mnt/boot/refind_linux.conf"
 	echo "echo \"\\\"Arch Linux Fallback\\\" \\\"root=UUID=${rootuuid} rw add_efi_memmap initrd=/initramfs-linux-fallback.img\\\"\" >> /mnt/boot/refind_linux.conf"
@@ -1725,6 +1725,7 @@ archextrasmenu(){
 	options+=("nano" "" on)
 	options+=("vim" "" on)
 	options+=("dhcpcd" "" on)
+	options+=("networkmanager" "" off)
 	sel=$(whiptail --backtitle "${apptitle}" --title "${txtextrasmenu}" --checklist "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
@@ -1740,11 +1741,20 @@ archextrasmenu(){
 	if [[ "${pkgs}" == *"dhcpcd"* ]]; then
 		archchroot enabledhcpcd
 	fi
+	if [[ "${pkgs}" == *"networkmanager"* ]]; then
+		archchroot enablenetworkmanager
+	fi
 	pressanykey
 }
 archenabledhcpcdchroot(){
 	echo "systemctl enable dhcpcd"
 	systemctl enable dhcpcd
+	exit
+}
+
+archenablenetworkmanagerchroot(){
+	echo "systemctl enable NetworkManager"
+	systemctl enable NetworkManager
 	exit
 }
 
@@ -1992,6 +2002,7 @@ if [ "${chroot}" = "1" ]; then
 		'settimelocal') archsettimelocalchroot;;
 		'genmkinitcpio') archgenmkinitcpiochroot;;
 		'enabledhcpcd') archenabledhcpcdchroot;;
+		'enablenetworkmanager') archenablenetworkmanagerchroot;;
 		'grubinstall') archgrubinstallchroot;;
 		'grubbootloaderinstall') archgrubinstallbootloaderchroot ${args};;
 		'grubbootloaderefiinstall') archgrubinstallbootloaderefichroot ${args};;
