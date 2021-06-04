@@ -1693,7 +1693,7 @@ archbootloaderrefindmenu(){
 archrefindinstall(){
 	clear
 
-	echo "pacstrap /mnt refind-efi"
+	echo "pacstrap /mnt refind"
 	echo "archchroot refindbootloaderinstall ${realrootdev}"
 	echo "echo \"\\\"Arch Linux         \\\" \\\"root=UUID=${rootuuid} rw add_efi_memmap\\\"\" > /mnt/boot/refind_linux.conf"
 	echo "echo \"\\\"Arch Linux Fallback\\\" \\\"root=UUID=${rootuuid} rw add_efi_memmap initrd=/initramfs-linux-fallback.img\\\"\" >> /mnt/boot/refind_linux.conf"
