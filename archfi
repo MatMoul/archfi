@@ -1725,6 +1725,7 @@ archextrasmenu(){
 	options+=("nano" "" on)
 	options+=("vim" "" on)
 	options+=("dhcpcd" "" on)
+	options+=("networkmanager" "" off)
 	sel=$(whiptail --backtitle "${apptitle}" --title "${txtextrasmenu}" --checklist "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
@@ -1740,11 +1741,20 @@ archextrasmenu(){
 	if [[ "${pkgs}" == *"dhcpcd"* ]]; then
 		archchroot enabledhcpcd
 	fi
+	if [[ "${pkgs}" == *"networkmanager"* ]]; then
+		archchroot enablenetworkmanager
+	fi
 	pressanykey
 }
 archenabledhcpcdchroot(){
 	echo "systemctl enable dhcpcd"
 	systemctl enable dhcpcd
+	exit
+}
+
+archenablenetworkmanagerchroot(){
+	echo "systemctl enable NetworkManager"
+	systemctl enable NetworkManager
 	exit
 }
 
@@ -1992,6 +2002,7 @@ if [ "${chroot}" = "1" ]; then
 		'settimelocal') archsettimelocalchroot;;
 		'genmkinitcpio') archgenmkinitcpiochroot;;
 		'enabledhcpcd') archenabledhcpcdchroot;;
+		'enablenetworkmanager') archenablenetworkmanagerchroot;;
 		'grubinstall') archgrubinstallchroot;;
 		'grubbootloaderinstall') archgrubinstallbootloaderchroot ${args};;
 		'grubbootloaderefiinstall') archgrubinstallbootloaderefichroot ${args};;
