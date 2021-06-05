@@ -1,0 +1,118 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : https://github.com/MatMoul/archfi
+# language   : Japanese
+# translator : Yamada Hayao (hayao@fascode.net)
+# notes      : misc text...
+
+
+
+locale=ja_JP.UTF-8
+#font=lat9w-16
+
+txtexit="終了"
+txtback="戻る"
+txtignore="無視"
+
+txtselectserver="サーバを選択して下さい :"
+
+txtmainmenu="メインメニュー"
+txtlanguage="言語"
+txtsetkeymap="キーボードレイアウトを設定"
+txteditor="エディター"
+txtdiskpartmenu="ディスクパーティション"
+txtselectpartsmenu="パーティションを選択してインストール"
+txthelp="ヘルプ"
+txtchangelog="更新履歴"
+txtreboot="再起動"
+
+txtautoparts="自動で設定"
+txteditparts="パーティションを編集"
+
+txtautopartsconfirm="選択されたデバイス : %1\n\n全てのデータは削除されます ! \n\n続行しますか ?"
+
+txtautopartclear="パーティションの全てのデータ"
+txtautopartcreate="パーティション %1 を作成"
+txthybridpartcreate="Set hybrid MBR"
+txtautopartsettype="パーティションタイプ %1 を設定"
+
+txtselectdevice="Select %1 device :"
+txtselecteddevices="選択されたデバイス :"
+
+txtformatmountmenu="フォーマットとマウント"
+txtformatdevices="デバイスをフォーマット"
+txtformatdevice="デバイスをフォーマット"
+txtmount="マウント"
+txtunmount="アンマウント"
+txtmountdesc="インストールか設定"
+
+txtformatdeviceconfirm="警告！ 選択された全てのデバイスのデータは削除されます。! \nデバイスをフォーマットしますか?"
+
+txtselectpartformat="Select partition format for %1 :"
+txtformatingpart="Formatting partition %1 as"
+txtcreateluksdevice="Create luks device :"
+txtopenluksdevice="Open luks device :"
+txtluksdevicecreated="luks device created !"
+
+txtinstallmenu="インストールメニュー"
+
+txtarchinstallmenu="Archインストールメニュー"
+
+txtselectmirrorsbycountry="ミラーを選択して下さい"
+txtselectcountry="国を選択してください"
+txteditmirrorlist="ミラーリストを編集"
+txtinstallarchlinux="Arch Linuxをインストール"
+txtinstallarchlinuxkernel="カーネル"
+txtinstallarchlinuxfirmwares="ファームウェア"
+txtinstallarchlinuxfilesystems="ファイルシステム"
+txtinstallarchlinuxcustompackagelist="カスタムパッケージリスト"
+txtconfigarchlinux="Arch Linuxの設定"
+
+txtsethostname="コンピュータ名を設定"
+txtsetfont="フォントを設定"
+txtsetlocale="ロケールを設定"
+txtsettime="時刻を設定"
+txtsetrootpassword="rootパスワードを設定"
+
+txthwclock="ハードウェアクロック :"
+txthwclockutc="UTC"
+txthwclocklocal="ローカル"
+
+txtbootloader="ブートローダー"
+txtbootloadermenu="ブートローダーを選択して下さい"
+
+txtefibootmgr="efibootmgr is required for EFI computers."
+
+txtbootloadergrubmenu="Grub インストールメニュー"
+txtrungrubmakeconfig="Run grub-mkconfig ?"
+txtgrubluksdetected="rootパーティションが暗号化されました !\n\n /etc/default/grubのGRUB_CMDLINE_LINUXに cryptdevice= を追加しますか？"
+
+txtbootloadersyslinuxmenu="Syslinux インストールメニュー"
+txtsyslinuxaddefibootmgr="EFIのインストールにはefibootmgrが必要です"
+txtsyslinuxaddgptfdisk="GPTディスクにはgptfdiskが必要です"
+txtsyslinuxaddmtools="FATパーティションを利用するにはmtoolsが必要です"
+
+txtbootloadersystemdmenu="Systemd-boot インストールメニュー"
+
+txtbootloaderrefindmenu="rEFInd インストールメニュー"
+
+txtextrasmenu="Extras"
+
+txtoptional="オプション"
+txtrecommandeasyinst="簡単なインストールに推奨"
+txtset="%1をセット"
+txtgenerate="%1を生成"
+txtedit="%1を編集"
+txtinstall="%1をインストール"
+txtenable="%1を有効化"
+
+txtpressanykey="何かキーを押して続行します"
+
+txtarchdidesc="デスクトップ環境インストールスクリプト"
+
+txtinstallarchdi="Arch Linux Desktop Install（archdi）は、完全なインストールに役立つ2番目のスクリプトです。\n\nスクリプトを起動するか、インストールするだけです。 次のメニューで選択してください。\n\nArch Linux Desktop Install の依存関係 : wget libnewt.\n\n依存関係をインストールしますか?"
+
+
+txtarchdiinstallandlaunch="archdiをインストールして実行"
+txtarchdiinstall="archdiをインストール"
+txtarchdilaunch="archdiを実行"
