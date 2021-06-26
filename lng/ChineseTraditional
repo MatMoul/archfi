@@ -1,0 +1,94 @@
+# Arch Linux Fast Install (archfi)
+# --------------------------------
+# project    : https://github.com/MatMoul/archfi
+# language   : zh-tw
+# translator : KuoHuanHuan (pseudo, name or e-mail.)
+# notes      : 
+
+
+locale=en_US.UTF-8
+#font=
+
+
+txtexit="退出"
+txtback="返回"
+txtignore="忽略"
+
+txtselectserver="設定來源伺服器:"
+
+txtmainmenu="主界面"
+txtlanguage="語言"
+txtsetkeymap="設定鍵盤排列"
+txteditor="編輯器"
+txtdiskpartmenu="分割"
+txtselectpartsmenu="設定磁碟分割並安裝"
+txthelp="支援"
+txtchangelog="修改日誌"
+txtreboot="重新啟動"
+
+txtautoparts="自動分割"
+txteditparts="編輯分割"
+
+txtautopartsconfirm="選擇磁碟 : %1\n\n全部檔案都會被刪除 ! \n\n確定繼續 ?"
+
+txtautopartclear="清除所有分割資料"
+txtautopartcreate="新增%1分割區"
+txthybridpartcreate="設置混合 MBR"
+txtautopartsettype="設定分割%1類型"
+
+txtselectdevice="選擇%1磁碟 :"
+txtselecteddevices="已選擇 磁碟 :"
+
+txtformatmountmenu="格式化並掛載"
+txtformatdevices="格式化磁碟s"
+txtformatdevice="格式化磁碟"
+txtmount="掛載"
+txtunmount="取消掛載"
+txtmountdesc="安裝並配置"
+
+txtformatdeviceconfirm="警告, 選擇磁碟全部檔案都會被刪除! \n格式化 ?"
+
+txtselectpartformat="選擇 %1 的格式:"
+txtformatingpart="正在格式化 %1 為"
+txtcreateluksdevice="創建 luks 裝置 :"
+txtopenluksdevice="打開 luks 裝置 :"
+txtluksdevicecreated="已成功新增 luks 裝置 !"
+
+txtinstallmenu="安装目錄"
+
+txtarchinstallmenu="Arch 安装目錄"
+txtrungrubmakeconfig="執行 grub-mkconfig?"
+
+txteditmirrorlist="編輯源列表"
+txtinstallarchlinux="安装 Arch Linux"
+txtconfigarchlinux="配置 Arch Linux"
+
+txtsethostname="設置電腦名稱"
+txtsetfont="設定字體"
+txtsetlocale="設定區域"
+txtsettime="設定時區"
+txtsetrootpassword="設定 root 帳號的密碼"
+
+txtuseutcclock="使用 UTC 硬體時間?"
+
+txtoptional="非必要"
+txtrecommandeasyinst="推薦簡單安裝"
+txtset="設定%1"
+txtgenerate="產生%1"
+txtedit="編輯%1"
+txtinstall="安装 %1"
+txtenable="啟動 %1"
+
+txtgrubluksdetected="加密 root 分割區 !\n\n添加加密磁碟= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
+
+
+txtpressanykey="任意鍵繼續."
+
+txtinstallosprober="如果你想使用 mutli-boot，os-prober 是一個很好的解決方案.\n 安装 os-prober?"
+txtefibootmgr="efibootmgr 依賴于 EFI."
+
+txtarchdidesc="圖形桌面安裝腳本"
+txtinstallarchdi="archdi 是 Arch linux 安装必須的第二個腳本,用於幫助我們安装完整的桌面環境.\n\n你只需要安装並執行這個腳本並選擇選項就可以了,強烈建議安裝,否則你將需要手動完成這一切.\n\nArch Linux Desktop 安装需要兩個依賴 : wget and libnewt.\n\npacstrap wget libnewt ?"
+txtarchdiinstallandlaunch="安装並執行 archdi（建議）"
+txtarchdiinstall="安装 archdi"
+txtarchdilaunch="啟動 archdi"
