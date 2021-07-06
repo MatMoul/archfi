@@ -81,7 +81,7 @@ txtenable="Activar %1"
 txtgrubluksdetected="Partición root encriptada\n\n¿ Agregar cryptdevice= a GRUB_CMDLINE_LINUX en /etc/default/grub ?"
 
 
-txtpressanykey="Presione cualquier tecla para contnuar."
+txtpressanykey="Presione cualquier tecla para continuar."
 
 txtinstallosprober="os-prober es una buena solución si quieres usar multi-boot.\n¿ Instalar os-prober ?"
 txtefibootmgr="se requiere efibootmgr para computadoras EFI."
