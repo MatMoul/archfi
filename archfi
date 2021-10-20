@@ -739,7 +739,7 @@ installmenu(){
 	options=()
 	#options+=("${txtselectmirrorsbycountry}" "(${txtoptional})")
 	options+=("${txteditmirrorlist}" "(${txtoptional})")
-	options+=("Filter mirrorlist" "Reflector")
+	options+=("${txtfiltermirrorlist}" "reflector")
 	options+=("${txtinstallarchlinux}" "pacstrap")
 	options+=("${txtconfigarchlinux}" "")
 	sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtunmount}" --default-item "${nextitem}" 0 0 0 \
@@ -755,8 +755,8 @@ installmenu(){
 				${EDITOR} /etc/pacman.d/mirrorlist
 				nextitem="${txtinstallarchlinux}"
 			;;
-			"Filter mirrorlist")
-				rankmirrorlist
+			"${txtfiltermirrorlist}")
+				filtermirrorlist
 				nextitem="${txtinstallarchlinux}"
 			;;
 			"${txtinstallarchlinux}")
@@ -794,25 +794,27 @@ selectmirrorsbycountry() {
 		sed "s/^\(Server .*\)/\#\1/;/^## $country/N; {s/^\(## .*\n\)\#Server \(.*\)/\1Server \2/}" < /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 }
 
-rankmirrorlist() {
+filtermirrorlist() {
 		command -v reflector > /dev/null || { 
 			echo "pacman -S --noconfirm reflector"
 			pacman -S --noconfirm reflector
 		}
 		options=()
 		options+=("Filter mirrorlist" "")
-		options+=("Edit /etc/xdg/reflector/reflector.conf" "")
+		options+=("${txtedit//%1/reflector.conf}" "")
 		sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtback}" --default-item "Filter mirrorlist" 0 0 0 \
                 	"${options[@]}" \
                 	3>&1 1>&2 2>&3)
 		case ${sel} in
-			"Filter mirrorlist")
+			"${txtfiltermirrorlist}")
+				clear
 				echo "systemctl start reflector.service"
 				systemctl start reflector.service
 				pressanykey
 			;;
-			"Edit /etc/xdg/reflector/reflector.conf")
+			"${txtedit//%1/reflector.conf}")
 				${EDITOR} /etc/xdg/reflector/reflector.conf
+				filtermirrorlist
 			;;
 		esac		
 }
@@ -1921,6 +1923,7 @@ loadstrings(){
 	txtselectmirrorsbycountry="Select mirrors by country"
 	txtselectcountry="Select country"
 	txteditmirrorlist="Edit mirrorlist"
+	txtfiltermirrorlist="Filter mirrorlist"
 	txtinstallarchlinux="Install Arch Linux"
 	txtinstallarchlinuxkernel="Kernel"
 	txtinstallarchlinuxfirmwares="Firmwares"
