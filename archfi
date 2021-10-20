@@ -740,6 +740,7 @@ installmenu(){
 	#options+=("${txtselectmirrorsbycountry}" "(${txtoptional})")
 	options+=("${txteditmirrorlist}" "(${txtoptional})")
 	options+=("${txtfiltermirrorlist}" "reflector")
+	outputs+=("Parallel downloads of packages" "")
 	options+=("${txtinstallarchlinux}" "pacstrap")
 	options+=("${txtconfigarchlinux}" "")
 	sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtunmount}" --default-item "${nextitem}" 0 0 0 \
@@ -762,6 +763,17 @@ installmenu(){
 			"${txtinstallarchlinux}")
 				if(installbase) then
 					nextitem="${txtconfigarchlinux}"
+				fi
+			;;
+			"Parallel downloads of packages")
+				numpkg=$(whiptail --backtitle "${apptitle}" --title "Number of packages to download at once" --inputbox "" 0 0 "archlinux" 3>&1 1>&2 2>&3)
+				if [ "$?" = "0" ]; then
+					if [[ "$numpkg" =~ '^[1-9][0-9]*$' ]] ; then
+						echo "ParallelDownloads = ${numpkg}" >> /etc/pacman.conf
+					else
+						echo 'Please enter number greater 0'
+						pressanykey
+					fi
 				fi
 			;;
 			"${txtconfigarchlinux}")
