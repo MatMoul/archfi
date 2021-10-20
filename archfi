@@ -739,6 +739,7 @@ installmenu(){
 	options=()
 	#options+=("${txtselectmirrorsbycountry}" "(${txtoptional})")
 	options+=("${txteditmirrorlist}" "(${txtoptional})")
+	options+=("Filter mirrorlist" "Reflector")
 	options+=("${txtinstallarchlinux}" "pacstrap")
 	options+=("${txtconfigarchlinux}" "")
 	sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtunmount}" --default-item "${nextitem}" 0 0 0 \
@@ -752,6 +753,10 @@ installmenu(){
 			;;
 			"${txteditmirrorlist}")
 				${EDITOR} /etc/pacman.d/mirrorlist
+				nextitem="${txtinstallarchlinux}"
+			;;
+			"Filter mirrorlist")
+				rankmirrorlist
 				nextitem="${txtinstallarchlinux}"
 			;;
 			"${txtinstallarchlinux}")
@@ -787,6 +792,29 @@ selectmirrorsbycountry() {
 				return 1    
 		fi
 		sed "s/^\(Server .*\)/\#\1/;/^## $country/N; {s/^\(## .*\n\)\#Server \(.*\)/\1Server \2/}" < /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+}
+
+rankmirrorlist() {
+		command -v reflector > /dev/null || { 
+			echo "pacman -S --noconfirm reflector"
+			pacman -S --noconfirm reflector
+		}
+		options=()
+		options+=("Filter mirrorlist")
+		options+=("Edit /etc/xdg/reflector/reflector.conf")
+		sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtback}" --default-item "Filter mirrorlist" 0 0 0 \
+                	"${options[@]}" \
+                	3>&1 1>&2 2>&3)
+		case ${sel} in
+			"Filter mirrorlist")
+				echo "systemctl start reflector.service"
+				systemctl start reflector.service
+				pressanykey
+			;;
+			"Edit /etc/xdg/reflector/reflector.conf")
+				${EDITOR} /etc/xdg/reflector/reflector.conf
+			;;
+		esac		
 }
 
 installbase(){
