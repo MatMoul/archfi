@@ -800,8 +800,8 @@ rankmirrorlist() {
 			pacman -S --noconfirm reflector
 		}
 		options=()
-		options+=("Filter mirrorlist")
-		options+=("Edit /etc/xdg/reflector/reflector.conf")
+		options+=("Filter mirrorlist" "")
+		options+=("Edit /etc/xdg/reflector/reflector.conf" "")
 		sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtback}" --default-item "Filter mirrorlist" 0 0 0 \
                 	"${options[@]}" \
                 	3>&1 1>&2 2>&3)
