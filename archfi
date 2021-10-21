@@ -769,8 +769,10 @@ installmenu(){
 				numpkg=$(whiptail --backtitle "${apptitle}" --title "Number of packages to download at once" --inputbox "" 0 0 "5" 3>&1 1>&2 2>&3)
 				if [ "$?" = "0" ]; then
 					if [[ "$numpkg" =~ ^[1-9][0-9]*$ ]] ; then
-						sed -i "'s/ParallelDownloads/ParallelDownloads = ' ${numpkg}" >> /etc/pacman.conf
+						sed -i "s/.*ParallelDownloads.*/ParallelDownloads = ${numpkg}/" /etc/pacman.conf
+
 					else
+						clear
 						echo 'Please enter number greater 0'
 						pressanykey
 					fi
