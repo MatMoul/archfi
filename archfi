@@ -739,8 +739,8 @@ installmenu(){
 	options=()
 	#options+=("${txtselectmirrorsbycountry}" "(${txtoptional})")
 	options+=("${txteditmirrorlist}" "(${txtoptional})")
-	options+=("${txtfiltermirrorlist}" "reflector")
-	options+=("Parallel downloads of packages" "(${txtoptional})")
+	options+=("${txtfiltermirrorlist}" "reflector (${txtoptional})")
+	options+=("${txtparalleldownloads}" "(${txtoptional})")
 	options+=("${txtinstallarchlinux}" "pacstrap")
 	options+=("${txtconfigarchlinux}" "")
 	sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtunmount}" --default-item "${nextitem}" 0 0 0 \
@@ -758,24 +758,15 @@ installmenu(){
 			;;
 			"${txtfiltermirrorlist}")
 				filtermirrorlist
-				nextitem="${txtinstallarchlinux}"
+				nextitem="${txtparalleldownloads}"
+			;;
+			"${txtparalleldownloads}")
+				paralleldownloads
+				nextitem="${txtinstallarchlinuk}"
 			;;
 			"${txtinstallarchlinux}")
 				if(installbase) then
 					nextitem="${txtconfigarchlinux}"
-				fi
-			;;
-			"Parallel downloads of packages")
-				numpkg=$(whiptail --backtitle "${apptitle}" --title "Number of packages to download at once" --inputbox "" 0 0 "5" 3>&1 1>&2 2>&3)
-				if [ "$?" = "0" ]; then
-					if [[ "$numpkg" =~ ^[1-9][0-9]*$ ]] ; then
-						sed -i "s/.*ParallelDownloads.*/ParallelDownloads = ${numpkg}/" /etc/pacman.conf
-
-					else
-						clear
-						echo 'Please enter number greater 0'
-						pressanykey
-					fi
 				fi
 			;;
 			"${txtconfigarchlinux}")
@@ -814,7 +805,7 @@ filtermirrorlist() {
 			pacman -S --noconfirm reflector
 		}
 		options=()
-		options+=("Filter mirrorlist" "")
+		options+=("${txtfiltermirrorlist}" "")
 		options+=("${txtedit//%1/reflector.conf}" "")
 		sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtback}" --default-item "Filter mirrorlist" 0 0 0 \
                 	"${options[@]}" \
@@ -831,6 +822,21 @@ filtermirrorlist() {
 				filtermirrorlist
 			;;
 		esac		
+}
+
+paralleldownloads() {
+		numpkg=$(whiptail --backtitle "${apptitle}" --title "${txtparallelprompt}" --inputbox "" 0 0 "5" 3>&1 1>&2 2>&3)
+                if [ "$?" = "0" ]; then
+			if [[ "$numpkg" =~ ^[1-9][0-9]*$ ]] ; then
+				sed -i "s/.*ParallelDownloads.*/ParallelDownloads = ${numpkg}/" /etc/pacman.conf
+			else
+				clear
+				echo ${txtincorrectinput}
+                		pressanykey
+                        fi
+                fi
+		
+
 }
 
 installbase(){
@@ -1938,12 +1944,16 @@ loadstrings(){
 	txtselectcountry="Select country"
 	txteditmirrorlist="Edit mirrorlist"
 	txtfiltermirrorlist="Filter mirrorlist"
+	txtparalleldownloads="Parallel Downloads"
 	txtinstallarchlinux="Install Arch Linux"
 	txtinstallarchlinuxkernel="Kernel"
 	txtinstallarchlinuxfirmwares="Firmwares"
 	txtinstallarchlinuxfilesystems="File Systems"
 	txtinstallarchlinuxcustompackagelist="Custom Package List"
 	txtconfigarchlinux="Config Arch Linux"
+	
+	txtparallelprompt="Number of packages to download in Parallel"
+	txtincorrectinput="Please enter a number greater than 0"
 
 	txtsethostname="Set Computer Name"
 	txtsetfont="Set Font"
