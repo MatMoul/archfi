@@ -831,6 +831,7 @@ paralleldownloads() {
 				sed -i "s/.*ParallelDownloads.*/ParallelDownloads = ${numpkg}/" /etc/pacman.conf
 			else
 				clear
+				unset numpkg
 				echo ${txtincorrectinput}
                 		pressanykey
                         fi
@@ -931,6 +932,9 @@ installbase(){
 	clear
 	echo "pacstrap /mnt ${pkgs}"
 	pacstrap /mnt ${pkgs}
+	if [ ! -z $numpkg ]; then
+		sed -i "s/.*ParallelDownloads.*/ParallelDownloads = ${numpkg}/" /mnt/etc/pacman.conf	
+	fi	
 	pressanykey
 }
 
