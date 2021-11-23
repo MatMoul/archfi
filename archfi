@@ -1434,8 +1434,8 @@ archgrubinstallbootloader(){
 }
 archgrubinstallbootloaderchroot(){
 	if [ ! "${1}" = "none" ]; then
-		echo "grub-install --target=i386-pc --recheck ${1}"
-		grub-install --target=i386-pc --recheck ${1}
+		echo "grub-install --target=x86_64-efi --recheck ${1}"
+		grub-install --target=x86_64-efi --recheck ${1}
 	fi
 	exit
 }
@@ -1454,7 +1454,7 @@ archgrubinstallbootloaderefichroot(){
 archgrubinstallbootloaderefiusbchroot(){
 	if [ ! "${1}" = "none" ]; then
 		echo "grub-install --target=i386-pc --recheck ${1}"
-		grub-install --target=i386-pc --recheck ${1}
+		grub-install --target=x86_64-efi --recheck ${1}
 		echo "grub-install --target=x86_64-efi --efi-directory=/boot --removable --recheck ${1}"
 		grub-install --target=x86_64-efi --efi-directory=/boot --removable --recheck ${1}
 		isvbox=$(lspci | grep "VirtualBox G")
