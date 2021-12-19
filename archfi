@@ -283,15 +283,15 @@ diskpartautogpt(){
 			echo "${txtautopartclear}"
 			parted ${device} mklabel gpt
 			echo "${txtautopartcreate//%1/BIOS boot}"
-			sgdisk ${device} -n=1:0:+31M -t=1:ef02
+			sgdisk ${device} -n=1:0:+31M -t=1:ef02 -c=0:mbrboot
 			echo "${txtautopartcreate//%1/boot}"
-			sgdisk ${device} -n=2:0:+512M
+			sgdisk ${device} -n=2:0:+512M -c=0:boot
 			echo "${txtautopartcreate//%1/swap}"
 			swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
 			swapsize=$((${swapsize}/1000))"M"
-			sgdisk ${device} -n=3:0:+${swapsize} -t=3:8200
+			sgdisk ${device} -n=3:0:+${swapsize} -t=3:8200 -c=0:swap
 			echo "${txtautopartcreate//%1/root}"
-			sgdisk ${device} -n=4:0:0
+			sgdisk ${device} -n=4:0:0 -c=0:root
 			echo ""
 			pressanykey
 			if [ "${device::8}" == "/dev/nvm" ]; then
@@ -316,13 +316,13 @@ diskpartautoefi(){
 			echo "${txtautopartclear}"
 			parted ${device} mklabel gpt
 			echo "${txtautopartcreate//%1/EFI boot}"
-			sgdisk ${device} -n=1:0:+1024M -t=1:ef00
+			sgdisk ${device} -n=1:0:+1024M -t=1:ef00 -c=0:boot
 			echo "${txtautopartcreate//%1/swap}"
 			swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
 			swapsize=$((${swapsize}/1000))"M"
-			sgdisk ${device} -n=2:0:+${swapsize} -t=2:8200
+			sgdisk ${device} -n=2:0:+${swapsize} -t=2:8200 -c=0:swap
 			echo "${txtautopartcreate//%1/root}"
-			sgdisk ${device} -n=3:0:0
+			sgdisk ${device} -n=3:0:0 -c=0:root
 			echo ""
 			pressanykey
 			if [ "${device::8}" == "/dev/nvm" ]; then
