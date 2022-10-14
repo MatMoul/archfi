@@ -739,6 +739,8 @@ installmenu(){
 	options=()
 	#options+=("${txtselectmirrorsbycountry}" "(${txtoptional})")
 	options+=("${txteditmirrorlist}" "(${txtoptional})")
+	options+=("${txtfiltermirrorlist}" "reflector (${txtoptional})")
+	options+=("${txtparalleldownloads}" "(${txtoptional})")
 	options+=("${txtinstallarchlinux}" "pacstrap")
 	options+=("${txtconfigarchlinux}" "")
 	sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtunmount}" --default-item "${nextitem}" 0 0 0 \
@@ -753,6 +755,14 @@ installmenu(){
 			"${txteditmirrorlist}")
 				${EDITOR} /etc/pacman.d/mirrorlist
 				nextitem="${txtinstallarchlinux}"
+			;;
+			"${txtfiltermirrorlist}")
+				filtermirrorlist
+				nextitem="${txtparalleldownloads}"
+			;;
+			"${txtparalleldownloads}")
+				paralleldownloads
+				nextitem="${txtinstallarchlinuk}"
 			;;
 			"${txtinstallarchlinux}")
 				if(installbase) then
@@ -787,6 +797,47 @@ selectmirrorsbycountry() {
 				return 1    
 		fi
 		sed "s/^\(Server .*\)/\#\1/;/^## $country/N; {s/^\(## .*\n\)\#Server \(.*\)/\1Server \2/}" < /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+}
+
+filtermirrorlist() {
+		command -v reflector > /dev/null || { 
+			echo "pacman -S --noconfirm reflector"
+			pacman -S --noconfirm reflector
+		}
+		options=()
+		options+=("${txtfiltermirrorlist}" "")
+		options+=("${txtedit//%1/reflector.conf}" "")
+		sel=$(whiptail --backtitle "${apptitle}" --title "${txtinstallmenu}" --menu "" --cancel-button "${txtback}" --default-item "Filter mirrorlist" 0 0 0 \
+                	"${options[@]}" \
+                	3>&1 1>&2 2>&3)
+		case ${sel} in
+			"${txtfiltermirrorlist}")
+				clear
+				echo "systemctl start reflector.service"
+				systemctl start reflector.service
+				pressanykey
+			;;
+			"${txtedit//%1/reflector.conf}")
+				${EDITOR} /etc/xdg/reflector/reflector.conf
+				filtermirrorlist
+			;;
+		esac		
+}
+
+paralleldownloads() {
+		numpkg=$(whiptail --backtitle "${apptitle}" --title "${txtparallelprompt}" --inputbox "" 0 0 "5" 3>&1 1>&2 2>&3)
+                if [ "$?" = "0" ]; then
+			if [[ "$numpkg" =~ ^[1-9][0-9]*$ ]] ; then
+				sed -i "s/.*ParallelDownloads.*/ParallelDownloads = ${numpkg}/" /etc/pacman.conf
+			else
+				clear
+				unset numpkg
+				echo ${txtincorrectinput}
+                		pressanykey
+                        fi
+                fi
+		
+
 }
 
 installbase(){
@@ -881,6 +932,9 @@ installbase(){
 	clear
 	echo "pacstrap /mnt ${pkgs}"
 	pacstrap /mnt ${pkgs}
+	if [ ! -z $numpkg ]; then
+		sed -i "s/.*ParallelDownloads.*/ParallelDownloads = ${numpkg}/" /mnt/etc/pacman.conf	
+	fi	
 	pressanykey
 }
 
@@ -1893,12 +1947,17 @@ loadstrings(){
 	txtselectmirrorsbycountry="Select mirrors by country"
 	txtselectcountry="Select country"
 	txteditmirrorlist="Edit mirrorlist"
+	txtfiltermirrorlist="Filter mirrorlist"
+	txtparalleldownloads="Parallel Downloads"
 	txtinstallarchlinux="Install Arch Linux"
 	txtinstallarchlinuxkernel="Kernel"
 	txtinstallarchlinuxfirmwares="Firmwares"
 	txtinstallarchlinuxfilesystems="File Systems"
 	txtinstallarchlinuxcustompackagelist="Custom Package List"
 	txtconfigarchlinux="Config Arch Linux"
+	
+	txtparallelprompt="Number of packages to download in Parallel"
+	txtincorrectinput="Please enter a number greater than 0"
 
 	txtsethostname="Set Computer Name"
 	txtsetfont="Set Font"
