@@ -12,11 +12,7 @@
 # reference : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-<<<<<<< HEAD
-apptitle="Arch Linux Fast Install (archfi) - Version: 2022.10.15.01.49.35 (GPLv3)"
-=======
 apptitle="Arch Linux Fast Install (archfi) - Version: 2022.10.15.01.55.09 (GPLv3)"
->>>>>>> src
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 cpl=0
 skipfont="0"
