@@ -13,9 +13,9 @@
 
 
 <<<<<<< HEAD
-apptitle="Arch Linux Fast Install (archfi) - Version: 2022.10.15.02.04.01 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2022.10.15.02.11.59 (GPLv3)"
 =======
-apptitle="Arch Linux Fast Install (archfi) - Version: 2022.10.15.02.04.01 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2022.10.15.02.11.59 (GPLv3)"
 >>>>>>> src
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 cpl=0
