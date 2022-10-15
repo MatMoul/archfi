@@ -92,13 +92,12 @@ echo "Finalise archfi script..."
 sed -i "/baseurl=https:\/\/raw.githubusercontent.com\/MatMoul\/archfi/c\baseurl=http://downloads.sourceforge.net/project/archfi/release/$version" $targetpath/archfi
 
 echo "Publish release..."
-scp -r $targetpath matmoul@web.sourceforge.net:/home/frs/project/$prjname/release/
+rsync -r $targetpath matmoul@web.sourceforge.net:/home/frs/project/$prjname/release/
 
 echo "Update redirect page..."
 pubfile=.build/index.php
 echo "<?php" > $pubfile
-#echo "header(\"Location: http://downloads.sourceforge.net/project/$prjname/release/$version/$prjname\");" >> $pubfile
-echo "header(\"Location: https://matmoul.github.io/archfi\");" >> $pubfile
+echo "header(\"Location: http://downloads.sourceforge.net/project/$prjname/release/$version/$prjname\");" >> $pubfile
 echo "exit;" >> $pubfile
 echo "?>" >> $pubfile
 scp $pubfile matmoul@web.sourceforge.net:/home/project-web/$prjname/htdocs/$prjname/index.php
