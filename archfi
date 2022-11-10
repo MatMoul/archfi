@@ -2085,9 +2085,22 @@ else
 			efimode=1
 		fi
 	fi
+	cat << EOF > dialog.archfi
+use_shadow = OFF
+button_label_active_color = (WHITE,BLUE,ON)
+button_label_inactive_color = (BLACK,WHITE,OFF)
+tag_color = (BLACK,WHITE,OFF)
+tag_selected_color = (WHITE,BLUE,ON)
+tag_key_color = (BLACK,WHITE,OFF)
+tag_key_selected_color = (WHITE,BLUE,ON)
+check_color = tag_color
+check_selected_color = tag_selected_color
+EOF
+	export DIALOGRC="dialog.archfi"
 	loadstrings
 	EDITOR=nano
 	mainmenu
+	rm dialog.archfi
 fi
 
 exit 0
