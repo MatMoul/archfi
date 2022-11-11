@@ -2073,7 +2073,9 @@ if [ "${chroot}" = "1" ]; then
 		'archdilaunch') archdilaunchchroot;;
 	esac
 else
-	pacman-key -u
+	if (! pacman-key -u); then
+		pacman-key --init
+	fi
 	pacman -Sy --needed arch-install-scripts dialog
 	dmesg |grep efi: > /dev/null
 	if [ "$?" == "1" ]; then
