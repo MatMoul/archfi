@@ -94,6 +94,7 @@ chooselanguage(){
 	options+=("Portuguese" "(By hugok)")
 	options+=("Russian" "(By Anonymous_Prodject)")
 	options+=("Spanish" "(By Mystogab)")
+	options+=("Taiwanese" "(By Oliver Tzeng 曾嘉禾)")
 	options+=("Turkish" "(By c0b41)")
 	sel=$(dialog --backtitle "${apptitle}" --title "${txtlanguage}" --menu "" 0 0 0 \
 		"${options[@]}" \
