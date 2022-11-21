@@ -12,7 +12,7 @@
 # reference : https://wiki.archlinux.org/index.php/Installation_guide
 
 
-apptitle="Arch Linux Fast Install (archfi) - Version: 2022.11.20.22.54.56 (GPLv3)"
+apptitle="Arch Linux Fast Install (archfi) - Version: 2022.11.21.01.29.37 (GPLv3)"
 baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 cpl=0
 skipfont="0"
@@ -2073,7 +2073,7 @@ if [ "${chroot}" = "1" ]; then
 		'archdilaunch') archdilaunchchroot;;
 	esac
 else
-	systemct start pacman-init.service
+	systemctl start pacman-init.service
 	pacman -Sy --needed arch-install-scripts dialog
 	dmesg |grep efi: > /dev/null
 	if [ "$?" == "1" ]; then
