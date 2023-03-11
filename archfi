@@ -1845,7 +1845,7 @@ archdidownload(){
 	options=()
 	options+=("sourceforge.net" " (Recommended)")
 	options+=("github.com" "")
-	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtselectserver}" --cancel-button "${txtback}" --menu "" 0 0 0 \
+	sel=$(whiptail --backtitle "${apptitle}" --title "${txtselectserver}" --cancel-button "${txtback}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -1859,7 +1859,7 @@ archdidownload(){
 		esac
 	fi
 	echo "curl -L ${archdiurl} >archdi"
-	curl -L ${archdiurl} >archdi
+	curl -L "${archdiurl}" >archdi
 }
 archdiinstallandlaunchchroot(){
 	cd
