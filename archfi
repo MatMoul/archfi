@@ -17,6 +17,7 @@ baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
 cpl=0
 skipfont="0"
 fspkgs=""
+whiptailordialog=whiptail
 
 
 # --------------------------------------------------------
@@ -34,7 +35,7 @@ mainmenu(){
 	options+=("${txtselectpartsmenu}" "")
 	options+=("" "")
 	options+=("${txtreboot}" "")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtmainmenu}" --cancel-button "${txtexit}" --default-item "${nextitem}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtmainmenu}" --cancel-button "${txtexit}" --default-item "${nextitem}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -95,7 +96,7 @@ chooselanguage(){
 	options+=("Russian" "(By Anonymous_Prodject)")
 	options+=("Spanish" "(By Mystogab)")
 	options+=("Turkish" "(By c0b41)")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtlanguage}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtlanguage}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -128,7 +129,7 @@ setkeymap(){
 	for item in ${items}; do
 		options+=("${item%%.*}" "")
 	done
-	keymap=$(dialog --backtitle "${apptitle}" --title "${txtsetkeymap}" --menu "" 0 0 0 \
+	keymap=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtsetkeymap}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -145,7 +146,7 @@ chooseeditor(){
 	options+=("vim" "")
 	options+=("vi" "")
 	options+=("edit" "")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txteditor}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txteditor}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -158,7 +159,7 @@ chooseeditor(){
 }
 
 rebootpc(){
-	if (dialog --backtitle "${apptitle}" --title "${txtreboot}" --defaultno --yesno "${txtreboot} ?" 0 0) then
+	if (${whiptailordialog} --backtitle "${apptitle}" --title "${txtreboot}" --defaultno --yesno "${txtreboot} ?" 0 0) then
 		clear
 		reboot
 	fi
@@ -178,7 +179,7 @@ selectdisk(){
 				options+=("${item}" "")
 		done
 		IFS=$IFS_ORIG
-		result=$(dialog --backtitle "${APPTITLE}" --title "${1}" --menu "" 0 0 0 "${options[@]}" 3>&1 1>&2 2>&3)
+		result=$(${whiptailordialog} --backtitle "${APPTITLE}" --title "${1}" --menu "" 0 0 0 "${options[@]}" 3>&1 1>&2 2>&3)
 		if [ "$?" != "0" ]
 		then
 				return 1
@@ -205,7 +206,7 @@ diskpartmenu(){
 	fi
 	options+=("${txteditparts} (cfdisk)" "")
 	options+=("${txteditparts} (cgdisk)" "")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtdiskpartmenu}" --cancel-button "${txtback}" --default-item "${nextitem}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtdiskpartmenu}" --cancel-button "${txtback}" --default-item "${nextitem}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -243,7 +244,7 @@ diskpartmenu(){
 diskpartautodos(){
 		device=$(selectdisk "${txtautoparts} (dos)")
 	if [ "$?" = "0" ]; then
-		if (dialog --backtitle "${apptitle}" --title "${txtautoparts} (dos)" --defaultno --yesno "${txtautopartsconfirm//%1/${device}}" 0 0) then
+		if (${whiptailordialog} --backtitle "${apptitle}" --title "${txtautoparts} (dos)" --defaultno --yesno "${txtautopartsconfirm//%1/${device}}" 0 0) then
 			clear
 			echo "${txtautopartclear}"
 			parted ${device} mklabel msdos
@@ -278,7 +279,7 @@ diskpartautodos(){
 diskpartautogpt(){
 		device=$(selectdisk "${txtautoparts} (gpt)")
 	if [ "$?" = "0" ]; then
-		if (dialog --backtitle "${apptitle}" --title "${txtautoparts} (gpt)" --defaultno --yesno "${txtautopartsconfirm//%1/${device}}" 0 0) then
+		if (${whiptailordialog} --backtitle "${apptitle}" --title "${txtautoparts} (gpt)" --defaultno --yesno "${txtautopartsconfirm//%1/${device}}" 0 0) then
 			clear
 			echo "${txtautopartclear}"
 			parted ${device} mklabel gpt
@@ -311,7 +312,7 @@ diskpartautogpt(){
 diskpartautoefi(){
 		device=$(selectdisk "${txtautoparts} (gpt,efi)")
 	if [ "$?" = "0" ]; then
-		if (dialog --backtitle "${apptitle}" --title "${txtautoparts} (gpt,efi)" --defaultno --yesno "${txtautopartsconfirm//%1/${device}}" 0 0) then
+		if (${whiptailordialog} --backtitle "${apptitle}" --title "${txtautoparts} (gpt,efi)" --defaultno --yesno "${txtautopartsconfirm//%1/${device}}" 0 0) then
 			clear
 			echo "${txtautopartclear}"
 			parted ${device} mklabel gpt
@@ -342,7 +343,7 @@ diskpartautoefi(){
 diskpartautoefiusb(){
 		device=$(selectdisk "${txtautoparts} (gpt,efi)")  
 	if [ "$?" = "0" ]; then
-		if (dialog --backtitle "${apptitle}" --title "${txtautoparts} (gpt,efi)" --defaultno --yesno "${txtautopartsconfirm//%1/${device}}" 0 0) then
+		if (${whiptailordialog} --backtitle "${apptitle}" --title "${txtautoparts} (gpt,efi)" --defaultno --yesno "${txtautopartsconfirm//%1/${device}}" 0 0) then
 			clear
 			echo "${txtautopartclear}"
 			parted ${device} mklabel gpt
@@ -397,7 +398,7 @@ selectparts(){
 		options+=("${item}" "")
 	done
 
-	bootdev=$(dialog --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --default-item "${bootdev}" --menu "${txtselectdevice//%1/boot}" 0 0 0 \
+	bootdev=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --default-item "${bootdev}" --menu "${txtselectdevice//%1/boot}" 0 0 0 \
 		"none" "-" \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
@@ -409,7 +410,7 @@ selectparts(){
 		fi
 	fi
 
-	swapdev=$(dialog --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --default-item "${swapdev}" --menu "${txtselectdevice//%1/swap}" 0 0 0 \
+	swapdev=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --default-item "${swapdev}" --menu "${txtselectdevice//%1/swap}" 0 0 0 \
 		"none" "-" \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
@@ -421,7 +422,7 @@ selectparts(){
 		fi
 	fi
 
-	rootdev=$(dialog --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --default-item "${rootdev}" --menu "${txtselectdevice//%1/root}" 0 0 0 \
+	rootdev=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --default-item "${rootdev}" --menu "${txtselectdevice//%1/root}" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ ! "$?" = "0" ]; then
@@ -429,7 +430,7 @@ selectparts(){
 	fi
 	realrootdev=${rootdev}
 
-	homedev=$(dialog --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --menu "${txtselectdevice//%1/home}" 0 0 0 \
+	homedev=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --menu "${txtselectdevice//%1/home}" 0 0 0 \
 		"none" "-" \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
@@ -446,7 +447,7 @@ selectparts(){
 	msg=${msg}"swap : "${swapdev}"\n"
 	msg=${msg}"root : "${rootdev}"\n"
 	msg=${msg}"home : "${homedev}"\n\n"
-	if (dialog --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --yesno "${msg}" 0 0) then
+	if (${whiptailordialog} --backtitle "${apptitle}" --title "${txtselectpartsmenu}" --yesno "${msg}" 0 0) then
 		isnvme=0
 		if [ "${bootdev::8}" == "/dev/nvm" ]; then
 			isnvme=1
@@ -471,7 +472,7 @@ mountmenu(){
 	options=()
 	options+=("${txtformatdevices}" "")
 	options+=("${txtmount}" "${txtmountdesc}")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtformatmountmenu}" --cancel-button "${txtback}" --default-item "${nextitem}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtformatmountmenu}" --cancel-button "${txtback}" --default-item "${nextitem}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -491,7 +492,7 @@ mountmenu(){
 
 
 formatdevices(){
-	if (dialog --backtitle "${apptitle}" --title "${txtformatdevices}" --defaultno --yesno "${txtformatdeviceconfirm}" 0 0) then
+	if (${whiptailordialog} --backtitle "${apptitle}" --title "${txtformatdevices}" --defaultno --yesno "${txtformatdeviceconfirm}" 0 0) then
 		fspkgs=""
 		if [ ! "${bootdev}" = "" ]; then
 			formatbootdevice boot ${bootdev}
@@ -516,7 +517,7 @@ formatbootdevice(){
 	if [ ! "${efimode}" = "1" ]&&[ ! "${efimode}" = "2" ]; then
 		options+=("fat32" "(EFI)")
 	fi
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtformatdevice}" --menu "${txtselectpartformat//%1/${1} (${2})}" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtformatdevice}" --menu "${txtselectpartformat//%1/${1} (${2})}" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ ! "$?" = "0" ]; then
@@ -550,7 +551,7 @@ formatbootdevice(){
 formatswapdevice(){
 	options=()
 	options+=("swap" "")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtformatdevice}" --menu "${txtselectpartformat//%1/${1} (${2})}" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtformatdevice}" --menu "${txtselectpartformat//%1/${1} (${2})}" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ ! "$?" = "0" ]; then
@@ -582,7 +583,7 @@ formatdevice(){
 	if [ ! "${3}" = "noluks" ]; then
 		options+=("luks" "encrypted")
 	fi
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtformatdevice}" --menu "${txtselectpartformat//%1/${1} (${2})}" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtformatdevice}" --menu "${txtselectpartformat//%1/${1} (${2})}" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ ! "$?" = "0" ]; then
@@ -660,7 +661,7 @@ formatdevice(){
 			options=()
 			options+=("normal" "")
 			options+=("fast" "")
-			sel=$(dialog --backtitle "${apptitle}" --title "${txtformatdevice}" --menu "Wipe device ?" --cancel-button="${txtignore}" 0 0 0 \
+			sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtformatdevice}" --menu "Wipe device ?" --cancel-button="${txtignore}" 0 0 0 \
 				"${options[@]}" \
 				3>&1 1>&2 2>&3)
 			if [ "$?" = "0" ]; then
@@ -743,7 +744,7 @@ installmenu(){
 	options+=("${txtparalleldownloads}" "(${txtoptional})")
 	options+=("${txtinstallarchlinux}" "pacstrap")
 	options+=("${txtconfigarchlinux}" "")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtinstallmenu}" --cancel-button "${txtunmount}" --default-item "${nextitem}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtinstallmenu}" --cancel-button "${txtunmount}" --default-item "${nextitem}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -792,7 +793,7 @@ selectmirrorsbycountry() {
 				options+=("${item}" "")
 		done
 		IFS=$IFS_ORIG
-		country=$(dialog --backtitle "${APPTITLE}" --title "${txtselectcountry}" --menu "" 0 0 0 "${options[@]}" 3>&1 1>&2 2>&3)
+		country=$(${whiptailordialog} --backtitle "${APPTITLE}" --title "${txtselectcountry}" --menu "" 0 0 0 "${options[@]}" 3>&1 1>&2 2>&3)
 		if [ "$?" != "0" ]; then
 				return 1    
 		fi
@@ -807,7 +808,7 @@ filtermirrorlist() {
 		options=()
 		options+=("${txtfiltermirrorlist}" "")
 		options+=("${txtedit//%1/reflector.conf}" "")
-		sel=$(dialog --backtitle "${apptitle}" --title "${txtinstallmenu}" --cancel-button "${txtback}" --default-item "Filter mirrorlist" --menu "" 0 0 0 \
+		sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtinstallmenu}" --cancel-button "${txtback}" --default-item "Filter mirrorlist" --menu "" 0 0 0 \
                 	"${options[@]}" \
                 	3>&1 1>&2 2>&3)
 		case ${sel} in
@@ -825,7 +826,7 @@ filtermirrorlist() {
 }
 
 paralleldownloads() {
-		numpkg=$(dialog --backtitle "${apptitle}" --title "${txtparallelprompt}" --inputbox "" 0 0 "5" 3>&1 1>&2 2>&3)
+		numpkg=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtparallelprompt}" --inputbox "" 0 0 "5" 3>&1 1>&2 2>&3)
                 if [ "$?" = "0" ]; then
 			if [[ "$numpkg" =~ ^[1-9][0-9]*$ ]] ; then
 				sed -i "s/.*ParallelDownloads.*/ParallelDownloads = ${numpkg}/" /etc/pacman.conf
@@ -847,7 +848,7 @@ installbase(){
 	options+=("linux-lts" "")
 	options+=("linux-zen" "")
 	options+=("linux-hardened" "")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtinstallarchlinuxkernel}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtinstallarchlinuxkernel}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -858,7 +859,7 @@ installbase(){
 	
 	options=()
 	options+=("linux-firmware" "(${txtoptional})" on)
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtinstallarchlinuxfirmwares}" --checklist "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtinstallarchlinuxfirmwares}" --checklist "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ ! "$?" = "0" ]; then
@@ -901,7 +902,7 @@ installbase(){
 	fi
 	options+=("lvm2" "" off)
 	options+=("dmraid" "" off)
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtinstallarchlinuxfilesystems}" --checklist "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtinstallarchlinuxfilesystems}" --checklist "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ ! "$?" = "0" ]; then
@@ -918,7 +919,7 @@ installbase(){
 		while read pkg; do
 			options+=("${pkg}" "" on)
 		done < /tmp/archfi-custom-package-list
-		sel=$(dialog --backtitle "${apptitle}" --title "${txtinstallarchlinuxcustompackagelist}" --checklist "" 0 0 0 \
+		sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtinstallarchlinuxcustompackagelist}" --checklist "" 0 0 0 \
 			"${options[@]}" \
 			3>&1 1>&2 2>&3)
 		if [ ! "$?" = "0" ]; then
@@ -983,7 +984,7 @@ archmenu(){
 	options+=("${txtbootloader}" "")
 	options+=("${txtextrasmenu}" "")
 	options+=("archdi" "${txtarchdidesc}")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtarchinstallmenu}" --cancel-button "${txtback}" --default-item "${nextitem}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtarchinstallmenu}" --cancel-button "${txtback}" --default-item "${nextitem}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -1089,9 +1090,9 @@ archchroot(){
 	echo "arch-chroot /mnt /root"
 	cp ${0} /mnt/root
 	chmod 755 /mnt/root/$(basename "${0}")
-	echo "dialog is required for archfi, it will be installed as dep. Then it will removed when cleaning orphan."
-	echo "arch-chroot /mnt pacman -S --asdeps --needed --noconfirm dialog"
-	arch-chroot /mnt pacman -S --asdeps --needed --noconfirm dialog
+	echo "${whiptailordialog} is required for archfi, it will be installed as dep. Then it will removed when cleaning orphan."
+	echo "arch-chroot /mnt pacman -S --asdeps --needed --noconfirm ${whiptailordialog}"
+	arch-chroot /mnt pacman -S --asdeps --needed --noconfirm ${whiptailordialog}
 	arch-chroot /mnt /root/$(basename "${0}") --chroot ${1} ${2}
 	rm /mnt/root/$(basename "${0}")
 	echo "exit"
@@ -1099,7 +1100,7 @@ archchroot(){
 
 
 archsethostname(){
-	hostname=$(dialog --backtitle "${apptitle}" --title "${txtsethostname}" --inputbox "" 0 0 "archlinux" 3>&1 1>&2 2>&3)
+	hostname=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtsethostname}" --inputbox "" 0 0 "archlinux" 3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
 		clear
 		echo "echo \"${hostname}\" > /mnt/etc/hostname"
@@ -1123,7 +1124,7 @@ archsetkeymap(){
 		fi
 		options+=("${item%%.*}" "")
 	done
-	keymap=$(dialog --backtitle "${apptitle}" --title "${txtsetkeymap}" --default-item "${defsel}" --menu "" 0 0 0 \
+	keymap=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtsetkeymap}" --default-item "${defsel}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -1141,7 +1142,7 @@ archsetfont(){
 	for item in ${items}; do
 		options+=("${item%%.*}" "")
 	done
-	vcfont=$(dialog --backtitle "${apptitle}" --title "${txtsetfont} (${txtoptional})" --menu "" 0 0 0 \
+	vcfont=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtsetfont} (${txtoptional})" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -1162,7 +1163,7 @@ archsetlocale(){
 		fi
 		options+=("${item}" "")
 	done
-	locale=$(dialog --backtitle "${apptitle}" --title "${txtsetlocale}" --default-item "${defsel}" --menu "" 0 0 0 \
+	locale=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtsetlocale}" --default-item "${defsel}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -1190,7 +1191,7 @@ archsettime(){
 		options+=("${item}" "")
 	done
 
-	timezone=$(dialog --backtitle "${apptitle}" --title "${txtsettime}" --menu "" 0 0 0 \
+	timezone=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtsettime}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ ! "$?" = "0" ]; then
@@ -1204,7 +1205,7 @@ archsettime(){
 		options+=("${item}" "")
 	done
 
-	timezone=${timezone}/$(dialog --backtitle "${apptitle}" --title "${txtsettime}" --menu "" 0 0 0 \
+	timezone=${timezone}/$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtsettime}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ ! "$?" = "0" ]; then
@@ -1219,7 +1220,7 @@ archsettime(){
 	options=()
 	options+=("UTC" "")
 	options+=("Local" "")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtsettime}" --menu "${txthwclock}" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtsettime}" --menu "${txthwclock}" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ ! "$?" = "0" ]; then
@@ -1236,7 +1237,7 @@ archsettime(){
 		;;
 	esac
 	
-#	if (dialog --backtitle "${apptitle}" --title "${txtsettime}" --yesno "${txtuseutcclock}" 0 0) then
+#	if (${whiptailordialog} --backtitle "${apptitle}" --title "${txtsettime}" --yesno "${txtuseutcclock}" 0 0) then
 #		clear
 #		archchroot settimeutc
 #	else
@@ -1279,7 +1280,7 @@ archgenfstabmenu(){
 	options+=("LABEL" "genfstab -L")
 	options+=("PARTUUID" "genfstab -t PARTUUID")
 	options+=("PARTLABEL" "genfstab -t PARTLABEL")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtgenerate//%1/fstab}" --cancel-button "${txtback}" --default-item "${nextitem}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtgenerate//%1/fstab}" --cancel-button "${txtback}" --default-item "${nextitem}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -1333,7 +1334,7 @@ archgenmkinitcpionvme(){
 
 archeditmkinitcpio(){
 	${EDITOR} /mnt/etc/mkinitcpio.conf
-	if (dialog --backtitle "${apptitle}" --title "${txtedit//%1/mkinitcpio.conf}" --yesno "${txtgenerate//%1/mkinitcpio} ?" 0 0) then
+	if (${whiptailordialog} --backtitle "${apptitle}" --title "${txtedit//%1/mkinitcpio.conf}" --yesno "${txtgenerate//%1/mkinitcpio} ?" 0 0) then
 		clear
 		archchroot genmkinitcpio
 		pressanykey
@@ -1356,7 +1357,7 @@ archbootloadermenu(){
 	if [ "${efimode}" != "2" ]; then
 		options+=("syslinux" "")
 	fi
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtbootloadermenu}" --cancel-button "${txtback}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtbootloadermenu}" --cancel-button "${txtback}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -1380,7 +1381,7 @@ archbootloadergrubmenu(){
 	options+=("${txtinstall//%1/grub}" "pacstrap grub (efibootmgr), grub-mkconfig")
 	options+=("${txtedit//%1/grub}" "(${txtoptional})")
 	options+=("${txtinstall//%1/bootloader}" "grub-install")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtbootloadergrubmenu}" --cancel-button "${txtback}" --default-item "${nextblitem}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtbootloadergrubmenu}" --cancel-button "${txtback}" --default-item "${nextblitem}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -1391,7 +1392,7 @@ archbootloadergrubmenu(){
 			;;
 			"${txtedit//%1/grub}")
 				${EDITOR} /mnt/etc/default/grub
-				if (dialog --backtitle "${apptitle}" --title "${txtedit//%1/grub}" --yesno "${txtrungrubmakeconfig}" 0 0) then
+				if (${whiptailordialog} --backtitle "${apptitle}" --title "${txtedit//%1/grub}" --yesno "${txtrungrubmakeconfig}" 0 0) then
 					clear
 					archchroot grubinstall
 					pressanykey
@@ -1415,14 +1416,14 @@ archgrubinstall(){
 
 	if [ "${eficomputer}" == "1" ]; then
 		if [ "${efimode}" == "1" ]||[ "${efimode}" == "2" ]; then
-			if (dialog --backtitle "${apptitle}" --title "${txtinstall//%1/efibootmgr}" --yesno "${txtefibootmgr}" 0 0) then
+			if (${whiptailordialog} --backtitle "${apptitle}" --title "${txtinstall//%1/efibootmgr}" --yesno "${txtefibootmgr}" 0 0) then
 				clear
 				echo "pacstrap /mnt efibootmgr"
 				pacstrap /mnt efibootmgr
 				pressanykey
 			fi
 		else
-			if (dialog --backtitle "${apptitle}" --title "${txtinstall//%1/efibootmgr}" --defaultno --yesno "${txtefibootmgr}" 0 0) then
+			if (${whiptailordialog} --backtitle "${apptitle}" --title "${txtinstall//%1/efibootmgr}" --defaultno --yesno "${txtefibootmgr}" 0 0) then
 				clear
 				echo "pacstrap /mnt efibootmgr"
 				pacstrap /mnt efibootmgr
@@ -1432,7 +1433,7 @@ archgrubinstall(){
 	fi
 
 	if [ "${luksroot}" = "1" ]; then
-		if (dialog --backtitle "${apptitle}" --title "${txtinstall//%1/grub}" --yesno "${txtgrubluksdetected}" 0 0) then
+		if (${whiptailordialog} --backtitle "${apptitle}" --title "${txtinstall//%1/grub}" --yesno "${txtgrubluksdetected}" 0 0) then
 			clear
 			echo "sed -i /GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\\\"cryptdevice=/dev/disk/by-uuid/${luksrootuuid}:root\\\" /mnt/etc/default/grub"
 			sed -i /GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\"cryptdevice=/dev/disk/by-uuid/${luksrootuuid}:root\" /mnt/etc/default/grub
@@ -1470,7 +1471,7 @@ archgrubinstallbootloader(){
 				options+=("EFI" "")
 				options+=("BIOS+EFI" "")
 			fi
-			sel=$(dialog --backtitle "${apptitle}" --title "${txtinstall//%1/bootloader}" --cancel-button "${txtback}" --menu "" 0 0 0 \
+			sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtinstall//%1/bootloader}" --cancel-button "${txtback}" --menu "" 0 0 0 \
 				"${options[@]}" \
 				3>&1 1>&2 2>&3)
 			if [ "$?" = "0" ]; then
@@ -1534,7 +1535,7 @@ archbootloadersyslinuxbmenu(){
 	options+=("${txtinstall//%1/syslinux}" "pacstrap syslinux (gptfdisk,mtools)")
 	options+=("${txtedit//%1/syslinux}" "(${txtoptional})")
 	options+=("${txtinstall//%1/bootloader}" "syslinux-install_update")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtbootloadersyslinuxmenu}" --cancel-button "${txtback}" --default-item "${nextblitem}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtbootloadersyslinuxmenu}" --cancel-button "${txtback}" --default-item "${nextblitem}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -1645,7 +1646,7 @@ archbootloadersystemdbmenu(){
 	options+=("${txtinstall//%1/systemd-boot}" "bootctl install")
 	options+=("${txtedit//%1/loader.conf}" "(${txtoptional})")
 	options+=("${txtedit//%1/entries}" "(${txtoptional})")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtbootloadersystemdmenu}" --cancel-button "${txtback}" --default-item "${nextblitem}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtbootloadersystemdmenu}" --cancel-button "${txtback}" --default-item "${nextblitem}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -1729,7 +1730,7 @@ archbootloaderrefindmenu(){
 	options=()
 	options+=("${txtinstall//%1/refind}" "pacstrap refind-efi")
 	options+=("${txtedit//%1/refind_linux.conf}" "(${txtoptional})")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtbootloaderrefindmenu}" --cancel-button "${txtback}" --default-item "${nextblitem}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtbootloaderrefindmenu}" --cancel-button "${txtback}" --default-item "${nextblitem}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -1783,7 +1784,7 @@ archextrasmenu(){
 	options+=("vim" "" on)
 	options+=("dhcpcd" "" on)
 	options+=("networkmanager" "" off)
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtextrasmenu}" --checklist "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtextrasmenu}" --checklist "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ ! "$?" = "0" ]; then
@@ -1816,13 +1817,13 @@ archenablenetworkmanagerchroot(){
 }
 
 installarchdi(){
-	dialog --backtitle "${apptitle}" --title "archdi" --msgbox "${txtinstallarchdi}" 0 0
+	${whiptailordialog} --backtitle "${apptitle}" --title "archdi" --msgbox "${txtinstallarchdi}" 0 0
 	if [ "$?" = "0" ]; then
 		options=()
 		options+=("${txtarchdiinstallandlaunch}" "")
 		options+=("${txtarchdilaunch}" "")
 		options+=("${txtarchdiinstall}" "")
-		sel=$(dialog --backtitle "${apptitle}" --title "${txtarchdimenu}" --cancel-button "${txtback}" --menu "" 0 0 0 \
+		sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtarchdimenu}" --cancel-button "${txtback}" --menu "" 0 0 0 \
 			"${options[@]}" \
 			3>&1 1>&2 2>&3)
 		if [ "$?" = "0" ]; then
@@ -1844,7 +1845,7 @@ archdidownload(){
 	options=()
 	options+=("sourceforge.net" " (Recommended)")
 	options+=("github.com" "")
-	sel=$(dialog --backtitle "${apptitle}" --title "${txtselectserver}" --cancel-button "${txtback}" --menu "" 0 0 0 \
+	sel=$(${whiptailordialog} --backtitle "${apptitle}" --title "${txtselectserver}" --cancel-button "${txtback}" --menu "" 0 0 0 \
 		"${options[@]}" \
 		3>&1 1>&2 2>&3)
 	if [ "$?" = "0" ]; then
@@ -2014,11 +2015,15 @@ while (( "$#" )); do
 		--help)
 			echo "archfi"
 			echo "------"
+			echo "--dialog                          Replace whiptail with dialog"
 			echo "-cpl | --custom-package-list url  Set custom package list url"     
 			echo "-sf | --skip-font                 Skip setfont from language files"
 			echo "-efiX                             -efi0 : disable EFI, -efi1 efi inst, -efi2 efi hybrid inst"
 			echo "-t | --test ghusername ghbranch   Test archfi script and language"
 			exit 0
+		;;
+		--dialog)
+			whiptailordialog=dialog
 		;;
 		-cpl | --custom-package-list)
 			curl -L ${2} > /tmp/archfi-custom-package-list
@@ -2075,7 +2080,10 @@ if [ "${chroot}" = "1" ]; then
 else
 	echo "Init pacman, please wait..."
 	systemctl start pacman-init.service
-	pacman -Sy --needed arch-install-scripts dialog
+	pacman -Sy --needed arch-install-scripts
+	if [ "${whiptailordialog}" == "dialog" ]; then
+		pacman -Sy --needed dialog
+	fi
 	dmesg |grep efi: > /dev/null
 	if [ "$?" == "1" ]; then
 		if [ "${eficomputer}" != "1" ]; then
@@ -2087,7 +2095,7 @@ else
 			efimode=1
 		fi
 	fi
-	cat << EOF > dialog.archfi
+	cat << EOF > ${whiptailordialog}.archfi
 use_shadow = OFF
 title_color = (BLACK,WHITE,OFF)
 button_label_active_color = (WHITE,BLUE,ON)
@@ -2099,11 +2107,11 @@ tag_key_selected_color = (WHITE,BLUE,ON)
 check_color = tag_color
 check_selected_color = tag_selected_color
 EOF
-	export DIALOGRC="dialog.archfi"
+	export ${whiptailordialog}RC="${whiptailordialog}.archfi"
 	loadstrings
 	EDITOR=nano
 	mainmenu
-	rm dialog.archfi
+	rm ${whiptailordialog}.archfi
 fi
 
 exit 0
