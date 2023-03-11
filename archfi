@@ -1090,9 +1090,9 @@ archchroot(){
 	echo "arch-chroot /mnt /root"
 	cp ${0} /mnt/root
 	chmod 755 /mnt/root/$(basename "${0}")
-	echo "${whiptailordialog} is required for archfi, it will be installed as dep. Then it will removed when cleaning orphan."
+	echo "libnewt is required for archfi, it will be installed as dep. Then it will removed when cleaning orphan."
 	echo "arch-chroot /mnt pacman -S --asdeps --needed --noconfirm ${whiptailordialog}"
-	arch-chroot /mnt pacman -S --asdeps --needed --noconfirm ${whiptailordialog}
+	arch-chroot /mnt pacman -S --asdeps --needed --noconfirm libnewt
 	arch-chroot /mnt /root/$(basename "${0}") --chroot ${1} ${2}
 	rm /mnt/root/$(basename "${0}")
 	echo "exit"
