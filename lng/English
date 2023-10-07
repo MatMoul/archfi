@@ -2,8 +2,8 @@
 # --------------------------------
 # project    : https://github.com/MatMoul/archfi
 # language   : English
-# translator : matmoul (pseudo, name or e-mail.)
-# notes      : misc text...
+# translator : matmoul (fixed by fexonchik5120) (pseudo, name or e-mail.)
+# notes      : fixed some grammatical errors
 
 
 
@@ -85,12 +85,12 @@ txtefibootmgr="efibootmgr is required for EFI computers."
 
 txtbootloadergrubmenu="Grub Install Menu"
 txtrungrubmakeconfig="Run grub-mkconfig ?"
-txtgrubluksdetected="Encrypted root partion !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
+txtgrubluksdetected="Encrypted root partition !\n\nAdd cryptdevice= to GRUB_CMDLINE_LINUX in /etc/default/grub ?"
 
 txtbootloadersyslinuxmenu="Syslinux Install Menu"
-txtsyslinuxaddefibootmgr="EFI install require efibootmgr"
-txtsyslinuxaddgptfdisk="GPT disk require gptfdisk"
-txtsyslinuxaddmtools="FAT boot part require mtools"
+txtsyslinuxaddefibootmgr="EFI install requires efibootmgr"
+txtsyslinuxaddgptfdisk="GPT disk requires gptfdisk"
+txtsyslinuxaddmtools="FAT boot part requires mtools"
 
 txtbootloadersystemdmenu="Systemd-boot Install Menu"
 
@@ -99,7 +99,7 @@ txtbootloaderrefindmenu="rEFInd Install Menu"
 txtextrasmenu="Extras"
 
 txtoptional="Optional"
-txtrecommandeasyinst="Recommanded for easy install"
+txtrecommandeasyinst="Recommended for easy install"
 txtset="Set %1"
 txtgenerate="Generate %1"
 txtedit="Edit %1"
