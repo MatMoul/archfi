@@ -23,7 +23,7 @@ txteditor="Редактор текств"
 txtdiskpartmenu="Разметка дисков"
 txtselectpartsmenu="Выбрать Разделы и Установить"
 txthelp="Помощь"
-txtchangelog="Изменения"
+txtchangelog="Что нового"
 txtreboot="Перезагрузить"
 
 txtautoparts="Авто-разметка"
