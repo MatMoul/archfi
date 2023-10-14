@@ -2,92 +2,114 @@
 # --------------------------------
 # project    : https://github.com/MatMoul/archfi
 # language   : Russian
-# translator : anonymous_prodject
-# notes      : v.1.1
+# translator : fexonchik5120 (pseudo, name or e-mail.)
+# notes      : misc text...
+
 
 
 locale=ru_RU.UTF-8
 font=cyr-sun16
 
+txtexit="Выход"
+txtback="Назад"
+txtignore="Игнор."
 
-#txtexit="Exit"
-#txtback="Back"
-#txtignore="Ignore"
+txtselectserver="Выберите исходный сервер :"
 
-txtselectserver="Выберите сервер исходников :"
-
-txtmainmenu="Главное меню"
-txtlanguage="Выбор языка"
-txtsetkeymap="Установка раскладки клавиатуры"
-txteditor="Выбор редактора текста"
-txtdiskpartmenu="Редактирование разделов"
-txtselectpartsmenu="Выбор разделов для установки и установка"
+txtmainmenu="Главное Меню"
+txtlanguage="Язык"
+txtsetkeymap="Выбрать Раскладку Клавиатуры"
+txteditor="Редактор текств"
+txtdiskpartmenu="Разметка дисков"
+txtselectpartsmenu="Выбрать Разделы и Установить"
 txthelp="Помощь"
-txtchangelog="Лог"
-txtreboot="Перезагрузка"
+txtchangelog="Что нового"
+txtreboot="Перезагрузить"
 
-txtautoparts="Автоматическая разметка"
-txteditparts="Редактирование разделов"
+txtautoparts="Авто-разметка"
+txteditparts="Изменить Разделы"
 
-txtautopartsconfirm="Выбранное устройство : %1\n\nВсе данные будут удалены ! \n\nПродолжить ?"
+txtautopartsconfirm="Выбранный диск : %1\n\nВся информация будет стёрта ! \n\nПродолжить ?"
 
-txtautopartclear="Очистить все данные на разделе"
-txtautopartcreate="Создание раздела %1"
-txthybridpartcreate="Выбрать структуру MBR"
-txtautopartsettype="Выбрать тип раздела %1"
+txtautopartclear="Форматировать раздел"
+txtautopartcreate="Создать %1 раздел"
+txthybridpartcreate="Выбрать гибридный MBR"
+txtautopartsettype="Выбрать %1 файловую систему"
 
-txtselectdevice="Выберите раздел %1 :"
+txtselectdevice="Выбрать %1 раздел :"
 txtselecteddevices="Выбранные разделы :"
 
-txtformatmountmenu="Форматирование и монтирование"
-txtformatdevices="Форматирование разделов"
-txtformatdevice="Форматирование раздела"
-txtmount="Монтирование"
-#txtunmount="Unmount"
-txtmountdesc="Установка или настройка"
+txtformatmountmenu="Форматировать и Монтировать"
+txtformatdevices="Форматировать Разделы"
+txtformatdevice="Форматировать раздел"
+txtmount="Монтировать"
+txtunmount="Отмонтировать"
+txtmountdesc="Установить или Настроить"
 
-txtformatdeviceconfirm="Внимание, все данные на выбранных разделах будут удалены ! \nФорматировать разделы ?"
+txtformatdeviceconfirm="Внимание, вся информация на разделах будет стёрта! ! \nФорматировать разделы ?"
 
-txtselectpartformat="Выберите формат раздела %1 :"
-txtformatingpart="Форматировать раздел %1 как"
-txtcreateluksdevice="Создать luks устройство :"
-txtopenluksdevice="Открытиь luks устройство :"
-txtluksdevicecreated="Luks устройство создано!"
+txtselectpartformat="Выбрать файловую систему %1 :"
+txtformatingpart="Форматирование %1 как"
+txtcreateluksdevice="Создать раздел luks :"
+txtopenluksdevice="Открыть luks раздел :"
+txtluksdevicecreated="Раздел luks создан !"
 
-txtinstallmenu="Настройка"
+txtinstallmenu="Установочное Меню"
 
-txtarchinstallmenu="Меню настройки Arch Linux"
-txtrungrubmakeconfig="Создать grub-mkconfig ?"
+txtarchinstallmenu="Меню Установки Arch"
 
-txteditmirrorlist="Редактор mirrorlist"
-txtinstallarchlinux="Установка Arch Linux"
-txtconfigarchlinux="Настройка Arch Linux"
+txtselectmirrorsbycountry="Выбрать зеркала страны"
+txtselectcountry="Выбрать страну"
+txteditmirrorlist="Изменить список зеркал"
+txtinstallarchlinux="Установить Arch Linux"
+txtinstallarchlinuxkernel="Ядро"
+txtinstallarchlinuxfirmwares="Драйвера"
+txtinstallarchlinuxfilesystems="Файловые Системы"
+txtinstallarchlinuxcustompackagelist="Свой список пакетов"
+txtconfigarchlinux="Настроить Arch Linux"
 
-txtsethostname="Установка имени системы"
-txtsetlocale="Установка локации"
-txtsettime="Установка времени"
-txtsetrootpassword="Установка пароля root"
+txtsethostname="Выбрать имя компьютера"
+txtsetfont="Выбрать шрифт"
+txtsetlocale="Выбрать локаль"
+txtsettime="Выбрать время"
+txtsetrootpassword="Создать пароль root"
 
-txtuseutcclock="Использовать UTC в аппаратных часах ?"
+txthwclock="Аппаратные часы :"
+txthwclockutc="UTC"
+txthwclocklocal="Местное время"
 
-txtoptional="Дополнительно"
-txtrecommandeasyinst="Рекомендуется для быстрой установки"
-txtset="Установить %1"
+txtbootloader="Загрузчик"
+txtbootloadermenu="Выберите загрузчик"
+
+txtefibootmgr="efibootmgr нужен для компьютеров с EFI."
+
+txtbootloadergrubmenu="Установочное меню Grub"
+txtrungrubmakeconfig="Выполнить grub-mkconfig ?"
+txtgrubluksdetected="Зашифрованный корневой раздел !\n\nДобавить cryptdevice= в GRUB_CMDLINE_LINUX в /etc/default/grub ?"
+
+txtbootloadersyslinuxmenu="Установочное меню Syslinux"
+txtsyslinuxaddefibootmgr="Установка с EFI требует efibootmgr"
+txtsyslinuxaddgptfdisk="GPT разметка требует gptfdisk"
+txtsyslinuxaddmtools="Загрузочный раздел FAT требует mtools"
+
+txtbootloadersystemdmenu="Установочное Меню Systemd-boot"
+
+txtbootloaderrefindmenu="Установочное меню rEFInd"
+
+txtextrasmenu="Дополнительно"
+
+txtoptional="Необязательно"
+txtrecommandeasyinst="Рекомендованы для легкой установки"
+txtset="Выбрать %1"
 txtgenerate="Генерировать %1"
 txtedit="Редактировать %1"
-txtinstall="Установка %1"
+txtinstall="Установить %1"
 txtenable="Включить %1"
 
-txtgrubluksdetected="Раздел зашифрован !\n\nДобавить cryptdevice= в GRUB_CMDLINE_LINUX в /etc/default/grub ?"
+txtpressanykey="Для продолжения нажмите любую клавишу."
 
-
-txtpressanykey="Нажмите любую клавишу для продолжения."
-
-txtinstallosprober="os-prober необходим для загрузки нескольких систем.\nУстановить os-prober ?"
-txtefibootmgr="efibootmgr необходим для поддержки EFI."
-
-txtarchdidesc="Установка рабочего окружения"
-txtinstallarchdi="Arch Linux Desktop поможет установить рабочее окружение.\n\nВы хотите запустить установщик?. \n\nУстановщик имеет следующие зависимости : wget and libnewt.\n\npacstrap wget libnewt ?"
-txtarchdiinstallandlaunch="Установить и запустить archdi"
-txtarchdiinstall="Установка archdi"
-txtarchdilaunch="Запуск archdi"
+txtarchdidesc="Скрипт полной установки на машину."
+txtinstallarchdi="Arch Linux Desktop Install (archdi) это скрипт который может помочь полностью настроить компьютер.\n\nВы можете просто запустить или утсановить скрипт. Выберите в следующем меню.\n\nArch Linux Desktop Install требует 2 зависимости : wget and libnewt.\n\npacstrap wget libnewt ?"
+txtarchdiinstallandlaunch="Установить и выполнить archdi"
+txtarchdiinstall="Установить archdi"
+txtarchdilaunch="Выполнить archdi"

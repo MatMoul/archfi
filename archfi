@@ -92,7 +92,7 @@ chooselanguage(){
 	options+=("Norwegian" "(By mrboen94)")
 	options+=("Polish" "(By dawidd6)")
 	options+=("Portuguese" "(By hugok)")
-	options+=("Russian" "(By Anonymous_Prodject)")
+	options+=("Russian" "(By fexonchik5120)")
 	options+=("Spanish" "(By Mystogab)")
 	options+=("Turkish" "(By c0b41)")
 	sel=$(dialog --backtitle "${apptitle}" --title "${txtlanguage}" --menu "" 0 0 0 \
